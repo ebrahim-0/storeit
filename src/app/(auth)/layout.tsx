@@ -25,7 +25,7 @@ const layout = ({ children }: { children: ReactNode }) => {
           </div>
 
           <Image
-            src="/assets/icons/illustration.svg"
+            src="/assets/icons/Illustration.svg"
             alt="Illustration"
             width={342}
             height={342}
