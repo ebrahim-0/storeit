@@ -11,6 +11,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createAccount } from "@/lib/actions/user.action";
+import { createServerAction } from "@/lib/serverAction";
 
 export type TypeForm = "login" | "register";
 
@@ -43,26 +44,28 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
     setIsLoading(true);
 
     setErrorMessage("");
-    try {
-      const user = await createAccount({
-        email: values.email,
-        password: values.password,
-        type,
-        ...(type === "register" && { fullName: values.fullName }),
-      });
-      console.log("🚀 ~ onSubmit ~ user:", user);
 
-      if (!user) {
-        throw new Error("Failed to create an account");
-      }
+    const user = await createAccount({
+      email: values.email,
+      password: values.password,
+      type,
+      ...(type === "register" && { fullName: values.fullName }),
+    });
 
-      setAccountId(user.accountId ?? "");
-    } catch (error: any) {
-      console.log("🚀 ~ onSubmit ~ error:", error);
-      setErrorMessage(error.error);
-    } finally {
-      setIsLoading(false);
+    console.log("🚀 ~ onSubmit ~ user:", user);
+
+    if (!user) {
+      throw new Error("Failed to create an account");
     }
+
+    if (user.error) {
+      setErrorMessage(user.error.message);
+      setIsLoading(false);
+      return;
+    }
+
+    setAccountId(user.accountId ?? "");
+    setIsLoading(false);
   };
 
   return (

@@ -13,7 +13,9 @@ export function createServerAction(callback: (...args: any[]) => Promise<any>) {
       return value;
     } catch (error) {
       if (error instanceof ServerActionError)
-        return { success: false, error: error.message };
+        return { error: { message: error.message } };
+
+      // return { success: false, error: error.message };
       // return error;
       throw error;
     }
