@@ -12,7 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createAccount } from "@/lib/actions/user.action";
 
-type TypeForm = "login" | "register";
+export type TypeForm = "login" | "register";
 
 const authFormSchema = (type: TypeForm) => {
   return z.object({
@@ -47,6 +47,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
       const user = await createAccount({
         email: values.email,
         password: values.password,
+        type,
         ...(type === "register" && { fullName: values.fullName }),
       });
       console.log("🚀 ~ onSubmit ~ user:", user);

@@ -6,6 +6,7 @@ import { appwriteConfig } from "../appwrite/config";
 import bcrypt from "bcrypt";
 import { avatarPlaceholderUrl } from "@/constants";
 import { parseStringify } from "../utils";
+import { TypeForm } from "@/components/AuthForm";
 
 const getUserByEmail = async (email: string) => {
   const { databases } = await createAdminClient();
@@ -40,13 +41,19 @@ export const createAccount = async ({
   fullName = null,
   email,
   password,
+  type,
 }: {
   fullName?: any;
   email: string;
   password: string;
+  type: TypeForm;
 }) => {
   const existingUser = await getUserByEmail(email);
   const accountId = await sendEmailOtp(email);
+
+  if (existingUser && type === "register") {
+    throw new Error("User already exists");
+  }
 
   if (existingUser) {
     const isMatch = await bcrypt.compare(password, existingUser?.password);
