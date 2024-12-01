@@ -58,7 +58,8 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
 
       setAccountId(user.accountId ?? "");
     } catch (error: any) {
-      setErrorMessage(error?.message);
+      console.log("🚀 ~ onSubmit ~ error:", error);
+      setErrorMessage(error.error);
     } finally {
       setIsLoading(false);
     }
