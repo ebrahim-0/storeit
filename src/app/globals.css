@@ -132,6 +132,10 @@
     @apply outline-none ring-offset-transparent focus:ring-transparent focus:ring-offset-0 focus-visible:outline-none focus:border-0 focus-visible:ring-0 focus:outline-none !important;
   }
 
+  .btn {
+    @apply bg-brand hover:bg-brand-100 transition-all rounded-[41px] button h-[41px] !important;
+  }
+
   .container {
     @apply mx-auto max-w-7xl px-5;
   }

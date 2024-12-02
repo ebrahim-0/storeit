@@ -11,7 +11,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createAccount } from "@/lib/actions/user.action";
-import { createServerAction } from "@/lib/serverAction";
+import OtpModal from "./OtpModal";
 
 export type TypeForm = "login" | "register";
 
@@ -29,6 +29,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [accountId, setAccountId] = useState("");
+  const [openOtp, setOpenOtp] = useState(false);
 
   const formSchema = authFormSchema(type);
 
@@ -66,6 +67,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
 
     setAccountId(user.accountId ?? "");
     setIsLoading(false);
+    setOpenOtp(true);
   };
 
   return (
@@ -106,12 +108,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
             defaultValue=""
           />
 
-          <Button
-            className="bg-brand hover:bg-brand-100 transition-all rounded-[41px] button h-[41px]"
-            type="submit"
-            disabled={isLoading}
-            // onClick={() => setIsLoading((prev) => !prev)}
-          >
+          <Button className="btn" type="submit" disabled={isLoading}>
             {type === "login" ? "Login" : "Register"}
             {isLoading && (
               <Image
@@ -142,6 +139,15 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
           </div>
         </form>
       </Form>
+
+      {accountId && openOtp && (
+        <OtpModal
+          accountId={accountId}
+          email={form.getValues("email")}
+          isOpen={openOtp}
+          setIsOpen={setOpenOtp}
+        />
+      )}
     </>
   );
 };
