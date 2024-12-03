@@ -1,8 +1,16 @@
-export const navLinks = [
-  { title: "Home", path: "/home" },
-  { title: "Login", path: "/login" },
-  { title: "Register", path: "/register" },
-];
+// export const navLinks = [
+//   { title: "Home", path: "/home" },
+//   { title: "Login", path: "/login" },
+//   { title: "Register", path: "/register" },
+// ];
+
+export const navLinks = (isLogin: any) => {
+  return [
+    isLogin && { title: "Home", path: "/home" },
+    !isLogin && { title: "Login", path: "/login" },
+    !isLogin && { title: "Register", path: "/register" },
+  ].filter(Boolean);
+};
 
 export const sideBarLinks = [
   {
