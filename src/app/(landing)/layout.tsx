@@ -5,20 +5,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { getCurrentUser } from "@/lib/actions/user.action";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const layout = async ({
+const layout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const { error, ...currentUser } = await getCurrentUser();
-  console.log("🚀 ~ layout ~ currentUser:", currentUser);
-  console.log("🚀 ~ layout ~ error:", error);
-
   return (
     <div className="container">
       <header className="flex w-full justify-between items-center p-3 border-b">
@@ -30,7 +25,6 @@ const layout = async ({
             height={82}
             className=" w-[150px]"
           />
-          {currentUser.email}
         </Link>
 
         <Sheet>
