@@ -1,7 +1,7 @@
 "use server";
 
 import { ID, Query } from "node-appwrite";
-import { createAdminClient } from "../appwrite";
+import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import bcrypt from "bcrypt";
 import { avatarPlaceholderUrl } from "@/constants";
@@ -123,6 +123,45 @@ export const verifyOtp = createServerAction(
     }
   }
 );
+
+export const getCurrentUser = createServerAction(async () => {
+  try {
+    console.log("fun in server");
+    const { databases, account } = await createSessionClient();
+
+    const result = await account.get();
+    console.log("🚀 ~ getCurrentUser ~ result:", result);
+
+    const user = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.usersCollectionId,
+      [Query.equal("accountId", result.$id)]
+    );
+
+    if (user.total <= 0) return null;
+
+    if (user.total > 0) {
+      const { password, ...userWithoutPassword } = user.documents[0];
+      return parseStringify(userWithoutPassword);
+    }
+
+    return parseStringify(user.documents[0]);
+  } catch (error: any) {
+    console.log("🚀 ~ error at :", error);
+    throw new ServerActionError(error.message);
+  }
+});
+
+export const logout = createServerAction(async () => {
+  try {
+    const { account } = await createSessionClient();
+    await account.deleteSession("current");
+    (await cookies()).delete("appwrite-session");
+  } catch (error: any) {
+    console.log("🚀 ~ error:", error);
+    throw new ServerActionError(error.message);
+  }
+});
 
 export const hashPassword = async (password: string): Promise<string> => {
   const saltRounds = 10;

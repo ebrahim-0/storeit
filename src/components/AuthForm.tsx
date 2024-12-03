@@ -40,13 +40,11 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
 
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("🚀 ~ onSubmit ~ values", values);
-
     setIsLoading(true);
 
     setErrorMessage("");
 
-    const user = await createAccount({
+    const { error, ...user } = await createAccount({
       email: values.email,
       password: values.password,
       type,
@@ -59,7 +57,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
       throw new Error("Failed to create an account");
     }
 
-    if (user.error) {
+    if (error) {
       setErrorMessage(user.error.message);
       setIsLoading(false);
       return;

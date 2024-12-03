@@ -50,11 +50,14 @@ const OtpModal = ({
 
     setIsLoading(true);
 
-    const sessionId = await verifyOtp({ accountId, otp: values.otp });
+    const { error, ...sessionId } = await verifyOtp({
+      accountId,
+      otp: values.otp,
+    });
 
     console.log("🚀 ~ sessionId", sessionId);
 
-    if (sessionId.error) {
+    if (error) {
       form.setError("otp", { message: sessionId.error.message });
       setIsLoading(false);
       return;
@@ -66,8 +69,15 @@ const OtpModal = ({
 
   const handleResend = async () => {
     setIsResend(true);
-    const resend = await sendEmailOtp(email);
+    const { error, ...resend } = await sendEmailOtp(email);
     console.log("🚀 ~ handleResend ~ resend:", resend);
+
+    if (error) {
+      console.log("🚀 ~ handleResend ~ error:", error);
+      setIsResend(false);
+      return;
+    }
+
     setIsResend(false);
   };
 

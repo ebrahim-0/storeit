@@ -1,8 +1,18 @@
+import { getCurrentUser } from "@/lib/actions/user.action";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
-const layout = ({ children }: { children: ReactNode }) => {
+export const dynamic = "force-dynamic";
+
+const layout = async ({ children }: { children: ReactNode }) => {
+  const { error, ...currentUser } = await getCurrentUser();
+  console.log("🚀 ~ layout ~ currentUser:", currentUser);
+  console.log("🚀 ~ layout ~ error:", error);
+
+  if (currentUser.email) redirect("/");
+
   return (
     <div className="flex min-h-screen">
       <section className="bg-brand p-10 w-1/2 hidden justify-center items-center lg:flex xl:w-2/5">
