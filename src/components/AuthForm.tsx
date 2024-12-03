@@ -52,13 +52,14 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
     });
 
     console.log("🚀 ~ onSubmit ~ user:", user);
+    console.log("🚀 ~ onSubmit ~ error:", error);
 
     if (!user) {
       throw new Error("Failed to create an account");
     }
 
     if (error) {
-      setErrorMessage(user.error.message);
+      setErrorMessage(error.message);
       setIsLoading(false);
       return;
     }
