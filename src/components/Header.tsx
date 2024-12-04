@@ -20,7 +20,7 @@ const Header = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger
-                type="reset"
+                type="submit"
                 className={cn(
                   "flex-center p-0",
                   "size-[54px] rounded-full bg-brand/10",
