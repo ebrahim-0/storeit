@@ -16,7 +16,7 @@ const MobileNavigation = ({ fullName, email, avatar }: IUser) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="container flex w-full justify-between items-center p-3">
+    <header className="container flex sm:hidden w-full justify-between items-center p-3">
       <Link href="/">
         <Image
           src="/assets/icons/logo-full-brand.svg"
@@ -89,8 +89,6 @@ const MobileNavigation = ({ fullName, email, avatar }: IUser) => {
               })}
             </ul>
           </nav>
-
-          
         </SheetContent>
       </Sheet>
     </header>
