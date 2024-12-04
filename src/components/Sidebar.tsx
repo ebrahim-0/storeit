@@ -12,7 +12,7 @@ const Sidebar = ({ fullName, email, avatar }: IUser) => {
   const pathname = usePathname();
 
   return (
-    <aside className="remove-scrollbar hidden h-screen w-[90px] flex-col overflow-auto px-5 py-7 sm:flex lg:w-[280px] xl:w-[325px]">
+    <aside className="remove-scrollbar hidden h-screen w-[90px] flex-col overflow-auto px-5 py-5 sm:flex lg:w-[280px] xl:w-[325px]">
       <Link href="/">
         <Image
           src="/assets/icons/logo-full-brand.svg"
@@ -31,7 +31,7 @@ const Sidebar = ({ fullName, email, avatar }: IUser) => {
         />
       </Link>
 
-      <nav className="h5 mt-9 gap-1 flex-1 text-brand">
+      <nav className="h5 mt-6 gap-1 flex-1 text-brand">
         <ul className="flex flex-1 flex-col gap-6">
           {sideBarLinks.map(({ title, path, icon }, index) => {
             return (
@@ -39,7 +39,7 @@ const Sidebar = ({ fullName, email, avatar }: IUser) => {
                 <li
                   className={cn(
                     "flex-center lg:justify-start h5 lg:px-[30px] gap-4",
-                    "rounded-xl lg:rounded-[30px] h-[52px] lg:w-full",
+                    "rounded-xl lg:rounded-[30px] h-[45px] lg:w-full",
                     isActive(pathname, path)
                       ? "bg-brand text-white shadow-drop-2"
                       : "text-light-100"

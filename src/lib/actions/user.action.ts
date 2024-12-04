@@ -38,6 +38,19 @@ export const sendEmailOtp = createServerAction(async (email: string) => {
   }
 });
 
+export const sendSmsOtp = createServerAction(async () => {
+  const phone: string = "+201032868845";
+  try {
+    const { account } = await createAdminClient();
+
+    const session = await account.createPhoneToken(ID.unique(), phone);
+
+    return parseStringify({ accountId: session.userId });
+  } catch (error: any) {
+    throw new ServerActionError(error.message);
+  }
+});
+
 export const createAccount = createServerAction(
   async ({
     fullName = null,

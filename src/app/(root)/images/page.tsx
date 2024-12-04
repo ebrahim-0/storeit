@@ -1,5 +1,5 @@
 const page = () => {
-  return <div>media</div>;
+  return <div>images</div>;
 };
 
 export default page;
