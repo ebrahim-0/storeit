@@ -120,7 +120,6 @@ export const verifyOtp = createServerAction(
       const { account } = await createAdminClient();
 
       const session = await account.createSession(accountId, otp);
-      console.log("🚀 ~ session:", session);
 
       (await cookies()).set("appwrite-session", session.secret, {
         path: "/",
@@ -143,7 +142,6 @@ export const getCurrentUser = createServerAction(async () => {
     const { databases, account } = await createSessionClient();
 
     const result = await account.get();
-    console.log("🚀 ~ getCurrentUser ~ result:", result);
 
     const user = await databases.listDocuments(
       appwriteConfig.databaseId,
@@ -155,6 +153,7 @@ export const getCurrentUser = createServerAction(async () => {
 
     if (user.total > 0) {
       const { password, ...userWithoutPassword } = user.documents[0];
+
       return parseStringify(userWithoutPassword);
     }
 
