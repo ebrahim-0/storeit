@@ -9,6 +9,7 @@ import { parseStringify } from "../utils";
 import { TypeForm } from "@/components/AuthForm";
 import { createServerAction, ServerActionError } from "../serverAction";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const getUserByEmail = createServerAction(async (email: string) => {
   try {
@@ -167,8 +168,9 @@ export const getCurrentUser = createServerAction(async () => {
 export const logout = createServerAction(async () => {
   try {
     const { account } = await createSessionClient();
-    await account.deleteSession("current");
     (await cookies()).delete("appwrite-session");
+    await account.deleteSession("current");
+    redirect("/");
   } catch (error: any) {
     console.log("🚀 ~ error:", error);
     throw new ServerActionError(error.message);
