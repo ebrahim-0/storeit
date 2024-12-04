@@ -7,6 +7,12 @@ import { ReactNode } from "react";
 
 export const dynamic = "force-dynamic";
 
+// const currentUser = {
+//   fullName: "Ibrahim Abdelrazik",
+//   email: "hema@gmail.com",
+//   avatar: avatarPlaceholderUrl,
+// };
+
 const layout = async ({ children }: { children: ReactNode }) => {
   const { error, ...currentUser } = await getCurrentUser();
   console.log("🚀 ~ currentUser:", currentUser);
@@ -18,7 +24,7 @@ const layout = async ({ children }: { children: ReactNode }) => {
     <main className="flex h-screen">
       <Sidebar {...currentUser} />
       <section className="flex flex-col h-full flex-1">
-        <MobileNavigation />
+        <MobileNavigation {...currentUser} />
         <Header />
         <div className="remove-scrollbar overflow-auto h-full flex-1 bg-light-400 px-5 py-7 sm:mr-7 sm:rounded-[30px] md:mb-7 md:px-9 md:py-10">
           {children}
