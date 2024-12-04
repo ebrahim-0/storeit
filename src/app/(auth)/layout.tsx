@@ -11,7 +11,7 @@ const layout = async ({ children }: { children: ReactNode }) => {
   console.log("🚀 ~ layout ~ currentUser:", currentUser);
   console.log("🚀 ~ layout ~ error:", error);
 
-  if (currentUser.email) redirect("/");
+  if (currentUser?.email) redirect("/");
 
   return (
     <div className="flex min-h-screen">

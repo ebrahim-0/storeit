@@ -20,23 +20,21 @@ const Header = () => {
         <form action={logout}>
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  type="submit"
-                  className={cn(
-                    "flex-center p-0",
-                    "size-[54px] rounded-full bg-brand/10",
-                    "shadow-none transition-all hover:bg-brand/20"
-                  )}
-                >
-                  <Image
-                    src="/assets/icons/logout.svg"
-                    alt="logout"
-                    width={24}
-                    height={24}
-                    className="w-6"
-                  />
-                </Button>
+              <TooltipTrigger
+                type="reset"
+                className={cn(
+                  "flex-center p-0",
+                  "size-[54px] rounded-full bg-brand/10",
+                  "shadow-none transition-all hover:bg-brand/20"
+                )}
+              >
+                <Image
+                  src="/assets/icons/logout.svg"
+                  alt="logout"
+                  width={24}
+                  height={24}
+                  className="w-6"
+                />
               </TooltipTrigger>
               <TooltipContent side="bottom" className="bg-brand/10 text-brand">
                 Logout

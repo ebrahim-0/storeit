@@ -93,6 +93,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
           <InputController
             control={form.control}
             name="email"
+            type="email"
             label="Email"
             placeholder="Enter your Email"
             defaultValue=""

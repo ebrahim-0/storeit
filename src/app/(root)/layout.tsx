@@ -12,7 +12,7 @@ const layout = async ({ children }: { children: ReactNode }) => {
   console.log("🚀 ~ currentUser:", currentUser);
   console.log("🚀 ~ error:", error);
 
-  if (!currentUser.email || !!error) redirect("/login");
+  if (!currentUser?.email || !!error) redirect("/login");
 
   return (
     <main className="flex h-screen">

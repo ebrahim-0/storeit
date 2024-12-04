@@ -58,7 +58,7 @@ const OtpModal = ({
     console.log("🚀 ~ sessionId", sessionId);
 
     if (error) {
-      form.setError("otp", { message: sessionId.error.message });
+      form.setError("otp", { message: error.message });
       setIsLoading(false);
       return;
     }

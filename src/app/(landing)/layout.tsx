@@ -46,12 +46,12 @@ const layout = async ({
             <SheetTitle className="sr-only"></SheetTitle>
 
             <NavLinks
-              isLogin={!!currentUser.email}
+              isLogin={!!currentUser?.email}
               classNames="!flex flex-col py-8"
             />
           </SheetContent>
         </Sheet>
-        <NavLinks isLogin={!!currentUser.email} />
+        <NavLinks isLogin={!!currentUser?.email} />
       </header>
       <main className="min-h-[calc(100vh-111px)]">{children} </main>
     </div>
