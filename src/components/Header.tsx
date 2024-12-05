@@ -17,7 +17,7 @@ const Header = () => {
       <div className="flex-center min-w-fit gap-4 pr-2.5">
         <FileUploader />
         <form action={logout}>
-          <TooltipProvider delayDuration={300}>
+          <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger
                 type="submit"
