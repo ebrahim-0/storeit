@@ -17,7 +17,7 @@ const layout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const { error, ...currentUser } = (await getCurrentUser()) || {};
+  const { error, ...currentUser } = await getCurrentUser();
   console.log("🚀 ~ layout ~ currentUser:", currentUser);
   console.log("🚀 ~ layout ~ error:", error);
 

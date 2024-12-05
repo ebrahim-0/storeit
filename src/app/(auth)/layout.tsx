@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 export const dynamic = "force-dynamic";
 
 const layout = async ({ children }: { children: ReactNode }) => {
-  const { error, ...currentUser } = (await getCurrentUser()) || {};
+  const { error, ...currentUser } = await getCurrentUser();
   console.log("🚀 ~ layout ~ currentUser:", currentUser);
   console.log("🚀 ~ layout ~ error:", error);
 
