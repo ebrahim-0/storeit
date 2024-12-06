@@ -3519,3 +3519,10 @@ zustand@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/zustand/-/zustand-5.0.2.tgz#f7595ada55a565f1fd6464f002a91e701ee0cfca"
   integrity sha512-8qNdnJVJlHlrKXi50LDqqUNmUbuBjoKLrYQBnoChIbVph7vni+sY+YpvdjXG9YLd/Bxr6scMcR+rm5H3aSqPaw==
+
+zustate-plus@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/zustate-plus/-/zustate-plus-1.1.1.tgz#7466495d5627d8d90569b0faa1ed973a11c8acfb"
+  integrity sha512-stSXQfMTa3f5s957M+SNntG+1xOabPX99xu2C2z+luFMwsJUCUMwXAYoEqyqRezZi/vOSWfN3GvzHOcaTOSlDA==
+  dependencies:
+    zustand "^5.0.2"

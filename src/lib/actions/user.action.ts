@@ -32,6 +32,7 @@ export const sendEmailOtp = createServerAction(async (email: string) => {
     const { account } = await createAdminClient();
 
     const session = await account.createEmailToken(ID.unique(), email);
+    console.log("🚀 ~ sendEmailOtp ~ session:", session);
 
     return parseStringify({ accountId: session.userId });
   } catch (error: any) {
