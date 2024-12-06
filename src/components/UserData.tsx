@@ -2,7 +2,7 @@
 
 import { getCurrentUser } from "@/lib/actions/user.action";
 import { useEffect } from "react";
-import { useDispatch } from "zustate-plus";
+import { useDispatch } from "zustate-add";
 
 const UserData = () => {
   const { dispatch } = useDispatch();

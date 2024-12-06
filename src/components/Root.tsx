@@ -1,7 +1,9 @@
 "use client";
 
 import { ReactNode } from "react";
-import { CreateDispatchType, GlobalStateProvider } from "zustate-plus";
+import { CreateDispatchType, StateProvider, setConfig } from "zustate-add";
+
+setConfig({ debug: true });
 
 const userGlobalState = {
   counter: 50,
@@ -14,6 +16,8 @@ const userGlobalState = {
 const createDispatch: CreateDispatchType = (data, tools, actions) => {
   const { type, payload } = data;
   const { update /*, addState , reset, dirty */ } = tools;
+
+  console.log("render");
 
   const setAge = () => {
     const age = payload.value;
@@ -47,12 +51,12 @@ const Root = ({
   children: ReactNode;
 }>) => {
   return (
-    <GlobalStateProvider
-      userGlobalState={userGlobalState}
+    <StateProvider
+      globalState={userGlobalState}
       createDispatch={createDispatch}
     >
       {children}
-    </GlobalStateProvider>
+    </StateProvider>
   );
 };
 

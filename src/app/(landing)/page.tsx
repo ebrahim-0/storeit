@@ -1,13 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import UserData from "@/components/UserData";
 import { sendSmsOtp } from "@/lib/actions/user.action";
-import { useDispatch, useSelector } from "zustate-plus";
+import { useState } from "react";
+import { useDispatch, useSelector } from "zustate-add";
 
 export default function Home() {
   const { dispatcher } = useDispatch();
   const { age } = useSelector("info");
+
+  const [state, setState] = useState("");
 
   const send = async () => {
     const res = await sendSmsOtp();
@@ -19,8 +23,10 @@ export default function Home() {
   };
 
   return (
-    <div className="flex-center h-[calc(100vh-111px)]">
-      {age}
+    <div className="flex-center flex-col gap-3 h-[calc(100vh-111px)]">
+      <p className="subtitle-2">{state}</p>
+      <Input onChange={(e) => setState(e.target.value)} />
+      <h1 className="h1">{age}</h1>
       <h1 className="h1">StoreIt - A simple file storage service</h1>
       <UserData />
       <Button onClick={send}>send message</Button>

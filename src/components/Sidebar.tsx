@@ -7,7 +7,7 @@ import { IUser } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSelector } from "zustate-plus";
+import { useSelector } from "zustate-add";
 
 const Sidebar = ({ fullName, email, avatar }: IUser) => {
   const user = useSelector("user");
