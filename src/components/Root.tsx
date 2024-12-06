@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import { CreateDispatchType, StateProvider, setConfig } from "zustate-add";
 
-setConfig({ debug: true });
+setConfig({ debug: process.env.NODE_ENV === "development" });
 
 const userGlobalState = {
   counter: 50,
