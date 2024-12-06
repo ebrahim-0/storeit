@@ -32,7 +32,6 @@ export const sendEmailOtp = createServerAction(async (email: string) => {
     const { account } = await createAdminClient();
 
     const session = await account.createEmailToken(ID.unique(), email);
-    console.log("🚀 ~ sendEmailOtp ~ session:", session);
 
     return parseStringify({ accountId: session.userId });
   } catch (error: any) {
@@ -169,8 +168,8 @@ export const getCurrentUser = createServerAction(async () => {
 export const logout = createServerAction(async () => {
   try {
     const { account } = await createSessionClient();
-    (await cookies()).delete("appwrite-session");
     await account.deleteSession("current");
+    (await cookies()).delete("appwrite-session");
     redirect("/");
   } catch (error: any) {
     console.log("🚀 ~ error:", error);

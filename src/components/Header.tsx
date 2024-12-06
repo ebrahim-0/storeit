@@ -16,7 +16,7 @@ const Header = () => {
       <Search />
       <div className="flex-center min-w-fit gap-4 pr-2.5">
         <FileUploader />
-        <form action={logout}>
+        <form action={logout as any}>
           <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger
