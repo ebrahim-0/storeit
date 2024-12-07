@@ -5,18 +5,15 @@ import { isActive } from "@/lib/isActive";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSelector } from "zustore";
 
-const NavLinks = ({
-  isLogin,
-  classNames,
-}: {
-  isLogin: any;
-  classNames?: string;
-}) => {
+const NavLinks = ({ classNames }: { classNames?: string }) => {
   const pathname = usePathname();
+  const user = useSelector("user");
+
   return (
     <nav className={cn("gap-3 justify-end hidden md:flex", classNames)}>
-      {navLinks(isLogin).map(({ title, path }, index) => {
+      {navLinks(user?.email).map(({ title, path }, index) => {
         return (
           <Link
             key={index}

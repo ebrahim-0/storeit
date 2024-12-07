@@ -1,7 +1,8 @@
 "use client";
 
 import { ReactNode } from "react";
-import { CreateDispatchType, StateProvider, setConfig } from "zustate-add";
+import { CreateDispatchType, StateProvider, setConfig } from "zustore";
+import UserData from "./UserData";
 
 setConfig({ debug: process.env.NODE_ENV === "development" });
 
@@ -55,6 +56,7 @@ const Root = ({
       globalState={userGlobalState}
       createDispatch={createDispatch}
     >
+      <UserData />
       {children}
     </StateProvider>
   );

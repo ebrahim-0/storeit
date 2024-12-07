@@ -9,6 +9,7 @@ import {
 import Search from "./Search";
 import FileUploader from "./FileUploader";
 import { logout } from "@/lib/actions/user.action";
+import Text from "./ui/Text";
 
 const Header = () => {
   return (
@@ -17,29 +18,25 @@ const Header = () => {
       <div className="flex-center min-w-fit gap-4 pr-2.5">
         <FileUploader />
         <form action={logout as any}>
-          <TooltipProvider delayDuration={100}>
-            <Tooltip>
-              <TooltipTrigger
-                type="submit"
-                className={cn(
-                  "flex-center p-0",
-                  "size-[54px] rounded-full bg-brand/10",
-                  "shadow-none transition-all hover:bg-brand/20"
-                )}
-              >
-                <Image
-                  src="/assets/icons/logout.svg"
-                  alt="logout"
-                  width={24}
-                  height={24}
-                  className="w-6"
-                />
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="bg-brand/10 text-brand">
-                Logout
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Text
+            side="bottom"
+            TriggerClass={cn(
+              "flex-center p-0",
+              "size-[54px] rounded-full bg-brand/10",
+              "shadow-none transition-all hover:bg-brand/20"
+            )}
+            tooltip="Logout"
+            toolTipAlign="center"
+            toolTipClass="bg-brand/10 text-brand"
+          >
+            <Image
+              src="/assets/icons/logout.svg"
+              alt="logout"
+              width={24}
+              height={24}
+              className="w-6"
+            />
+          </Text>
         </form>
       </div>
     </header>

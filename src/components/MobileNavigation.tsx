@@ -8,11 +8,14 @@ import { sideBarLinks } from "@/constants";
 import { isActive } from "@/lib/isActive";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-import { IUser } from "@/types";
 import { useState } from "react";
+import { useSelector } from "zustore";
+import ProfileBox from "./ProfileBox";
 
-const MobileNavigation = ({ fullName, email, avatar }: IUser) => {
+const MobileNavigation = () => {
   const pathname = usePathname();
+  const { fullName, email, avatar } = useSelector("user");
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -38,20 +41,7 @@ const MobileNavigation = ({ fullName, email, avatar }: IUser) => {
         <SheetContent>
           <SheetTitle className="sr-only"></SheetTitle>
 
-          <div className="mt-4 flex-center gap-2 !justify-start p-2 rounded-full bg-brand/10 text-light-100">
-            <Image
-              src={avatar}
-              width={44}
-              height={44}
-              alt=""
-              className="w-10 rounded-full object-cover aspect-square"
-            />
-
-            <div>
-              <p className="subtitle-2 capitalize">{fullName}</p>
-              <p className="caption">{email}</p>
-            </div>
-          </div>
+          <ProfileBox toMobile={true} />
 
           <nav className="h5 mt-6 gap-1 flex-1 text-brand">
             <ul className="flex flex-1 flex-col gap-6">

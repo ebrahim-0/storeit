@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import UserData from "@/components/UserData";
 import { sendSmsOtp } from "@/lib/actions/user.action";
-import { useDispatch, useSelector } from "zustate-add";
+import { useDispatch, useSelector } from "zustore";
 
 export default function Home() {
   const { dispatcher } = useDispatch();

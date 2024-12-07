@@ -3,16 +3,12 @@
 import { sideBarLinks } from "@/constants";
 import { isActive } from "@/lib/isActive";
 import { cn } from "@/lib/utils";
-import { IUser } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSelector } from "zustate-add";
+import ProfileBox from "./ProfileBox";
 
-const Sidebar = ({ fullName, email, avatar }: IUser) => {
-  const user = useSelector("user");
-  console.log("🚀 ~ Sidebar ~ user:", user);
-
+const Sidebar = () => {
   const pathname = usePathname();
 
   return (
@@ -80,20 +76,7 @@ const Sidebar = ({ fullName, email, avatar }: IUser) => {
         </div>
       </div>
 
-      <div className="mt-4 flex-center gap-2 lg:justify-start p-1 lg:p-3 rounded-full bg-brand/10 text-light-100">
-        <Image
-          src={avatar}
-          width={44}
-          height={44}
-          alt=""
-          className="w-10 rounded-full object-cover aspect-square"
-        />
-
-        <div className="hidden lg:block">
-          <p className="subtitle-2 capitalize">{fullName}</p>
-          <p className="caption">{email}</p>
-        </div>
-      </div>
+      <ProfileBox />
     </aside>
   );
 };
