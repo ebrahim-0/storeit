@@ -3542,9 +3542,9 @@ zustand@^5.0.2:
   resolved "https://registry.yarnpkg.com/zustand/-/zustand-5.0.2.tgz#f7595ada55a565f1fd6464f002a91e701ee0cfca"
   integrity sha512-8qNdnJVJlHlrKXi50LDqqUNmUbuBjoKLrYQBnoChIbVph7vni+sY+YpvdjXG9YLd/Bxr6scMcR+rm5H3aSqPaw==
 
-zustore@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/zustore/-/zustore-1.1.2.tgz#58d28b6c0695e56e10ade2015aca4e1d9da64829"
-  integrity sha512-H5CAIZVrrB3sQn1SLLnbM3sUkCJRbbk7WuDr2SoybWHV+2YpFrBbyMiFzmuHX3KlCGX+Og2FcF7xiVtx8h0roQ==
+zustore@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/zustore/-/zustore-1.1.4.tgz#a04a21423bd1c9147b03da1b4b4036f9e4c3cb8c"
+  integrity sha512-qAgqDfykVlk64bAzlfOr2TtELxlMGDNkWmqhoAwjnBXYlFwq2FmOQMZLQ6tSBtPK2zsL8w0xUC5LJuyDySyV0Q==
   dependencies:
     zustand "^5.0.2"
