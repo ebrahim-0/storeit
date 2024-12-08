@@ -7,10 +7,9 @@ import { useDispatch, useSelector } from "zustore";
 export default function Home() {
   // const { dispatcher } = useDispatch();
   const { reset, dispatcher, dirty } = useDispatch();
-  // const { name, age } = useSelector("info", { name: "Anonymous", age: 20 });
-  const age = useSelector("info.age", 20);
-  const name = useSelector("info.name", "Anonymous");
-  console.log("🚀 ~ age:", age);
+  const { name, age } = useSelector("info", { name: "Anonymous", age: 20 });
+  // const age = useSelector("info.age", 20);
+  // const name = useSelector("info.name", "Anonymous");
   const { lang } = useSelector("info2", { lang: "en" });
 
   const addAge = () => {
@@ -32,7 +31,7 @@ export default function Home() {
       <Button onClick={addAge}>add age</Button>
       <Button
         onClick={() => {
-          reset("info.age");
+          dirty("info.age");
         }}
       >
         reset Age

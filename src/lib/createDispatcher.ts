@@ -6,7 +6,6 @@ export const createDispatch: CreateDispatchType = (name, payload, tools) => {
   // Action functions
   const setAge = () => {
     const age = payload.value;
-    console.log("🚀 ~ setAge ~ age:", age);
     dispatch({ age }, "info"); // Example of using addState
   };
 
