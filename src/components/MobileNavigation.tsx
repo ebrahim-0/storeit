@@ -9,12 +9,10 @@ import { isActive } from "@/lib/isActive";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { useSelector } from "zustore";
 import ProfileBox from "./ProfileBox";
 
 const MobileNavigation = () => {
   const pathname = usePathname();
-  const { fullName, email, avatar } = useSelector("user");
 
   const [isOpen, setIsOpen] = useState(false);
 

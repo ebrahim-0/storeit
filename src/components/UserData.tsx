@@ -1,8 +1,8 @@
 "use client";
 
 import { getCurrentUser } from "@/lib/actions/user.action";
-import { useEffect } from "react";
 import { useDispatch } from "zustore";
+import { useEffect } from "react";
 
 const UserData = () => {
   const { dispatch } = useDispatch();

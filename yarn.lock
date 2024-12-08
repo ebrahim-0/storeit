@@ -3537,14 +3537,7 @@ zod@^3.23.8:
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.8.tgz#e37b957b5d52079769fb8097099b592f0ef4067d"
   integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
 
-zustand@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/zustand/-/zustand-5.0.2.tgz#f7595ada55a565f1fd6464f002a91e701ee0cfca"
-  integrity sha512-8qNdnJVJlHlrKXi50LDqqUNmUbuBjoKLrYQBnoChIbVph7vni+sY+YpvdjXG9YLd/Bxr6scMcR+rm5H3aSqPaw==
-
-zustore@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/zustore/-/zustore-1.1.4.tgz#a04a21423bd1c9147b03da1b4b4036f9e4c3cb8c"
-  integrity sha512-qAgqDfykVlk64bAzlfOr2TtELxlMGDNkWmqhoAwjnBXYlFwq2FmOQMZLQ6tSBtPK2zsL8w0xUC5LJuyDySyV0Q==
-  dependencies:
-    zustand "^5.0.2"
+zustore@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/zustore/-/zustore-1.2.3.tgz#76029b01d348d434b8b32d4a6a8fec4551dc6695"
+  integrity sha512-uDCnmM0+okBKqWYpPjQuD8+OGMvZXgUQ8epSbwg7RcuswgwLF+DROyFbFwigK9PgTSH3EODY5da7rFBcSUNYtg==

@@ -1,15 +1,15 @@
 "use client";
 
 import { navLinks } from "@/constants";
+import { useSelector } from "zustore";
 import { isActive } from "@/lib/isActive";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSelector } from "zustore";
 
 const NavLinks = ({ classNames }: { classNames?: string }) => {
   const pathname = usePathname();
-  const user = useSelector("user");
+  const user = useSelector("user", {});
 
   return (
     <nav className={cn("gap-3 justify-end hidden md:flex", classNames)}>

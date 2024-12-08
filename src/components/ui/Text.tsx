@@ -35,13 +35,15 @@ const Text = ({
         >
           {children}
         </TooltipTrigger>
-        <TooltipContent
-          align={toolTipAlign}
-          side={side}
-          className={cn("rtl:text-end ltr:text-start", toolTipClass)}
-        >
-          {tooltip}
-        </TooltipContent>
+        {tooltip && (
+          <TooltipContent
+            align={toolTipAlign}
+            side={side}
+            className={cn("rtl:text-end ltr:text-start", toolTipClass)}
+          >
+            {tooltip}
+          </TooltipContent>
+        )}
       </Tooltip>
     </TooltipProvider>
   );

@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { Skeleton } from "./ui/skeleton";
 import Text from "./ui/Text";
-import { useSelector } from "zustore";
 import { cn } from "@/lib/utils";
+import { useSelector } from "zustore";
 
 const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
   const { fullName, email, avatar } = useSelector("user");
