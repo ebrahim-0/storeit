@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import Search from "./Search";
 import FileUploader from "./FileUploader";
 import { logout } from "@/lib/actions/user.action";
-import Text from "./ui/Text";
+import Text from "@/components/ui/Text";
 
 const Header = () => {
   return (

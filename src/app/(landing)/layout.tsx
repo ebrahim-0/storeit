@@ -45,7 +45,7 @@ const layout = async ({
         </Sheet>
         <NavLinks />
       </header>
-      <main className="min-h-[calc(100vh-111px)]">{children} </main>
+      <main className="min-h-[calc(100vh-111px)]">{children}</main>
     </div>
   );
 };
