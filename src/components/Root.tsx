@@ -13,7 +13,7 @@ export const initialState = {
 };
 
 export const createDispatch: CreateDispatchType = (name, payload, tools) => {
-  const { dispatch, addState, reset } = tools;
+  const { dispatch, addState } = tools;
 
   // Action functions
   const setAge = () => {
