@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 
 const NavLinks = ({ classNames }: { classNames?: string }) => {
   const pathname = usePathname();
-  const user = useSelector("user", {});
+  const user = useSelector("user");
 
   return (
     <nav className={cn("gap-3 justify-end hidden md:flex", classNames)}>

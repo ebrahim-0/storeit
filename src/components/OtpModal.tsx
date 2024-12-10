@@ -21,6 +21,7 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { useRouter } from "next/navigation";
 import { RefreshCcw } from "lucide-react";
+import { useDispatch } from "zustore";
 
 const formSchema = z.object({
   otp: z.string().length(6, { message: "OTP must be 6 characters" }),
@@ -42,6 +43,7 @@ const OtpModal = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const [isResend, setIsResend] = useState(false);
+  const { dispatcher } = useDispatch();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,6 +68,8 @@ const OtpModal = ({
     }
 
     setIsLoading(false);
+    dispatcher("getLoginUser");
+
     router.push("/");
   };
 

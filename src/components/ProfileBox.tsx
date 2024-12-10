@@ -7,8 +7,7 @@ import { cn } from "@/lib/utils";
 import { useSelector } from "zustore";
 
 const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
-  const { fullName, email, avatar } = useSelector("user");
-
+  const user = useSelector("user");
   return (
     <div
       className={cn(
@@ -17,9 +16,9 @@ const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
         toMobile && "!justify-start"
       )}
     >
-      {avatar ? (
+      {user?.avatar ? (
         <Image
-          src={avatar}
+          src={user?.avatar}
           width={44}
           height={44}
           alt=""
@@ -35,22 +34,22 @@ const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
           toMobile && "!flex"
         )}
       >
-        {fullName ? (
+        {user?.fullName ? (
           <Text
-            tooltip={fullName}
+            tooltip={user?.fullName}
             TriggerClass="subtitle-2 oneline-text capitalize lg:w-[160px] xl:w-[200px]"
           >
-            {fullName}
+            {user?.fullName}
           </Text>
         ) : (
           <Skeleton className="lg:w-[160px] xl:w-[200px] h-4" />
         )}
-        {email ? (
+        {user?.email ? (
           <Text
-            tooltip={email}
+            tooltip={user?.email}
             TriggerClass="caption oneline-text lg:w-[160px] xl:w-[200px]"
           >
-            {email}
+            {user?.email}
           </Text>
         ) : (
           <Skeleton className="lg:w-[160px] xl:w-[200px] h-4" />

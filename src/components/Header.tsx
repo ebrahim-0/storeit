@@ -1,17 +1,20 @@
+"use client";
+
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Search from "./Search";
 import FileUploader from "./FileUploader";
-import { logout } from "@/lib/actions/user.action";
 import Text from "@/components/ui/Text";
+import { useDispatch } from "zustore";
 
 const Header = () => {
+  const { dispatcher } = useDispatch();
   return (
     <header className="hidden items-center justify-between gap-5 p-5 sm:flex lg:py-7 xl:gap-10">
       <Search />
       <div className="flex-center min-w-fit gap-4 pr-2.5">
         <FileUploader />
-        <form action={logout as any}>
+        <form action={(() => dispatcher("logoutUser")) as any}>
           <Text
             side="bottom"
             TriggerClass={cn(

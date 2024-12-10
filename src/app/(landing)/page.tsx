@@ -1,30 +1,38 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "zustore";
 
 export default function Home() {
-  const { reset, dispatcher, dirty } = useDispatch();
-  const [{ name, age }, { lang }] = useSelector(
-    ["info", "info2"],
-    [{ name: "Anonymous", age: 20 }, { lang: "en" }]
-  );
-  // const { lang } = useSelector("info2", { lang: "en" });
-  const info = useSelector("info");
+  const { reset, dispatcher, dirty, ApiCall, dispatch } = useDispatch();
+  // const [{ name, age }, { lang }] = useSelector(
+  //   ["info", "info2"],
+  //   [{ name: "Anonymous", age: 20 }, { lang: "en" }]
+  // );
+
+  const [name] = useSelector(["info.name"], ["Anonymous"]);
+  const [age] = useSelector(["info.age"], [20]);
+
+  const { lang } = useSelector("info2", { lang: "en" });
+  const [info] = useSelector(["info"]);
   console.log("🚀 ~ Home ~ info:", info);
 
-  useEffect(() => {
-    console.log("🚀 ~ Home ~ age:", age);
-  }, [age]);
-
-  useEffect(() => {
-    console.log("🚀 ~ Home ~ name:", name);
-  }, [name]);
-
   const addAge = () => {
-    dispatcher("setAge", { value: age + 1 });
-    // dispatch({ age: age + 1 }, "info");
+    // dispatcher("setAge", { value: age + 1 });
+    dispatch({ age: age + 1 }, "info");
+    console.log("🚀 ~ addAge ~ age:", age);
+  };
+
+  const getTodos = async () => {
+    ApiCall(async ({ state, addState }) => {
+      console.log("🚀 ~ ApiCall ~ state:", state);
+      const res = await fetch("https://jsonplaceholder.typicode.com/todos/1");
+      const data = await res.json();
+      console.log("🚀 ~ file: page.tsx ~ line 42 ~ getTodos ~ data", data);
+
+      addState({ data }, "todos");
+      return data;
+    });
   };
 
   const addLang = () => {
@@ -38,7 +46,10 @@ export default function Home() {
     reset("info.name");
   };
   const dirtyName = () => {
-    reset("info.name");
+    dirty("info.name");
+  };
+  const dirtyLang = () => {
+    reset("info2.lang");
   };
 
   return (
@@ -47,10 +58,12 @@ export default function Home() {
       <h1 className="h1">{age}</h1>
       <h1 className="h1">{lang}</h1>
       <h1 className="h1">StoreIt - A simple file storage service</h1>
+      <Button onClick={getTodos}>Call Api</Button>
       <Button onClick={addAge}>add age</Button>
       <Button onClick={resetAge}>reset Age</Button>
       <Button onClick={resetName}>reset name</Button>
       <Button onClick={dirtyName}>dirty name</Button>
+      <Button onClick={dirtyLang}>dirty lang</Button>
       <Button onClick={addLang}>add lang</Button>
     </div>
   );
