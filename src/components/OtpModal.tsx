@@ -68,9 +68,11 @@ const OtpModal = ({
     }
 
     setIsLoading(false);
-    dispatcher("getLoginUser");
-
-    router.push("/");
+    dispatcher("getLoginUser", {
+      callback: () => {
+        router.push("/");
+      },
+    });
   };
 
   const handleResend = async () => {

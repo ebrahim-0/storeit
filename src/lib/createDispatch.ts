@@ -15,23 +15,24 @@ export const createDispatch: CreateDispatchType = ({
   };
 
   const lang = () => {
-    const { lang } = payload;
+    const lang = payload?.lang;
     addState({ lang }, "info2"); // Example of using addState
   };
 
   const getLoginUser = async () => {
+    const callback = payload?.callback;
     const { error, ...currentUser } = (await getCurrentUser()) || {};
 
     dispatch({ user: currentUser });
-
-    console.log("🚀 ~ layout ~ currentUser:", currentUser);
-    console.log("🚀 ~ layout ~ error:", error);
+    if (!error) {
+      callback && (await callback());
+    }
   };
 
   const logoutUser = async () => {
-    logout().then(() => {
-      dispatch({ user: null });
-    });
+    await logout();
+
+    dispatch({ user: null });
   };
 
   // Switch based on the function name

@@ -5,21 +5,16 @@ import { useDispatch, useSelector } from "zustore";
 
 export default function Home() {
   const { reset, dispatcher, dirty, ApiCall, dispatch } = useDispatch();
-  // const [{ name, age }, { lang }] = useSelector(
-  //   ["info", "info2"],
-  //   [{ name: "Anonymous", age: 20 }, { lang: "en" }]
-  // );
+  const [{ name, age }, { lang }] = useSelector(
+    ["info", "info2"],
+    [{ name: "Anonymous", age: 20 }, { lang: "en" }]
+  );
 
-  const [name] = useSelector(["info.name"], ["Anonymous"]);
-  const [age] = useSelector(["info.age"], [20]);
-
-  const { lang } = useSelector("info2", { lang: "en" });
-  const [info] = useSelector(["info"]);
-  console.log("🚀 ~ Home ~ info:", info);
+  const [user] = useSelector(["user"]);
 
   const addAge = () => {
-    // dispatcher("setAge", { value: age + 1 });
-    dispatch({ age: age + 1 }, "info");
+    dispatcher("setAge", { value: age + 1 });
+    // dispatch({ age: age + 1 }, "info");
     console.log("🚀 ~ addAge ~ age:", age);
   };
 
@@ -54,6 +49,7 @@ export default function Home() {
 
   return (
     <div className="flex-center flex-col gap-3 h-[calc(100vh-111px)]">
+      <h1 className="h1">{user?.email}</h1>
       <h1 className="h1">{name}</h1>
       <h1 className="h1">{age}</h1>
       <h1 className="h1">{lang}</h1>
