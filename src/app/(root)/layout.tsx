@@ -2,10 +2,16 @@ import Header from "@/components/Header";
 import MobileNavigation from "@/components/MobileNavigation";
 import Sidebar from "@/components/Sidebar";
 import { getCurrentUser } from "@/lib/actions/user.action";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "StoreIt | Dashboard",
+  description: "StoreIt is a simple file storage service.",
+};
 
 const layout = async ({ children }: { children: ReactNode }) => {
   const { error, ...currentUser } = (await getCurrentUser()) || {};
