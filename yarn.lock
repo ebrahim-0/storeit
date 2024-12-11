@@ -3572,7 +3572,7 @@ zod@^3.23.8:
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.8.tgz#e37b957b5d52079769fb8097099b592f0ef4067d"
   integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
 
-zustore@^1.4.13:
-  version "1.4.13"
-  resolved "https://registry.yarnpkg.com/zustore/-/zustore-1.4.13.tgz#7d7d32ed45f7108ff0923e0a469beff97be2dbe0"
-  integrity sha512-KT9bLNtNprG22Jv4Cfd4ec70DnIG3DG10Od66adHVoibLOVO2Zy7VXyRY21U6JejRs0bTlhVCQa1OyvDqPr7RA==
+zustore@^1.4.15:
+  version "1.4.15"
+  resolved "https://registry.yarnpkg.com/zustore/-/zustore-1.4.15.tgz#6911bb8dd032d848fb6f494244b1583eb3c45a13"
+  integrity sha512-X7JocWtL4URMXLYZeRi8j1DfwY3+EDbr/U8TSC/FjwBU1eXsok9K0DvCv5sKWHelUtxm101vwGYQqWJhEysryg==

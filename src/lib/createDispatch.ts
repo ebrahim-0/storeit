@@ -1,11 +1,7 @@
-import { CreateDispatchType } from "zustore";
+import { CreateDispatch } from "zustore";
 import { getCurrentUser, logout } from "./actions/user.action";
 
-export const createDispatch: CreateDispatchType = ({
-  name,
-  payload,
-  tools,
-}) => {
+export const createDispatch = CreateDispatch(({ name, payload, tools }) => {
   const { dispatch, addState, state } = tools;
 
   // Action functions
@@ -49,4 +45,4 @@ export const createDispatch: CreateDispatchType = ({
       console.log("No matching action for:", name);
       break;
   }
-};
+});
