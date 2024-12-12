@@ -4,4 +4,5 @@ export const initialState = {
   info: {
     name: "Ibrahim",
   },
+  lang: "en",
 };

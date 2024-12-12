@@ -10,21 +10,26 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import ProfileBox from "./ProfileBox";
+import { Separator } from "./ui/separator";
+import Text from "./ui/Text";
+import { useDispatch } from "zustore";
+import FileUploader from "./FileUploader";
 
 const MobileNavigation = () => {
   const pathname = usePathname();
+  const { dispatcher } = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="container flex sm:hidden w-full justify-between items-center p-3">
+    <header className="container flex w-full items-center justify-between p-3 sm:hidden">
       <Link href="/">
         <Image
           src="/assets/icons/logo-full-brand.svg"
           alt="Logo"
           width={100}
           height={82}
-          className=" w-[150px]"
+          className="w-[150px]"
         />
       </Link>
 
@@ -33,7 +38,7 @@ const MobileNavigation = () => {
           <Menu
             size="35"
             strokeWidth="3"
-            className="block md:hidden cursor-pointer"
+            className="block cursor-pointer md:hidden"
           />
         </SheetTrigger>
         <SheetContent>
@@ -41,7 +46,9 @@ const MobileNavigation = () => {
 
           <ProfileBox toMobile={true} />
 
-          <nav className="h5 mt-6 gap-1 flex-1 text-brand">
+          <Separator className="my-5 bg-light-200/20" />
+
+          <nav className="h5 mt-6 flex-1 gap-1 text-brand">
             <ul className="flex flex-1 flex-col gap-6">
               {sideBarLinks.map(({ title, path, icon }, index) => {
                 return (
@@ -53,11 +60,11 @@ const MobileNavigation = () => {
                   >
                     <li
                       className={cn(
-                        "flex-center !justify-start h5 px-[30px] gap-4",
-                        "rounded-[30px] h-[45px] w-full",
+                        "flex-center h5 !justify-start gap-4 px-[30px]",
+                        "h-[45px] w-full rounded-[30px]",
                         isActive(pathname, path)
                           ? "bg-brand text-white shadow-drop-2"
-                          : "text-light-100"
+                          : "text-light-100",
                       )}
                     >
                       <Image
@@ -66,8 +73,8 @@ const MobileNavigation = () => {
                         width={24}
                         height={24}
                         className={cn(
-                          "w-6 filter invert opacity-25",
-                          isActive(pathname, path) && "invert-0 opacity-100"
+                          "w-6 opacity-25 invert filter",
+                          isActive(pathname, path) && "opacity-100 invert-0",
                         )}
                       />
                       <p>{title}</p>
@@ -77,6 +84,32 @@ const MobileNavigation = () => {
               })}
             </ul>
           </nav>
+
+          <Separator className="my-5 bg-light-200/20" />
+          <div className="flex flex-col justify-between gap-5 pb-5">
+            <FileUploader accountId="" ownerId="" />
+
+            <Text
+              onClick={() => dispatcher("logoutUser")}
+              side="bottom"
+              TriggerClass={cn(
+                "flex-center w-full h-[54px] bg-brand/10 rounded-full",
+                "shadow-none transition-all p-0 hover:bg-brand/20",
+              )}
+              tooltip="Logout"
+              toolTipAlign="center"
+              toolTipClass="bg-brand/10 text-brand"
+            >
+              <Image
+                src="/assets/icons/logout.svg"
+                alt="logout"
+                width={24}
+                height={24}
+                className="mr-3 w-6"
+              />
+              Logout
+            </Text>
+          </div>
         </SheetContent>
       </Sheet>
     </header>

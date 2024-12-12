@@ -10,7 +10,7 @@ import InputController from "./InputController";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { createAccount } from "@/lib/actions/user.action";
+import { createAccount, loginUser } from "@/lib/actions/user.action";
 import OtpModal from "./OtpModal";
 
 export type TypeForm = "login" | "register";
@@ -38,35 +38,37 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
     defaultValues: {},
   });
 
-  // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
+    try {
+      setIsLoading(true);
 
-    setErrorMessage("");
+      setErrorMessage("");
 
-    const { error, ...user } = await createAccount({
-      email: values.email,
-      password: values.password,
-      type,
-      ...(type === "register" && { fullName: values.fullName }),
-    });
+      const user =
+        type === "register"
+          ? await createAccount({
+              email: values.email,
+              password: values.password,
+              fullName: values.fullName,
+            })
+          : await loginUser({ email: values.email, password: values.password });
 
-    console.log("🚀 ~ onSubmit ~ user:", user);
-    console.log("🚀 ~ onSubmit ~ error:", error);
+      if (user?.error) {
+        throw new Error(user?.error);
+      }
 
-    if (!user) {
-      throw new Error("Failed to create an account");
-    }
+      if (!user) {
+        setIsLoading(false);
+        throw new Error("Failed to create an account");
+      }
 
-    if (error) {
-      setErrorMessage(error.message);
+      setAccountId(user?.accountId ?? "");
       setIsLoading(false);
-      return;
+      setOpenOtp(true);
+    } catch (error: any) {
+      setIsLoading(false);
+      setErrorMessage(error?.message);
     }
-
-    setAccountId(user.accountId ?? "");
-    setIsLoading(false);
-    setOpenOtp(true);
   };
 
   return (
@@ -76,7 +78,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex max-h-[800px] w-full max-w-[560px] flex-col justify-center space-y-6 transition-all lg:h-full lg:space-y-8"
         >
-          <h1 className="h1 text-light-100 text-center md:text-left">
+          <h1 className="h1 text-center text-light-100 md:text-left">
             {type === "login" ? "Login" : "Register"}
           </h1>
 
@@ -116,7 +118,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
                 width={24}
                 height={24}
                 alt="Loader"
-                className="animate-spin ml-2"
+                className="ml-2 animate-spin"
               />
             )}
           </Button>
@@ -132,7 +134,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
 
             <Link
               href={type === "login" ? "/register" : "/login"}
-              className="text-brand ml-1 font-medium"
+              className="ml-1 font-medium text-brand"
             >
               {type === "login" ? "Register" : "Login"}
             </Link>

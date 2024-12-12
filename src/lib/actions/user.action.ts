@@ -6,7 +6,6 @@ import { appwriteConfig } from "../appwrite/config";
 import bcrypt from "bcrypt";
 import { avatarPlaceholderUrl } from "@/constants";
 import { parseStringify } from "../utils";
-import { TypeForm } from "@/components/AuthForm";
 import { createServerAction, ServerActionError } from "../serverAction";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -18,7 +17,7 @@ const getUserByEmail = createServerAction(async (email: string) => {
     const result = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.usersCollectionId,
-      [Query.equal("email", [email])]
+      [Query.equal("email", [email])],
     );
 
     return result.total > 0 ? result.documents[0] : null;
@@ -55,43 +54,26 @@ export const sendSmsOtp = createServerAction(async () => {
 
 export const createAccount = createServerAction(
   async ({
-    fullName = null,
+    fullName,
     email,
     password,
-    type,
   }: {
-    fullName?: any;
+    fullName: string;
     email: string;
     password: string;
-    type: TypeForm;
   }) => {
     try {
       const existingUser = await getUserByEmail(email);
-      const { accountId } = await sendEmailOtp(email);
+      console.log("🚀 ~ existingUser:", existingUser);
 
-      if (existingUser && type === "register") {
+      if (existingUser?.accountId) {
         throw new ServerActionError("User already exists");
       }
 
-      if (existingUser) {
-        const isMatch = await bcrypt.compare(password, existingUser?.password);
-
-        if (isMatch) {
-          return parseStringify({ accountId });
-        }
-
-        if (!isMatch)
-          throw new ServerActionError("Invalid credentials provided");
-
-        if (!accountId) throw new ServerActionError("Failed to send an OTP");
-      }
-
       if (!existingUser) {
-        if (type === "login") {
-          throw new ServerActionError("email doesn't exist");
-        }
-
         const { databases } = await createAdminClient();
+
+        const { accountId } = await sendEmailOtp(email);
 
         const hashedPassword = await hashPassword(password);
 
@@ -105,15 +87,36 @@ export const createAccount = createServerAction(
             avatar: avatarPlaceholderUrl,
             password: hashedPassword,
             accountId,
-          }
+          },
         );
 
         return parseStringify({ accountId });
       }
     } catch (error: any) {
+      console.log("🚀 ~ error:", error);
       throw new ServerActionError(error.message);
     }
-  }
+  },
+);
+
+export const loginUser = createServerAction(
+  async ({ email, password }: { email: string; password: string }) => {
+    const existingUser = await getUserByEmail(email);
+
+    if (!existingUser) {
+      throw new ServerActionError("user doesn't exist");
+    }
+
+    const isMatch = await bcrypt.compare(password, existingUser.password);
+
+    if (!isMatch) {
+      throw new ServerActionError("Invalid credentials provided");
+    }
+
+    await sendEmailOtp(email);
+
+    return parseStringify({ accountId: existingUser.accountId });
+  },
 );
 
 export const verifyOtp = createServerAction(
@@ -135,7 +138,7 @@ export const verifyOtp = createServerAction(
       console.log("🚀 ~ error at :", error);
       throw new ServerActionError(error.message);
     }
-  }
+  },
 );
 
 export const getCurrentUser = createServerAction(async () => {
@@ -148,7 +151,7 @@ export const getCurrentUser = createServerAction(async () => {
     const user = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.usersCollectionId,
-      [Query.equal("accountId", result.$id)]
+      [Query.equal("accountId", result.$id)],
     );
 
     if (user.total <= 0) return null;

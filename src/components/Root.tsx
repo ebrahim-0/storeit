@@ -1,10 +1,10 @@
 "use client";
 
 import { ReactNode } from "react";
-import UserData from "./UserData";
 import { initial } from "zustore";
 import { createDispatch } from "@/lib/createDispatch";
 import { initialState } from "@/lib/initialState";
+import UserData from "./UserData";
 
 const StateProvider = initial(initialState, createDispatch);
 

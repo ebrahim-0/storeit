@@ -5,15 +5,17 @@ import { Skeleton } from "./ui/skeleton";
 import Text from "./ui/Text";
 import { cn } from "@/lib/utils";
 import { useSelector } from "zustore";
+import { Separator } from "./ui/separator";
 
 const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
   const user = useSelector("user");
+  console.log("🚀 ~ ProfileBox ~ user:", user);
   return (
     <div
       className={cn(
-        "mt-4 flex-center gap-2 lg:justify-start",
-        "p-1 lg:p-3 rounded-full bg-brand/10 text-light-100",
-        toMobile && "!justify-start"
+        "flex-center mt-4 gap-2 lg:justify-start",
+        "rounded-full bg-brand/10 p-1 text-light-100 lg:p-2",
+        toMobile && "!justify-start",
       )}
     >
       {user?.avatar ? (
@@ -22,16 +24,16 @@ const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
           width={44}
           height={44}
           alt=""
-          className="w-10 rounded-full object-cover aspect-square"
+          className="aspect-square w-10 rounded-full object-cover"
         />
       ) : (
-        <Skeleton className="w-10 rounded-full aspect-square" />
+        <Skeleton className="aspect-square w-10 rounded-full" />
       )}
 
       <div
         className={cn(
-          "hidden lg:flex flex-col gap-1 text-start",
-          toMobile && "!flex"
+          "hidden text-start leading-3 lg:block",
+          toMobile && "!block",
         )}
       >
         {user?.fullName ? (
@@ -42,8 +44,9 @@ const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
             {user?.fullName}
           </Text>
         ) : (
-          <Skeleton className="lg:w-[160px] xl:w-[200px] h-4" />
+          <Skeleton className="h-4 lg:w-[160px] xl:w-[200px]" />
         )}
+        <Separator className="w-full bg-transparent" />
         {user?.email ? (
           <Text
             tooltip={user?.email}
@@ -52,7 +55,7 @@ const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
             {user?.email}
           </Text>
         ) : (
-          <Skeleton className="lg:w-[160px] xl:w-[200px] h-4" />
+          <Skeleton className="h-4 lg:w-[160px] xl:w-[200px]" />
         )}
       </div>
     </div>

@@ -39,7 +39,7 @@ const OtpModal = ({
   setIsOpen: (isOpen: boolean) => void;
 }) => {
   const maxLength = 6;
-  const router = useRouter();
+  const { push } = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isResend, setIsResend] = useState(false);
@@ -70,7 +70,7 @@ const OtpModal = ({
     setIsLoading(false);
     dispatcher("getLoginUser", {
       callback: () => {
-        router.push("/");
+        push("/");
       },
     });
   };
@@ -93,8 +93,8 @@ const OtpModal = ({
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogContent
         className={cn(
-          "px-[36px] py-[40px] space-y-4 max-w-[95%] sm:w-fit",
-          "!rounded-xl md:!rounded-[30px] bg-white outline-none"
+          "max-w-[95%] space-y-4 px-[36px] py-[40px] sm:w-fit",
+          "!rounded-xl bg-white outline-none md:!rounded-[30px]",
         )}
       >
         <AlertDialogHeader className="relative flex justify-center">
@@ -106,7 +106,7 @@ const OtpModal = ({
               width={24}
               height={24}
               onClick={() => setIsOpen(false)}
-              className="absolute -right-5 -top-7 sm:-right-2 sm:-top-4 cursor-pointer"
+              className="absolute -right-5 -top-7 cursor-pointer sm:-right-2 sm:-top-4"
             />
           </AlertDialogTitle>
           <AlertDialogDescription className="subtitle-2 text-center text-light-100">
@@ -125,16 +125,16 @@ const OtpModal = ({
                   <FormItem>
                     <FormControl>
                       <InputOTP maxLength={maxLength} autoFocus {...field}>
-                        <InputOTPGroup className="w-full flex gap-1 sm:gap-2 justify-between">
+                        <InputOTPGroup className="flex w-full justify-between gap-1 sm:gap-2">
                           {Array.from({ length: maxLength }).map((_, index) => (
                             <InputOTPSlot
                               key={index}
                               index={index}
                               className={cn(
-                                "size-12 md:size-16 text-[40px] font-medium",
-                                "!rounded-[12px] ring-brand text-brand-100",
-                                "shadow-drop-1 justify-center",
-                                "flex border-2 border-light-300"
+                                "size-12 text-[40px] font-medium md:size-16",
+                                "!rounded-[12px] text-brand-100 ring-brand",
+                                "justify-center shadow-drop-1",
+                                "flex border-2 border-light-300",
                               )}
                             />
                           ))}
@@ -148,7 +148,7 @@ const OtpModal = ({
             />
 
             <AlertDialogFooter>
-              <div className="w-full flex flex-col gap-4">
+              <div className="flex w-full flex-col gap-4">
                 <AlertDialogAction
                   onClick={form.handleSubmit(handleSubmit)}
                   className="btn"
@@ -162,7 +162,7 @@ const OtpModal = ({
                       width={24}
                       height={24}
                       alt="Loader"
-                      className="animate-spin ml-2"
+                      className="ml-2 animate-spin"
                     />
                   )}
                 </AlertDialogAction>

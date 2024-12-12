@@ -15,8 +15,8 @@ const layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="flex min-h-screen">
-      <section className="bg-brand p-10 w-1/2 hidden justify-center items-center lg:flex xl:w-2/5">
-        <div className="flex flex-col justify-center space-y-12 max-h-[800px] max-w-[430px]">
+      <section className="hidden w-1/2 items-center justify-center bg-brand p-10 lg:flex xl:w-2/5">
+        <div className="flex max-h-[800px] max-w-[430px] flex-col justify-center space-y-12">
           <Link href="/">
             <Image
               src="/assets/icons/logo-full.svg"
@@ -44,7 +44,7 @@ const layout = async ({ children }: { children: ReactNode }) => {
         </div>
       </section>
 
-      <section className="flex flex-1 bg-white flex-col items-center p-4 py-10 lg:justify-center lg:p-10 lg:py-0">
+      <section className="flex flex-1 flex-col items-center bg-white p-4 py-10 lg:justify-center lg:p-10 lg:py-0">
         <Link href="/" className="mb-16 lg:hidden">
           <Image
             src="/assets/icons/logo-full-brand.svg"
