@@ -31,18 +31,18 @@ const Sidebar = () => {
         />
       </Link>
 
-      <nav className="h5 mt-6 gap-1 flex-1 text-brand">
+      <nav className="h5 mt-6 flex-1 gap-1 text-brand">
         <ul className="flex flex-1 flex-col gap-6">
           {sideBarLinks.map(({ title, path, icon }, index) => {
             return (
               <Link href={path} key={index} className="lg:w-full">
                 <li
                   className={cn(
-                    "flex-center lg:justify-start h5 lg:px-[30px] gap-4",
-                    "rounded-xl lg:rounded-[30px] h-[45px] lg:w-full",
+                    "flex-center h5 gap-4 lg:justify-start lg:px-[30px]",
+                    "h-[45px] rounded-xl lg:w-full lg:rounded-[30px]",
                     isActive(pathname, path)
                       ? "bg-brand text-white shadow-drop-2"
-                      : "text-light-100"
+                      : "text-light-100",
                   )}
                 >
                   <Image
@@ -51,8 +51,8 @@ const Sidebar = () => {
                     width={24}
                     height={24}
                     className={cn(
-                      "w-6 filter invert opacity-25",
-                      isActive(pathname, path) && "invert-0 opacity-100"
+                      "w-6 opacity-25 invert filter",
+                      isActive(pathname, path) && "opacity-100 invert-0",
                     )}
                   />
                   <p className="hidden lg:block">{title}</p>
@@ -64,7 +64,7 @@ const Sidebar = () => {
       </nav>
 
       <div>
-        <div className="relative hidden lg:block h-[235px]">
+        <div className="relative hidden h-[235px] lg:block">
           <Image
             src="/assets/icons/Illustration.svg"
             alt="Illustration badge"
@@ -72,7 +72,7 @@ const Sidebar = () => {
             height={174}
             className="mx-auto"
           />
-          <div className="absolute -z-10 top-[92px] rounded-[30px] bg-brand/10 w-full h-[142px]" />
+          <div className="absolute top-[92px] -z-10 h-[142px] w-full rounded-[30px] bg-brand/10" />
         </div>
       </div>
 

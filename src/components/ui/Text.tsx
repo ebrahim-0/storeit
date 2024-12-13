@@ -10,14 +10,12 @@ import {
 import { ReactNode, RefAttributes } from "react";
 import { ClassValue } from "clsx";
 
-import { ComponentPropsWithoutRef } from "react";
 import { TooltipTriggerProps } from "@radix-ui/react-tooltip";
 
 const Text = ({
   children,
   tooltip,
   delay = 100,
-  TriggerClass,
   toolTipClass,
   toolTipAlign = "start",
   side = "top",
@@ -26,7 +24,6 @@ const Text = ({
   children: ReactNode;
   tooltip?: string;
   delay?: number;
-  TriggerClass?: ClassValue;
   toolTipClass?: ClassValue;
   toolTipAlign?: "center" | "end" | "start";
   side?: "top" | "right" | "bottom" | "left";
@@ -36,11 +33,11 @@ const Text = ({
     <TooltipProvider delayDuration={delay}>
       <Tooltip>
         <TooltipTrigger
+          {...props}
           className={cn(
             "whitespace-nowrap ltr:text-start rtl:text-end",
-            TriggerClass,
+            props.className,
           )}
-          {...props}
         >
           {children}
         </TooltipTrigger>

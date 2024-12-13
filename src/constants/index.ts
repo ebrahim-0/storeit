@@ -1,9 +1,3 @@
-// export const navLinks = [
-//   { title: "Home", path: "/home" },
-//   { title: "Login", path: "/login" },
-//   { title: "Register", path: "/register" },
-// ];
-
 export const navLinks = (isLogin: any) => {
   return [
     isLogin && { title: "Home", path: "/home" },
@@ -42,3 +36,5 @@ export const sideBarLinks = [
 
 export const avatarPlaceholderUrl =
   "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg";
+
+export const MAX_FILE_SIZE = 50 * 1024 * 1024;

@@ -12,15 +12,6 @@ import {
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
 
-interface InputControllerProps {
-  control: Control<any>;
-  name: string;
-  label: string;
-  placeholder: string;
-  type?: string;
-  defaultValue?: string;
-}
-
 const InputController = ({
   control,
   name,
@@ -40,15 +31,15 @@ const InputController = ({
           <FormItem>
             <div
               className={cn(
-                "bg-white p-[16px] flex flex-col",
+                "flex flex-col bg-white p-[16px]",
                 "rounded-[12px] shadow-[0px_10px_30px_0px_#4247611A]",
-                error ? "border border-error" : "border border-input"
+                error ? "border border-error" : "border border-input",
               )}
             >
               <FormLabel className="">{label}</FormLabel>
               <FormControl>
                 <Input
-                  className="no-focus border-0 shadow-none px-0 body-2 placeholder:text-light-200"
+                  className="no-focus body-2 border-0 px-0 shadow-none placeholder:text-light-200"
                   type={type}
                   placeholder={placeholder}
                   {...field}

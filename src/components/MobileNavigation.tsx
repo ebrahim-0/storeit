@@ -12,12 +12,13 @@ import { useState } from "react";
 import ProfileBox from "./ProfileBox";
 import { Separator } from "./ui/separator";
 import Text from "./ui/Text";
-import { useDispatch } from "zustore";
+import { useDispatch, useSelector } from "zustore";
 import FileUploader from "./FileUploader";
 
 const MobileNavigation = () => {
   const pathname = usePathname();
   const { dispatcher } = useDispatch();
+  const user = useSelector<IUser>("user");
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -87,14 +88,14 @@ const MobileNavigation = () => {
 
           <Separator className="my-5 bg-light-200/20" />
           <div className="flex flex-col justify-between gap-5 pb-5">
-            <FileUploader accountId="" ownerId="" />
+            <FileUploader accountId={user?.accountId} ownerId={user?.$id} />
 
             <Text
               onClick={() => dispatcher("logoutUser")}
               side="bottom"
-              TriggerClass={cn(
-                "flex-center w-full h-[54px] bg-brand/10 rounded-full",
-                "shadow-none transition-all p-0 hover:bg-brand/20",
+              className={cn(
+                "flex-center h-[54px] w-full rounded-full bg-brand/10",
+                "p-0 shadow-none transition-all hover:bg-brand/20",
               )}
               tooltip="Logout"
               toolTipAlign="center"

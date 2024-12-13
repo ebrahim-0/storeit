@@ -9,11 +9,10 @@ import { Separator } from "./ui/separator";
 
 const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
   const user = useSelector("user");
-  console.log("🚀 ~ ProfileBox ~ user:", user);
   return (
     <div
       className={cn(
-        "flex-center mt-4 gap-2 lg:justify-start",
+        "flex-center mt-4 w-full gap-2 lg:justify-start",
         "rounded-full bg-brand/10 p-1 text-light-100 lg:p-2",
         toMobile && "!justify-start",
       )}
@@ -39,7 +38,7 @@ const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
         {user?.fullName ? (
           <Text
             tooltip={user?.fullName}
-            TriggerClass="subtitle-2 oneline-text capitalize lg:w-[160px] xl:w-[200px]"
+            className="subtitle-2 oneline-text capitalize lg:w-[160px] xl:w-[200px]"
           >
             {user?.fullName}
           </Text>
@@ -50,7 +49,7 @@ const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
         {user?.email ? (
           <Text
             tooltip={user?.email}
-            TriggerClass="caption oneline-text lg:w-[160px] xl:w-[200px]"
+            className="caption oneline-text lg:w-[160px] xl:w-[200px]"
           >
             {user?.email}
           </Text>

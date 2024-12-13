@@ -54,7 +54,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
           : await loginUser({ email: values.email, password: values.password });
 
       if (user?.error) {
-        throw new Error(user?.error);
+        throw new Error(user?.error?.message);
       }
 
       if (!user) {

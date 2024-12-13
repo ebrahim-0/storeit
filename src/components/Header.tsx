@@ -5,21 +5,23 @@ import { cn } from "@/lib/utils";
 import Search from "./Search";
 import FileUploader from "./FileUploader";
 import Text from "@/components/ui/Text";
-import { useDispatch } from "zustore";
+import { useDispatch, useSelector } from "zustore";
 
 const Header = () => {
   const { dispatcher } = useDispatch();
+  const user = useSelector<IUser>("user");
+
   return (
     <header className="hidden items-center justify-between gap-5 p-5 sm:flex lg:py-7 xl:gap-10">
       <Search />
       <div className="flex-center min-w-fit gap-4 pr-2.5">
-        <FileUploader accountId="" ownerId="" />
+        <FileUploader accountId={user?.accountId} ownerId={user?.$id} />
         <Text
           onClick={() => dispatcher("logoutUser")}
           side="bottom"
-          TriggerClass={cn(
-            "flex-center size-[54px] bg-brand/10 rounded-full",
-            "shadow-none transition-all p-0 hover:bg-brand/20",
+          className={cn(
+            "flex-center size-[54px] rounded-full bg-brand/10",
+            "p-0 shadow-none transition-all hover:bg-brand/20",
           )}
           tooltip="Logout"
           toolTipAlign="center"

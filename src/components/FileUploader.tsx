@@ -1,54 +1,165 @@
 "use client";
 
-import { cn, getFileType } from "@/lib/utils";
-import React, { useCallback, useState } from "react";
+import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
+import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import Thumbnail from "./Thumbnail";
+import { MAX_FILE_SIZE } from "@/constants";
+import { useToast } from "@/hooks/use-toast";
+import { uploadFile } from "@/lib/actions/file.action";
+import { usePathname } from "next/navigation";
 
-interface Props {
-  ownerId: string;
-  accountId: string;
-  className?: string;
-}
+const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
+  const { toast } = useToast();
 
-const FileUploader = ({ ownerId, accountId, className }: Props) => {
+  const pathname = usePathname();
+
   const [files, setFiles] = useState<File[]>([]);
+  
+  const uploadAbortControllers = useRef<Map<string, AbortController>>(
+    new Map(),
+  );
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    console.log("🚀 ~ onDrop ~ acceptedFiles:", acceptedFiles);
-    setFiles(acceptedFiles);
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      setFiles((prev) => {
+        const existingFileNames = new Set(prev.map((file) => file.name));
+        const newFiles: File[] = [];
+
+        acceptedFiles.forEach((file) => {
+          if (existingFileNames.has(file.name)) {
+            console.log(`File "${file.name}" is already uploaded.`);
+
+            return toast({
+              description: (
+                <p className="body-2 text-white">
+                  <span className="font-semibold">{`"${file.name}"`}</span> is
+                  already uploaded.
+                </p>
+              ),
+              className: "bg-red rounded-[10px]",
+            });
+          } else {
+            newFiles.push(file);
+          }
+        });
+        return [...prev, ...newFiles];
+      });
+
+      const uploadPromises = acceptedFiles.map((file) => {
+        if (file.size > MAX_FILE_SIZE) {
+          setFiles((prev) => prev.filter((f) => f.name !== file.name));
+          return toast({
+            description: (
+              <p className="body-2 text-white">
+                <span className="font-semibold">{`"${file.name}"`}</span> is too
+                larger . Max size is 50MB.
+              </p>
+            ),
+            className: "bg-red rounded-[10px]",
+          });
+        }
+
+        const abortController = new AbortController();
+        uploadAbortControllers.current.set(file.name, abortController);
+
+        return uploadFile({ file, ownerId, accountId, path: pathname }).then(
+          (uploadedFile) => {
+            uploadAbortControllers.current.delete(file.name);
+
+            console.log("🚀 ~ uploadPromises ~ uploadedFile:", uploadedFile);
+            if (!uploadedFile?.error) {
+              setFiles((prev) => prev.filter((f) => f.name !== file.name));
+
+              return toast({
+                description: (
+                  <p className="body-2 text-white">
+                    <span className="font-semibold">{`"${file.name}"`}</span> is
+                    uploaded.
+                  </p>
+                ),
+                className: "bg-green rounded-[10px]",
+              });
+            } else {
+              setFiles((prev) => prev.filter((f) => f.name !== file.name));
+
+              return toast({
+                description: (
+                  <p className="body-2 text-white">
+                    {uploadedFile?.error?.message}
+                  </p>
+                ),
+                className: "bg-red rounded-[10px]",
+              });
+            }
+          },
+        );
+      });
+
+      console.log("🚀 ~ uploadPromises:", uploadPromises);
+      await Promise.all(uploadPromises);
+    },
+    [ownerId, accountId, pathname, files],
+  );
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
+  const handleRemoveFile = useCallback(
+    (e: MouseEvent<HTMLImageElement>, fileName: string) => {
+      e.stopPropagation();
+
+      setFiles((prev) => prev.filter((file) => file.name !== fileName));
+      const abortController = uploadAbortControllers.current.get(fileName);
+      if (abortController) {
+        abortController.abort();
+        uploadAbortControllers.current.delete(fileName);
+      }
+    },
+    [],
+  );
+
+  useEffect(() => {
+    // Cleanup any ongoing uploads when the component unmounts
+    return () => {
+      uploadAbortControllers.current.forEach((controller) =>
+        controller.abort(),
+      );
+    };
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
   return (
-    <div {...getRootProps()} className={cn("cursor-pointer", className)}>
-      <input {...getInputProps()} />
+    <>
+      <div {...getRootProps()} className={cn("cursor-pointer", className)}>
+        <input {...getInputProps()} />
 
-      <Button
-        type="button"
-        className={cn(
-          "flex-center h5 gap-2 lg:justify-start lg:px-[30px]",
-          "h-[45px] rounded-xl lg:w-full lg:rounded-[30px]",
-          "cursor-pointer bg-brand text-white shadow-drop-2",
-        )}
-      >
-        <Image
-          src="/assets/icons/upload.svg"
-          width={24}
-          height={24}
-          alt="upload icon"
-        />
-        <p>Upload</p>
-      </Button>
+        <Button
+          type="button"
+          className={cn(
+            "flex-center h5 gap-2 lg:justify-start lg:px-[30px]",
+            "h-[45px] w-full rounded-[30px] lg:w-full",
+            "cursor-pointer bg-brand text-white shadow-drop-2",
+          )}
+        >
+          <Image
+            src="/assets/icons/upload.svg"
+            width={24}
+            height={24}
+            alt="upload icon"
+          />
+          <p>Upload</p>
+        </Button>
+      </div>
 
       {files.length > 0 && (
         <ul
           style={{ width: "-webkit-fill-available" }}
           className={cn(
-            "fixed bottom-3 right-0 z-10 m-5 border bg-white p-7 sm:bottom-10 sm:right-10 sm:size-full",
-            "flex !h-fit flex-col gap-3 rounded-[20px] shadow-drop-3 sm:max-w-[480px]",
+            "fixed bottom-3 right-0 z-50 m-5 flex",
+            "!h-fit flex-col gap-3 rounded-[20px] border",
+            "bg-white p-7 shadow-drop-3 sm:bottom-10",
+            "sm:right-10 sm:size-full sm:max-w-[480px]",
           )}
         >
           <h4 className="h4 text-light-100">Uploading</h4>
@@ -59,17 +170,37 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
             return (
               <li
                 key={`${file.name}-${index}`}
-                className="flex items-center justify-between gap-3 rounded-xl p-3 shadow-drop-3"
+                className="flex cursor-pointer items-center justify-between gap-3 rounded-xl p-3 shadow-drop-3"
               >
-                test
+                <Thumbnail
+                  type={type}
+                  extension={extension}
+                  url={convertFileToUrl(file)}
+                />
+
+                <div className="subtitle-2 oneline-text mb-2 w-full max-w-[280px] whitespace-nowrap">
+                  {file.name}
+                </div>
+                <Image
+                  src="/assets/icons/file-loader.gif"
+                  width={80}
+                  height={26}
+                  alt="loader"
+                />
+
+                <Image
+                  src="/assets/icons/remove.svg"
+                  width={24}
+                  height={24}
+                  alt="remove"
+                  onClick={(e) => handleRemoveFile(e, file.name)}
+                />
               </li>
             );
           })}
         </ul>
       )}
-
-      {isDragActive ? <p>Drop the files here ...</p> : <p>Upload</p>}
-    </div>
+    </>
   );
 };
 
