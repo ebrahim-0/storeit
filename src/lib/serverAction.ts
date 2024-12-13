@@ -11,9 +11,9 @@ export function createServerAction(callback: (...args: any[]) => Promise<any>) {
       const value: any = (await callback(...args)) as any;
       return value;
     } catch (error) {
-      if (error instanceof ServerActionError)
+      if (error instanceof ServerActionError) {
         return { error: { message: error.message } };
-
+      }
       throw error;
     }
   };

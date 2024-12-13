@@ -1,26 +1,20 @@
 "use client";
 
 import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
-import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
+import { MouseEvent, useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import Thumbnail from "./Thumbnail";
 import { MAX_FILE_SIZE } from "@/constants";
-import { useToast } from "@/hooks/use-toast";
 import { uploadFile } from "@/lib/actions/file.action";
 import { usePathname } from "next/navigation";
+import { toast } from "sonner";
 
 const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
-  const { toast } = useToast();
-
   const pathname = usePathname();
 
   const [files, setFiles] = useState<File[]>([]);
-  
-  const uploadAbortControllers = useRef<Map<string, AbortController>>(
-    new Map(),
-  );
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
@@ -32,15 +26,16 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
           if (existingFileNames.has(file.name)) {
             console.log(`File "${file.name}" is already uploaded.`);
 
-            return toast({
-              description: (
-                <p className="body-2 text-white">
-                  <span className="font-semibold">{`"${file.name}"`}</span> is
-                  already uploaded.
-                </p>
-              ),
-              className: "bg-red rounded-[10px]",
-            });
+            toast.error(
+              <p className="body-2 text-white">
+                <span className="font-semibold">{`"${file.name}"`}</span> is
+                already uploaded.
+              </p>,
+              {
+                className: "!bg-red !rounded-[10px]",
+                duration: 1500,
+              },
+            );
           } else {
             newFiles.push(file);
           }
@@ -51,48 +46,47 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
       const uploadPromises = acceptedFiles.map((file) => {
         if (file.size > MAX_FILE_SIZE) {
           setFiles((prev) => prev.filter((f) => f.name !== file.name));
-          return toast({
-            description: (
-              <p className="body-2 text-white">
-                <span className="font-semibold">{`"${file.name}"`}</span> is too
-                larger . Max size is 50MB.
-              </p>
-            ),
-            className: "bg-red rounded-[10px]",
-          });
-        }
 
-        const abortController = new AbortController();
-        uploadAbortControllers.current.set(file.name, abortController);
+          toast.error(
+            <p className="body-2 text-white">
+              <span className="font-semibold">{`"${file.name}"`}</span> is too
+              larger . Max size is 50MB.
+            </p>,
+            {
+              className: "!bg-red !rounded-[10px]",
+              duration: 1500,
+            },
+          );
+        }
 
         return uploadFile({ file, ownerId, accountId, path: pathname }).then(
           (uploadedFile) => {
-            uploadAbortControllers.current.delete(file.name);
-
             console.log("🚀 ~ uploadPromises ~ uploadedFile:", uploadedFile);
             if (!uploadedFile?.error) {
               setFiles((prev) => prev.filter((f) => f.name !== file.name));
 
-              return toast({
-                description: (
-                  <p className="body-2 text-white">
-                    <span className="font-semibold">{`"${file.name}"`}</span> is
-                    uploaded.
-                  </p>
-                ),
-                className: "bg-green rounded-[10px]",
-              });
+              toast.success(
+                <p className="body-2 text-white">
+                  <span className="font-semibold">{`"${file.name}"`}</span> is
+                  uploaded.
+                </p>,
+                {
+                  className: "!bg-green !rounded-[10px]",
+                  duration: 1500,
+                },
+              );
             } else {
               setFiles((prev) => prev.filter((f) => f.name !== file.name));
 
-              return toast({
-                description: (
-                  <p className="body-2 text-white">
-                    {uploadedFile?.error?.message}
-                  </p>
-                ),
-                className: "bg-red rounded-[10px]",
-              });
+              toast.error(
+                <p className="body-2 text-white">
+                  {uploadedFile?.error?.message}
+                </p>,
+                {
+                  className: "!bg-red !rounded-[10px]",
+                  duration: 1500,
+                },
+              );
             }
           },
         );
@@ -111,23 +105,9 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
       e.stopPropagation();
 
       setFiles((prev) => prev.filter((file) => file.name !== fileName));
-      const abortController = uploadAbortControllers.current.get(fileName);
-      if (abortController) {
-        abortController.abort();
-        uploadAbortControllers.current.delete(fileName);
-      }
     },
     [],
   );
-
-  useEffect(() => {
-    // Cleanup any ongoing uploads when the component unmounts
-    return () => {
-      uploadAbortControllers.current.forEach((controller) =>
-        controller.abort(),
-      );
-    };
-  }, []);
 
   return (
     <>
@@ -188,13 +168,13 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
                   alt="loader"
                 />
 
-                <Image
+                {/* <Image
                   src="/assets/icons/remove.svg"
                   width={24}
                   height={24}
                   alt="remove"
                   onClick={(e) => handleRemoveFile(e, file.name)}
-                />
+                /> */}
               </li>
             );
           })}

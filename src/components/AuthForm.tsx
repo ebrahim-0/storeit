@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createAccount, loginUser } from "@/lib/actions/user.action";
 import OtpModal from "./OtpModal";
+import { toast } from "sonner";
 
 export type TypeForm = "login" | "register";
 
@@ -68,6 +69,9 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
     } catch (error: any) {
       setIsLoading(false);
       setErrorMessage(error?.message);
+      toast.error(<p className="body-2 text-white">{error?.message}</p>, {
+        className: "!bg-red !rounded-[10px]",
+      });
     }
   };
 

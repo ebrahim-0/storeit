@@ -8,7 +8,7 @@ export const navLinks = (isLogin: any) => {
 
 export const sideBarLinks = [
   {
-    title: "Dashboard",
+    title: "Home",
     icon: "/assets/icons/dashboard.svg",
     path: "/home",
   },

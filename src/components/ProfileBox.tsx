@@ -43,7 +43,7 @@ const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
             {user?.fullName}
           </Text>
         ) : (
-          <Skeleton className="h-4 lg:w-[160px] xl:w-[200px]" />
+          <Skeleton className="h-4 w-[200px] lg:w-[160px] xl:w-[200px]" />
         )}
         <Separator className="w-full bg-transparent" />
         {user?.email ? (
@@ -54,7 +54,7 @@ const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
             {user?.email}
           </Text>
         ) : (
-          <Skeleton className="h-4 lg:w-[160px] xl:w-[200px]" />
+          <Skeleton className="h-4 w-[200px] lg:w-[160px] xl:w-[200px]" />
         )}
       </div>
     </div>

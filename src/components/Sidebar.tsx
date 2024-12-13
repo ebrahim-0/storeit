@@ -38,7 +38,7 @@ const Sidebar = () => {
               <Link href={path} key={index} className="lg:w-full">
                 <li
                   className={cn(
-                    "flex-center h5 gap-4 lg:justify-start lg:px-[30px]",
+                    "flex-center h5 gap-4 lg:!justify-start lg:px-[30px]",
                     "h-[45px] rounded-xl lg:w-full lg:rounded-[30px]",
                     isActive(pathname, path)
                       ? "bg-brand text-white shadow-drop-2"
