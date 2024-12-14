@@ -1,5 +1,6 @@
 import { CreateDispatch } from "zustore";
 import { getCurrentUser, logout } from "./actions/user.action";
+import { toast } from "sonner";
 
 export const createDispatch = CreateDispatch(({ name, payload, tools }) => {
   const { dispatch, addState, state } = tools;
@@ -18,6 +19,14 @@ export const createDispatch = CreateDispatch(({ name, payload, tools }) => {
   const getLoginUser = async () => {
     const callback = payload?.callback;
     const { error, ...currentUser } = (await getCurrentUser()) || {};
+    console.log("🚀 ~ getLoginUser ~ error:", error);
+
+    if (error) {
+      toast(error?.message, {
+        className: "!bg-red !rounded-[10px]",
+        duration: 1500,
+      });
+    }
 
     dispatch({ user: currentUser });
     if (!error) {

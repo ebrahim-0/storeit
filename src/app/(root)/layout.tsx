@@ -1,3 +1,4 @@
+import ClientToast from "@/components/ClientToast";
 import Header from "@/components/Header";
 import MobileNavigation from "@/components/MobileNavigation";
 import Sidebar from "@/components/Sidebar";
@@ -22,6 +23,15 @@ const layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <main className="flex h-screen">
+      {error && (
+        <ClientToast
+          key={error.message}
+          message={<p className="body-2 text-white">{error?.message}</p>}
+          data={{
+            className: "!bg-red !rounded-[10px]",
+          }}
+        />
+      )}
       <Sidebar />
       <section className="flex h-full flex-1 flex-col">
         <MobileNavigation />

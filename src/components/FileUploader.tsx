@@ -26,8 +26,8 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
           if (existingFileNames.has(file.name)) {
             console.log(`File "${file.name}" is already uploaded.`);
 
-            toast.error(
-              <p className="body-2 text-white">
+            toast(
+              <p>
                 <span className="font-semibold">{`"${file.name}"`}</span> is
                 already uploaded.
               </p>,
@@ -47,10 +47,12 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
         if (file.size > MAX_FILE_SIZE) {
           setFiles((prev) => prev.filter((f) => f.name !== file.name));
 
-          toast.error(
-            <p className="body-2 text-white">
-              <span className="font-semibold">{`"${file.name}"`}</span> is too
-              larger . Max size is 50MB.
+          return toast(
+            <p className="flex items-center gap-3">
+              <span>
+                <span className="font-semibold">{`${file.name}`}</span> is too
+                larger. Max size is 50MB.
+              </span>
             </p>,
             {
               className: "!bg-red !rounded-[10px]",
@@ -65,10 +67,12 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
             if (!uploadedFile?.error) {
               setFiles((prev) => prev.filter((f) => f.name !== file.name));
 
-              toast.success(
-                <p className="body-2 text-white">
-                  <span className="font-semibold">{`"${file.name}"`}</span> is
-                  uploaded.
+              return toast(
+                <p className="flex items-center gap-3">
+                  <span>
+                    <span className="font-semibold">{`${file.name}`}</span> is
+                    uploaded.
+                  </span>
                 </p>,
                 {
                   className: "!bg-green !rounded-[10px]",
@@ -78,15 +82,10 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
             } else {
               setFiles((prev) => prev.filter((f) => f.name !== file.name));
 
-              toast.error(
-                <p className="body-2 text-white">
-                  {uploadedFile?.error?.message}
-                </p>,
-                {
-                  className: "!bg-red !rounded-[10px]",
-                  duration: 1500,
-                },
-              );
+              return toast(uploadedFile?.error?.message, {
+                className: "!bg-red !rounded-[10px]",
+                duration: 1500,
+              });
             }
           },
         );

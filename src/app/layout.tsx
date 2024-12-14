@@ -24,7 +24,12 @@ export default function RootLayout({
     <html dir="ltr" lang="en">
       <body className={`${poppins.variable} font-poppins antialiased`}>
         <Root>{children}</Root>
-        <Toaster position="top-right" />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            className: "!body-2 !text-white !border-0",
+          }}
+        />
       </body>
     </html>
   );

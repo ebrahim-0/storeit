@@ -69,7 +69,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
     } catch (error: any) {
       setIsLoading(false);
       setErrorMessage(error?.message);
-      toast.error(<p className="body-2 text-white">{error?.message}</p>, {
+      toast(error?.message, {
         className: "!bg-red !rounded-[10px]",
       });
     }

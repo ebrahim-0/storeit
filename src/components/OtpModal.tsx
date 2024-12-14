@@ -22,6 +22,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { useRouter } from "next/navigation";
 import { RefreshCcw } from "lucide-react";
 import { useDispatch } from "zustore";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   otp: z.string().length(6, { message: "OTP must be 6 characters" }),
@@ -63,6 +64,10 @@ const OtpModal = ({
 
     if (error) {
       form.setError("otp", { message: error.message });
+      toast(error?.message, {
+        className: "!bg-red !rounded-[10px]",
+        duration: 1500,
+      });
       setIsLoading(false);
       return;
     }
