@@ -11,7 +11,6 @@ import { getCurrentUser } from "./user.action";
 
 export const uploadFile = createServerAction(
   async ({ file, ownerId, accountId, path }: UploadFileProps) => {
-    console.log("🚀 ~ file:", file);
     const { storage, databases } = await createAdminClient();
 
     const inputFile = InputFile.fromBuffer(file, file.name);
@@ -31,10 +30,8 @@ export const uploadFile = createServerAction(
       owner: ownerId,
       accountId,
       users: [],
-      bucketFileId: bucketFile.bucketId,
+      bucketFileId: bucketFile.$id,
     };
-
-    console.log("🚀 ~ bucketFile:", bucketFile);
 
     const newFile = await databases
       .createDocument(
@@ -105,3 +102,24 @@ export const getFiles = createServerAction(async () => {
 
   return parseStringify(files);
 });
+
+export const renameFile = createServerAction(
+  async ({ fileId, name, extension, path }: RenameFileProps) => {
+    const { databases } = await createAdminClient();
+
+    const newName = `${name}.${extension}`;
+
+    const updatedFile = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.filesCollectionId,
+      fileId,
+      {
+        name: newName,
+      },
+    );
+
+    revalidatePath(path);
+
+    return parseStringify(updatedFile);
+  },
+);

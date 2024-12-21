@@ -64,7 +64,6 @@ export const createAccount = createServerAction(
   }) => {
     try {
       const existingUser = await getUserByEmail(email);
-      console.log("🚀 ~ existingUser:", existingUser);
 
       if (existingUser?.accountId) {
         throw new ServerActionError("User already exists");
@@ -143,7 +142,6 @@ export const verifyOtp = createServerAction(
 
 export const getCurrentUser = createServerAction(async () => {
   try {
-    console.log("fun in server");
     const { databases, account } = await createSessionClient();
 
     const result = await account.get();

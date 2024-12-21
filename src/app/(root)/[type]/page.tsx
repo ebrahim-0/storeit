@@ -1,3 +1,4 @@
+import Card from "@/components/Card";
 import ClientToast from "@/components/ClientToast";
 import Sort from "@/components/Sort";
 import { getFiles } from "@/lib/actions/file.action";
@@ -37,11 +38,9 @@ const page = async ({ params }: SearchParamProps) => {
         </section>
 
         {files?.total > 0 ? (
-          <section className="">
+          <section className="grid w-full grid-cols-1 gap-[26px] md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {files?.documents?.map((file: Models.Document) => (
-              <h1 key={file.$id} className="h1">
-                {file.$id}
-              </h1>
+              <Card key={file.$id} file={file} />
             ))}
           </section>
         ) : (
