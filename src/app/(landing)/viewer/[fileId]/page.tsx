@@ -48,7 +48,13 @@ const page = async ({ params }: SearchParamProps) => {
             )}
           >
             {fileUrl && isImage && (
-              <img alt="Viewer" className="w-auto max-w-full" src={fileUrl} />
+              <Image
+                width={800}
+                height={600}
+                alt="Viewer"
+                className="w-auto max-w-full"
+                src={fileUrl}
+              />
             )}
             {fileUrl && !isImage && (
               <embed
