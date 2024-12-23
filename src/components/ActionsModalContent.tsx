@@ -11,6 +11,8 @@ import { Button } from "./ui/button";
 import { CircleCheckBig } from "lucide-react";
 import { updateToPublic } from "@/lib/actions/file.action";
 import { usePathname } from "next/navigation";
+import Text from "./ui/Text";
+import { toast } from "sonner";
 
 export const FileDetails = ({ file }: { file: Models.Document }) => {
   return (
@@ -47,15 +49,21 @@ export const ShareFile = ({
 
   const handleShare = async () => {
     setIsCopied(true);
-    const update = await updateToPublic(file?.$id, path);
-    console.log("🚀 ~ handleShare ~ update:", update);
+
+    if (!file?.isPublic) {
+      const update = await updateToPublic(file?.$id, path);
+      console.log("🚀 ~ handleShare ~ update:", update);
+      setCopy(!!update);
+    }
 
     const url = await navigator.clipboard.writeText(
       shareUrl(file?.bucketFileId),
     );
     console.log("🚀 ~ handleShare ~ url:", url);
-    setCopy(!!update);
+    setCopy(true);
     setIsCopied(false);
+
+    toast.success("File url copied");
 
     setTimeout(() => setCopy(false), 2000);
   };
@@ -88,24 +96,31 @@ export const ShareFile = ({
             ) : copy ? (
               <CircleCheckBig size={18} />
             ) : (
-              <Image
-                src="/assets/icons/share.svg"
-                alt="Share"
-                width={30}
-                height={30}
-                className="cursor-pointer"
-                onClick={handleShare}
-              />
+              <Text toolTipAlign="start" tooltip="Share with public">
+                <Image
+                  src="/assets/icons/share.svg"
+                  alt="Share"
+                  width={30}
+                  height={30}
+                  className="cursor-pointer"
+                  onClick={handleShare}
+                />
+              </Text>
             )}
 
             {file?.isPublic && (
-              <Image
-                src="/assets/icons/globe.svg"
-                alt="Share"
-                width={18}
-                height={18}
-                className="cursor-pointer"
-              />
+              <Text
+                toolTipAlign="end"
+                tooltip="File Shared with public with the link"
+              >
+                <Image
+                  src="/assets/icons/globe.svg"
+                  alt="Share"
+                  width={18}
+                  height={18}
+                  className="cursor-pointer"
+                />
+              </Text>
             )}
           </div>
         </div>

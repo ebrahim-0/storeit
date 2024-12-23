@@ -49,6 +49,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
     setAction(null);
     setName(file?.name.replace(/\.[^/.]+$/, ""));
     setEmails(file?.users || []);
+    setIsLoading(false);
   };
 
   const handleRemoveUser = useCallback(
@@ -110,11 +111,12 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
           return false;
         }
 
-        await updateFileUsers({
+        const res = await updateFileUsers({
           fileId: file.$id,
           emails: [...file?.users, ...emails],
           path,
         });
+        setEmails(res?.users || []);
       },
       delete: () => {},
     };

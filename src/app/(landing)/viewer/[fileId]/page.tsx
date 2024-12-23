@@ -1,3 +1,4 @@
+import Text from "@/components/ui/Text";
 import { getFileByBucketFileId } from "@/lib/actions/file.action";
 import { getCurrentUser } from "@/lib/actions/user.action";
 import { cn, constructDownloadUrl, constructFileUrl } from "@/lib/utils";
@@ -21,19 +22,21 @@ const page = async ({ params }: SearchParamProps) => {
         <div className="mx-auto flex h-full min-h-[calc(100vh-80px)] w-full flex-col items-center justify-center gap-3 py-6 pb-10">
           <div className="flex w-full items-center justify-between">
             <h1 className="h1 text-light-100">{file?.name}</h1>
-            <a
-              href={constructDownloadUrl(fileId)}
-              target="_self"
-              download={file?.name}
-            >
-              <Image
-                src="/assets/icons/download.svg"
-                alt="Download"
-                width={55}
-                height={55}
-                className="cursor-pointer"
-              />
-            </a>
+            <Text toolTipAlign="center" tooltip={file?.name}>
+              <a
+                href={constructDownloadUrl(fileId)}
+                target="_self"
+                download={file?.name}
+              >
+                <Image
+                  src="/assets/icons/download.svg"
+                  alt="Download"
+                  width={55}
+                  height={55}
+                  className="cursor-pointer"
+                />
+              </a>
+            </Text>
           </div>
           <div
             className={cn(
