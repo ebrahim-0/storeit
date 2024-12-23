@@ -24,7 +24,7 @@ export const createDispatch = CreateDispatch(({ name, payload, tools }) => {
     if (error) {
       toast(error?.message, {
         className: "!bg-red !rounded-[10px]",
-        duration: 1500,
+        duration: 500,
       });
     }
 

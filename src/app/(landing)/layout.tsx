@@ -18,14 +18,14 @@ const layout = async ({
 }>) => {
   return (
     <div className="container">
-      <header className="flex w-full justify-between items-center p-3 border-b">
+      <header className="flex w-full items-center justify-between border-b p-3">
         <Link href="/">
           <Image
             src="/assets/icons/logo-full-brand.svg"
             alt="Logo"
             width={100}
             height={82}
-            className=" w-[150px]"
+            className="w-[150px]"
           />
         </Link>
 
@@ -34,7 +34,7 @@ const layout = async ({
             <Menu
               size="35"
               strokeWidth="3"
-              className="block md:hidden cursor-pointer"
+              className="block cursor-pointer md:hidden"
             />
           </SheetTrigger>
           <SheetContent>
