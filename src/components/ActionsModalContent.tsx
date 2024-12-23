@@ -1,11 +1,16 @@
+"use client";
+
 import { Models } from "node-appwrite";
 import Thumbnail from "./Thumbnail";
-import { convertFileSize, formatDateTime } from "@/lib/utils";
+import { convertFileSize, formatDateTime, shareUrl } from "@/lib/utils";
 import FormattedDateTime from "./FormattedDateTime";
 import React, { SetStateAction, useState } from "react";
 import { Input } from "./ui/input";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { CircleCheckBig } from "lucide-react";
+import { updateToPublic } from "@/lib/actions/file.action";
+import { usePathname } from "next/navigation";
 
 export const FileDetails = ({ file }: { file: Models.Document }) => {
   return (
@@ -36,6 +41,25 @@ export const ShareFile = ({
   onRemove: (email: string) => Promise<void>;
   handleAction: () => Promise<void>;
 }) => {
+  const [copy, setCopy] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const path = usePathname();
+
+  const handleShare = async () => {
+    setIsCopied(true);
+    const update = await updateToPublic(file?.$id, path);
+    console.log("🚀 ~ handleShare ~ update:", update);
+
+    const url = await navigator.clipboard.writeText(
+      shareUrl(file?.bucketFileId),
+    );
+    console.log("🚀 ~ handleShare ~ url:", url);
+    setCopy(!!update);
+    setIsCopied(false);
+
+    setTimeout(() => setCopy(false), 2000);
+  };
+
   return (
     <>
       <ImageThumbnail file={file} />
@@ -46,15 +70,45 @@ export const ShareFile = ({
         <Input
           type="email"
           onChange={(e) => onChangeInput(e.target.value.trim().split(","))}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleAction();
-              console.log("Enter key pressed");
-            }
-          }}
+          onKeyDown={(e) => e.key === "Enter" && handleAction()}
           placeholder="Enter email address"
           className="no-focus body-2 h-[52px] !rounded-[30px] border px-5 py-4 text-light-100 shadow-drop-1 focus:!border"
         />
+
+        <div className="pt-4">
+          <div className="flex h-[30px] items-center justify-between">
+            {isCopied ? (
+              <Image
+                src="/assets/icons/loader-brand.svg"
+                alt="updateing"
+                width={24}
+                height={24}
+                className="aspect-square rounded-full"
+              />
+            ) : copy ? (
+              <CircleCheckBig size={18} />
+            ) : (
+              <Image
+                src="/assets/icons/share.svg"
+                alt="Share"
+                width={30}
+                height={30}
+                className="cursor-pointer"
+                onClick={handleShare}
+              />
+            )}
+
+            {file?.isPublic && (
+              <Image
+                src="/assets/icons/globe.svg"
+                alt="Share"
+                width={18}
+                height={18}
+                className="cursor-pointer"
+              />
+            )}
+          </div>
+        </div>
 
         <div className="pt-4">
           <div className="flex justify-between">
@@ -97,17 +151,17 @@ const UserShare = ({
         disabled={isRemoving}
         className="rounded-full bg-transparent text-light-100 shadow-none hover:bg-transparent"
       >
-        {isRemoving ? (
-          <div className="size-6 animate-spin rounded-full border border-brand/50 border-t-brand-100 bg-transparent" />
-        ) : (
-          <Image
-            src="/assets/icons/remove.svg"
-            alt="remove"
-            width={24}
-            height={24}
-            className="aspect-square rounded-full"
-          />
-        )}
+        <Image
+          src={
+            isRemoving
+              ? "/assets/icons/loader-brand.svg"
+              : "/assets/icons/remove.svg"
+          }
+          alt={isRemoving ? "Removing" : "Remove"}
+          width={24}
+          height={24}
+          className="aspect-square rounded-full"
+        />
       </Button>
     </li>
   );

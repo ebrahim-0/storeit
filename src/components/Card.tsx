@@ -8,7 +8,8 @@ import ActionDropdown from "./ActionDropdown";
 const Card = ({ file }: { file: Models.Document }) => {
   return (
     <Link
-      href={file.url}
+      // href={file.url}
+      href={`viewer/${file?.bucketFileId}`}
       target="_blank"
       className="flex flex-col gap-6 rounded-[18px] bg-white p-5 shadow-sm transition-all hover:shadow-drop-3"
     >

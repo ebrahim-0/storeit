@@ -170,3 +170,10 @@ export const constructFileUrl = (bucketFileId: string) => {
 export const constructDownloadUrl = (bucketFileId: string) => {
   return `${appwriteConfig.endpointUrl}/storage/buckets/${appwriteConfig.bucketId}/files/${bucketFileId}/download?project=${appwriteConfig.projectId}`;
 };
+
+export const shareUrl = (bucketFileId: string) => {
+  const host = window.location.host;
+  const protocol = window.location.protocol;
+
+  return `${protocol}//${host}/viewer/${bucketFileId}`;
+};

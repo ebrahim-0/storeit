@@ -142,3 +142,41 @@ export const updateFileUsers = createServerAction(
     return parseStringify(updatedFile);
   },
 );
+
+export const getFileByBucketFileId = createServerAction(
+  async (bucketFileId: string) => {
+    const { databases } = await createAdminClient();
+
+    const file = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.filesCollectionId,
+      [
+        Query.or([
+          Query.equal("bucketFileId", [bucketFileId]),
+          Query.equal("$id", [bucketFileId]),
+        ]),
+      ],
+    );
+
+    return parseStringify(file?.documents[0]);
+  },
+);
+
+export const updateToPublic = createServerAction(
+  async (fileId: string, path: string) => {
+    const { databases } = await createAdminClient();
+
+    const updatedFile = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.filesCollectionId,
+      fileId,
+      {
+        isPublic: true,
+      },
+    );
+
+    revalidatePath(path);
+
+    return parseStringify(updatedFile);
+  },
+);
