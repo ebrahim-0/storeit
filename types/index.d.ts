@@ -4,6 +4,7 @@ declare interface IUser {
   email: string;
   avatar: string;
   accountId: string;
+  role: "admin" | "user";
 }
 
 declare type FileType = "document" | "image" | "video" | "audio" | "other";
@@ -24,6 +25,12 @@ declare interface FileUploaderProps {
   ownerId: string;
   accountId: string;
   className?: string;
+}
+
+declare interface UpdateFileProps {
+  fileId: string;
+  emails: string[];
+  path: string;
 }
 
 declare interface InputControllerProps {

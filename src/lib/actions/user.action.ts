@@ -10,7 +10,7 @@ import { createServerAction, ServerActionError } from "../serverAction";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-const getUserByEmail = createServerAction(async (email: string) => {
+export const getUserByEmail = createServerAction(async (email: string) => {
   try {
     const { databases } = await createAdminClient();
 

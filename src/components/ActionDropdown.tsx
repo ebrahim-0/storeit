@@ -23,26 +23,57 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Models } from "node-appwrite";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { renameFile } from "@/lib/actions/file.action";
+import { renameFile, updateFileUsers } from "@/lib/actions/file.action";
+import { FileDetails, ShareFile } from "./ActionsModalContent";
+import { useSelector } from "zustore";
+import { getUserByEmail } from "@/lib/actions/user.action";
+import { toast } from "sonner";
 
 const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const path = usePathname();
+  const user = useSelector<IUser>("user");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [action, setAction] = useState<ActionType | null>(null);
   const [name, setName] = useState(file.name.replace(/\.[^/.]+$/, ""));
   const [isLoading, setIsLoading] = useState(false);
+  const [emails, setEmails] = useState<string[]>(file?.users || []);
 
   const closeAllModals = () => {
     setIsModalOpen(false);
     setIsDropdownOpen(false);
     setAction(null);
-    setName(file.name.replace(/\.[^/.]+$/, ""));
+    setName(file?.name.replace(/\.[^/.]+$/, ""));
+    setEmails(file?.users || []);
   };
+
+  const handleRemoveUser = useCallback(
+    async (email: string) => {
+      const existingUser = await getUserByEmail(email);
+
+      if (existingUser?.role === "admin" && user?.role !== "admin") {
+        toast.error("You can't remove an admin from the file");
+        return;
+      }
+
+      const updatedUsers = file?.users.filter((user: string) => user !== email);
+
+      const success = await updateFileUsers({
+        fileId: file.$id,
+        emails: updatedUsers,
+        path,
+      });
+
+      // if (success) setEmails(updatedUsers);
+      if (success) setEmails(file?.users || []);
+      // closeAllModals();
+    },
+    [file],
+  );
 
   const handleAction = async () => {
     if (!action) return;
@@ -51,9 +82,30 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
     let success = false;
 
     const actions = {
-      rename: () =>
-        renameFile({ fileId: file.$id, name, extension: file.extension, path }),
-      share: () => {},
+      rename: async () =>
+        await renameFile({
+          fileId: file.$id,
+          name,
+          extension: file.extension,
+          path,
+        }),
+      share: async () => {
+        if (emails.includes(user?.email)) {
+          toast.error("You can't share the file with yourself");
+          return false;
+        }
+
+        if (emails.some((email) => file?.users.includes(email))) {
+          toast.error("One or more emails are already shared with this file");
+          return false;
+        }
+
+        await updateFileUsers({
+          fileId: file.$id,
+          emails: [...file?.users, ...emails],
+          path,
+        });
+      },
       delete: () => {},
     };
 
@@ -75,14 +127,26 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
             {label}
           </DialogTitle>
 
+          {value === "share" && (
+            <ShareFile
+              file={file}
+              onChangeInput={setEmails}
+              onRemove={handleRemoveUser}
+              handleAction={handleAction}
+            />
+          )}
+
           {value === "rename" && (
             <Input
               value={name}
               onChange={(e) => setName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleAction()}
               placeholder="Enter new name"
+              className="no-focus h-[52px] rounded-[30px] !border-0 p-4 text-light-100 shadow-drop-1"
             />
           )}
+
+          {value === "details" && <FileDetails file={file} />}
         </DialogHeader>
 
         {["delete", "rename", "share"].includes(value) && (
@@ -97,6 +161,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
             <Button
               className="btn !mx-0 h-[52px] flex-1"
               onClick={handleAction}
+              disabled={isLoading}
             >
               <p className="capitalize">{value}</p>
               {isLoading && (
@@ -126,53 +191,58 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
             height={24}
           />
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className="w-[250px] rounded-[20px] border-0 py-3 shadow-drop-2">
           <DropdownMenuLabel className="max-w-[200px] truncate">
             {file.name}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {actionsDropdownItems.map((actionItem) => {
+          {actionsDropdownItems.map((actionItem, idx) => {
             return (
-              <DropdownMenuItem
-                key={actionItem.value}
-                onClick={() => {
-                  setAction(actionItem);
-                  if (
-                    ["delete", "rename", "share", "details"].includes(
-                      actionItem.value,
-                    )
-                  ) {
-                    setIsModalOpen(true);
-                    setIsDropdownOpen(false);
-                  }
-                }}
-              >
-                {actionItem.value === "download" ? (
-                  <Link
-                    href={constructDownloadUrl(file.bucketFileId)}
-                    download={file.name}
-                    className="flex items-center gap-2"
-                  >
-                    <Image
-                      src={actionItem.icon}
-                      alt={actionItem.label}
-                      width={30}
-                      height={30}
-                    />
-                    {actionItem.label}
-                  </Link>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <Image
-                      src={actionItem.icon}
-                      alt={actionItem.label}
-                      width={30}
-                      height={30}
-                    />
-                    {actionItem.label}
-                  </div>
+              <>
+                <DropdownMenuItem
+                  key={actionItem.value}
+                  onClick={() => {
+                    setAction(actionItem);
+                    if (
+                      ["delete", "rename", "share", "details"].includes(
+                        actionItem.value,
+                      )
+                    ) {
+                      setIsModalOpen(true);
+                      setIsDropdownOpen(false);
+                    }
+                  }}
+                >
+                  {actionItem.value === "download" ? (
+                    <Link
+                      href={constructDownloadUrl(file.bucketFileId)}
+                      download={file.name}
+                      className="flex items-center gap-2"
+                    >
+                      <Image
+                        src={actionItem.icon}
+                        alt={actionItem.label}
+                        width={30}
+                        height={30}
+                      />
+                      {actionItem.label}
+                    </Link>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={actionItem.icon}
+                        alt={actionItem.label}
+                        width={30}
+                        height={30}
+                      />
+                      {actionItem.label}
+                    </div>
+                  )}
+                </DropdownMenuItem>
+                {idx !== actionsDropdownItems.length - 1 && (
+                  <DropdownMenuSeparator />
                 )}
-              </DropdownMenuItem>
+              </>
             );
           })}
         </DropdownMenuContent>

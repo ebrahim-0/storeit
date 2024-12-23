@@ -123,3 +123,22 @@ export const renameFile = createServerAction(
     return parseStringify(updatedFile);
   },
 );
+
+export const updateFileUsers = createServerAction(
+  async ({ fileId, emails, path }: UpdateFileProps) => {
+    const { databases } = await createAdminClient();
+
+    const updatedFile = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.filesCollectionId,
+      fileId,
+      {
+        users: emails,
+      },
+    );
+
+    revalidatePath(path);
+
+    return parseStringify(updatedFile);
+  },
+);
