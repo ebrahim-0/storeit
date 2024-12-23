@@ -55,6 +55,11 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
     async (email: string) => {
       const existingUser = await getUserByEmail(email);
 
+      if (file?.accountId !== user?.accountId) {
+        toast.error("You can't remove a user from a file shared with you");
+        return;
+      }
+
       if (existingUser?.role === "admin" && user?.role !== "admin") {
         toast.error("You can't remove an admin from the file");
         return;
@@ -90,6 +95,11 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
           path,
         }),
       share: async () => {
+        if (file?.accountId !== user?.accountId) {
+          toast.error("You can't share a file shared with you");
+          return;
+        }
+
         if (emails.includes(user?.email)) {
           toast.error("You can't share the file with yourself");
           return false;
