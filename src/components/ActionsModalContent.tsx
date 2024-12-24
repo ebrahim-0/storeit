@@ -37,11 +37,15 @@ export const ShareFile = ({
   onChangeInput,
   onRemove,
   handleAction,
+  setEmailValue,
+  emailValue,
 }: {
   file: Models.Document;
   onChangeInput: React.Dispatch<SetStateAction<string[]>>;
   onRemove: (email: string) => Promise<void>;
   handleAction: () => Promise<void>;
+  setEmailValue: React.Dispatch<SetStateAction<string>>;
+  emailValue: string;
 }) => {
   const [copy, setCopy] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -75,9 +79,14 @@ export const ShareFile = ({
         <p className="subtitle-2 text-light-100">
           Share file with other users:
         </p>
+
         <Input
           type="email"
-          onChange={(e) => onChangeInput(e.target.value.trim().split(","))}
+          value={emailValue}
+          onChange={(e) => {
+            onChangeInput(e.target.value.trim().split(","));
+            setEmailValue(e.target.value);
+          }}
           onKeyDown={(e) => e.key === "Enter" && handleAction()}
           placeholder="Enter email address"
           className="no-focus body-2 h-[52px] !rounded-[30px] border px-5 py-4 text-light-100 shadow-drop-1 focus:!border"
@@ -88,7 +97,7 @@ export const ShareFile = ({
             {isCopied ? (
               <Image
                 src="/assets/icons/loader-brand.svg"
-                alt="updateing"
+                alt="updating"
                 width={24}
                 height={24}
                 className="aspect-square rounded-full"

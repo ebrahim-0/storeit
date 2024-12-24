@@ -41,14 +41,15 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const [action, setAction] = useState<ActionType | null>(null);
   const [name, setName] = useState(file.name.replace(/\.[^/.]+$/, ""));
   const [isLoading, setIsLoading] = useState(false);
-  const [emails, setEmails] = useState<string[]>(file?.users || []);
+  const [emails, setEmails] = useState<string[]>([]);
+  const [emailValue, setEmailValue] = useState("");
 
   const closeAllModals = () => {
     setIsModalOpen(false);
     setIsDropdownOpen(false);
     setAction(null);
     setName(file?.name.replace(/\.[^/.]+$/, ""));
-    setEmails(file?.users || []);
+    setEmails([]);
     setIsLoading(false);
   };
 
@@ -73,9 +74,9 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
         emails: updatedUsers,
         path,
       });
-
+      if (success) setEmails(success?.users || []);
       // if (success) setEmails(updatedUsers);
-      if (success) setEmails(file?.users || []);
+      // if (success) setEmails(file?.users || []);
       // closeAllModals();
     },
     [file],
@@ -111,12 +112,12 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
           return false;
         }
 
-        const res = await updateFileUsers({
+        await updateFileUsers({
           fileId: file.$id,
           emails: [...file?.users, ...emails],
           path,
         });
-        setEmails(res?.users || []);
+        setEmailValue("");
       },
       delete: () => {},
     };
@@ -145,6 +146,8 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
               onChangeInput={setEmails}
               onRemove={handleRemoveUser}
               handleAction={handleAction}
+              setEmailValue={setEmailValue}
+              emailValue={emailValue}
             />
           )}
 

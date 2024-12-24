@@ -1,10 +1,10 @@
 "use server";
 
-import { createAdminClient } from "../appwrite";
+import { createAdminClient, createSessionClient } from "../appwrite";
 import { InputFile } from "node-appwrite/file";
 import { createServerAction, ServerActionError } from "../serverAction";
 import { appwriteConfig } from "../appwrite/config";
-import { ID, Models, Query } from "node-appwrite";
+import { ID, Models, Permission, Query, Role } from "node-appwrite";
 import { constructFileUrl, getFileType, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.action";
@@ -19,7 +19,14 @@ export const uploadFile = createServerAction(
       appwriteConfig.bucketId,
       ID.unique(),
       inputFile,
+      [Permission.read(Role.users()), Permission.write(Role.users())],
     );
+    // Permission.read(Role.users("verified")),
+    // Permission.write(Role.users("verified")),
+    // Permission.update(Role.users("verified")),
+    // Permission.delete(Role.users("verified")),
+
+    console.log("🚀 ~ bucketFile:", bucketFile);
 
     const fileDocument = {
       type: getFileType(inputFile.name).type,
@@ -164,7 +171,7 @@ export const getFileByBucketFileId = createServerAction(
 
 export const updateToPublic = createServerAction(
   async (fileId: string, path: string) => {
-    const { databases } = await createAdminClient();
+    const { databases, storage } = await createAdminClient();
 
     const updatedFile = await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -175,8 +182,29 @@ export const updateToPublic = createServerAction(
       },
     );
 
+    const permis = await storage.updateFile(
+      appwriteConfig.bucketId,
+      fileId,
+      ID.unique(),
+      [
+        Permission.read(Role.any()),
+        Permission.update(Role.any()),
+        Permission.delete(Role.any()),
+        Permission.write(Role.any()),
+      ],
+    );
+    console.log("🚀 ~ permis:", permis);
+
     revalidatePath(path);
 
     return parseStringify(updatedFile);
   },
 );
+
+export const getFileView = createServerAction(async (fileId: string) => {
+  const { storage } = await createAdminClient();
+
+  const file = await storage.getFileView(appwriteConfig.bucketId, fileId);
+
+  return file;
+});

@@ -36,7 +36,7 @@ declare interface UpdateFileProps {
 declare interface InputControllerProps {
   control: Control<any>;
   name: string;
-  label: string;
+  label?: string;
   placeholder: string;
   type?: string;
   defaultValue?: string;

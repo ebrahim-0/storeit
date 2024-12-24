@@ -1,5 +1,5 @@
 import Text from "@/components/ui/Text";
-import { getFileByBucketFileId } from "@/lib/actions/file.action";
+import { getFileByBucketFileId, getFileView } from "@/lib/actions/file.action";
 import { getCurrentUser } from "@/lib/actions/user.action";
 import { cn, constructDownloadUrl, constructFileUrl } from "@/lib/utils";
 import Image from "next/image";
@@ -8,10 +8,17 @@ import { redirect } from "next/navigation";
 const page = async ({ params }: SearchParamProps) => {
   const fileId = ((await params)?.fileId as string) || "";
   const file = await getFileByBucketFileId(fileId);
+  // console.log("🚀 ~ page ~ file:", file);
   const { error, ...currentUser } = await getCurrentUser();
 
   const isImage = file?.type === "image";
   const fileUrl = constructFileUrl(fileId);
+
+  // const data = await getFileView(fileId);
+  // console.log("🚀 ~ page ~ data:", data);
+  // const blob = arrayBufferToBlob(data, "image/png");
+  // console.log("🚀 ~ page ~ blob:", blob)
+
   if (
     file?.isPublic ||
     currentUser?.accountId === file?.accountId ||
@@ -48,20 +55,22 @@ const page = async ({ params }: SearchParamProps) => {
             )}
           >
             {fileUrl && isImage && (
-              <Image
-                width={800}
-                height={600}
+              <img
+                // width={800}
+                // height={600}
                 alt="Viewer"
-                className="w-auto max-w-full"
+                // className="h-full w-full"
                 src={fileUrl}
               />
             )}
+            {/* {fileUrl && isImage && <SecureImage appwriteImageUrl={fileUrl} />} */}
             {fileUrl && !isImage && (
               <embed
                 className="h-full min-h-[calc(100vh-80px)] w-full border-none"
                 src={fileUrl}
               />
             )}
+            {/* <FilePreview fileUrl={fileUrl} isImage={isImage} /> */}
           </div>
         </div>
       </>
@@ -72,3 +81,10 @@ const page = async ({ params }: SearchParamProps) => {
 };
 
 export default page;
+
+// const arrayBufferToBlob = (
+//   arrayBuffer,
+//   mimeType = "application/octet-stream",
+// ) => {
+//   return new Blob([arrayBuffer], { type: mimeType });
+// };

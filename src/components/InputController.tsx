@@ -1,6 +1,5 @@
 "use client";
 
-import { Control } from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -36,7 +35,7 @@ const InputController = ({
                 error ? "border border-error" : "border border-input",
               )}
             >
-              <FormLabel className="">{label}</FormLabel>
+              {label && <FormLabel className="">{label}</FormLabel>}
               <FormControl>
                 <Input
                   className="no-focus body-2 border-0 px-0 shadow-none placeholder:text-light-200"
