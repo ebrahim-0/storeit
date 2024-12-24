@@ -200,11 +200,3 @@ export const updateToPublic = createServerAction(
     return parseStringify(updatedFile);
   },
 );
-
-export const getFileView = createServerAction(async (fileId: string) => {
-  const { storage } = await createAdminClient();
-
-  const file = await storage.getFileView(appwriteConfig.bucketId, fileId);
-
-  return file;
-});

@@ -17,7 +17,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { actionsDropdownItems } from "@/constants";
-import { constructDownloadUrl } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -230,7 +229,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
                 >
                   {actionItem.value === "download" ? (
                     <Link
-                      href={constructDownloadUrl(file.bucketFileId)}
+                      href={`/api/image-proxy?fileId=${file.bucketFileId}&download=true`}
                       download={file.name}
                       className="flex items-center gap-2"
                     >

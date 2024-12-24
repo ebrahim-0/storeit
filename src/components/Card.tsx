@@ -8,7 +8,6 @@ import ActionDropdown from "./ActionDropdown";
 const Card = ({ file }: { file: Models.Document }) => {
   return (
     <Link
-      // href={file.url}
       href={`viewer/${file?.bucketFileId}`}
       target="_blank"
       className="flex flex-col gap-6 rounded-[18px] bg-white p-5 shadow-sm transition-all hover:shadow-drop-3"
@@ -17,7 +16,7 @@ const Card = ({ file }: { file: Models.Document }) => {
         <Thumbnail
           type={file.type}
           extension={file.extension}
-          url={file.url}
+          url={`/api/image-proxy?fileId=${file?.bucketFileId}`}
           className="!size-20"
           //   imageClassName="!size-11"
         />

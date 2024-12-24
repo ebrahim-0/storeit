@@ -1,7 +1,7 @@
 import Text from "@/components/ui/Text";
-import { getFileByBucketFileId, getFileView } from "@/lib/actions/file.action";
+import { getFileByBucketFileId } from "@/lib/actions/file.action";
 import { getCurrentUser } from "@/lib/actions/user.action";
-import { cn, constructDownloadUrl, constructFileUrl } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
@@ -12,12 +12,6 @@ const page = async ({ params }: SearchParamProps) => {
   const { error, ...currentUser } = await getCurrentUser();
 
   const isImage = file?.type === "image";
-  const fileUrl = constructFileUrl(fileId);
-
-  // const data = await getFileView(fileId);
-  // console.log("🚀 ~ page ~ data:", data);
-  // const blob = arrayBufferToBlob(data, "image/png");
-  // console.log("🚀 ~ page ~ blob:", blob)
 
   if (
     file?.isPublic ||
@@ -31,7 +25,7 @@ const page = async ({ params }: SearchParamProps) => {
             <h1 className="h1 text-light-100">{file?.name}</h1>
             <Text toolTipAlign="center" tooltip={file?.name}>
               <a
-                href={constructDownloadUrl(fileId)}
+                href={`/api/image-proxy?fileId=${fileId}&download=true`}
                 target="_self"
                 download={file?.name}
               >
@@ -54,23 +48,22 @@ const page = async ({ params }: SearchParamProps) => {
                 : "min-h-[calc(100vh-80px)]",
             )}
           >
-            {fileUrl && isImage && (
+            {fileId && isImage && (
               <img
                 // width={800}
                 // height={600}
                 alt="Viewer"
                 // className="h-full w-full"
-                src={fileUrl}
+                src={`/api/image-proxy?fileId=${fileId}`}
               />
             )}
-            {/* {fileUrl && isImage && <SecureImage appwriteImageUrl={fileUrl} />} */}
-            {fileUrl && !isImage && (
+            {fileId && !isImage && (
               <embed
                 className="h-full min-h-[calc(100vh-80px)] w-full border-none"
-                src={fileUrl}
+                // src={fileUrl}
+                src={`/api/image-proxy?fileId=${fileId}`}
               />
             )}
-            {/* <FilePreview fileUrl={fileUrl} isImage={isImage} /> */}
           </div>
         </div>
       </>
