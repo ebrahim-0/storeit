@@ -3,8 +3,11 @@ import { getCurrentUser } from "@/lib/actions/user.action";
 import { constructDownloadUrl, constructFileUrl } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request, { params }: { params: any }) {
-  const { fileId } = params;
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ fileId: string }> },
+) {
+  const { fileId } = await params;
 
   const { searchParams } = new URL(request.url);
 
