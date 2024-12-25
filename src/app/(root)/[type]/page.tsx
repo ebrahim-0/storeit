@@ -2,13 +2,24 @@ import Card from "@/components/Card";
 import ClientToast from "@/components/ClientToast";
 import Sort from "@/components/Sort";
 import { getFiles } from "@/lib/actions/file.action";
+import { capitalize } from "@/lib/utils";
+import { Metadata } from "next";
 import { Models } from "node-appwrite";
+
+export async function generateMetadata({
+  params,
+}: SearchParamProps): Promise<Metadata> {
+  const type = ((await params)?.type as string) || "";
+
+  return {
+    title: `StoreIt | ${capitalize(type)}`,
+  };
+}
 
 const page = async ({ params }: SearchParamProps) => {
   const type = ((await params)?.type as string) || "";
 
   const { error, ...files } = await getFiles();
-  console.log("🚀 ~ page ~ files:", files);
 
   return (
     <>

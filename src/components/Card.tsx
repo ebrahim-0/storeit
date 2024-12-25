@@ -4,6 +4,8 @@ import Thumbnail from "./Thumbnail";
 import { convertFileSize } from "@/lib/utils";
 import FormattedDateTime from "./FormattedDateTime";
 import ActionDropdown from "./ActionDropdown";
+import OwnerFileInfo from "./OwnerFileInfo";
+import Text from "./ui/Text";
 
 const Card = ({ file }: { file: Models.Document }) => {
   return (
@@ -16,9 +18,8 @@ const Card = ({ file }: { file: Models.Document }) => {
         <Thumbnail
           type={file.type}
           extension={file.extension}
-          url={`/api/image-proxy?fileId=${file?.bucketFileId}`}
+          url={`/api/image-proxy/${file?.bucketFileId}`}
           className="!size-20"
-          //   imageClassName="!size-11"
         />
 
         <div className="ml-3 flex flex-col items-end justify-between">
@@ -28,16 +29,16 @@ const Card = ({ file }: { file: Models.Document }) => {
       </div>
 
       <div className="flex flex-col gap-2 text-light-100">
-        <p className="subtitle-2 line-clamp-2">{file.name}</p>
+        <Text tooltip={file.name} toolTipClass="!max-w-full" side="bottom">
+          <p className="subtitle-2 truncate">{file.name}</p>
+        </Text>
 
         <FormattedDateTime
           date={file.$createdAt}
           className="body-2 text-light-100"
         />
 
-        <p className="caption line-clamp-1 text-light-200">
-          By: {file.owner?.fullName}
-        </p>
+        <OwnerFileInfo file={file} />
       </div>
     </Link>
   );

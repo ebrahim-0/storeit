@@ -10,11 +10,13 @@ export function createServerAction(callback: (...args: any[]) => Promise<any>) {
     try {
       const value: any = (await callback(...args)) as any;
       return value;
-    } catch (error) {
-      if (error instanceof ServerActionError) {
-        return { error: { message: error.message } };
-      }
-      throw error;
+    } catch (error: any) {
+      return { error: { message: error.message } };
+
+      // if (error instanceof ServerActionError) {
+      //   return { error: { message: error.message } };
+      // }
+      // throw error;
     }
   };
 }

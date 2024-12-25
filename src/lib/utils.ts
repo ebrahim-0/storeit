@@ -177,3 +177,7 @@ export const shareUrl = (bucketFileId: string) => {
 
   return `${protocol}//${host}/viewer/${bucketFileId}`;
 };
+
+export const capitalize = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};

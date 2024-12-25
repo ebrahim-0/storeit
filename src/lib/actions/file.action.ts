@@ -1,6 +1,6 @@
 "use server";
 
-import { createAdminClient, createSessionClient } from "../appwrite";
+import { createAdminClient } from "../appwrite";
 import { InputFile } from "node-appwrite/file";
 import { createServerAction, ServerActionError } from "../serverAction";
 import { appwriteConfig } from "../appwrite/config";
@@ -19,12 +19,7 @@ export const uploadFile = createServerAction(
       appwriteConfig.bucketId,
       ID.unique(),
       inputFile,
-      [Permission.read(Role.users()), Permission.write(Role.users())],
     );
-    // Permission.read(Role.users("verified")),
-    // Permission.write(Role.users("verified")),
-    // Permission.update(Role.users("verified")),
-    // Permission.delete(Role.users("verified")),
 
     console.log("🚀 ~ bucketFile:", bucketFile);
 

@@ -2,6 +2,7 @@
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -16,13 +17,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { actionsDropdownItems } from "@/constants";
+import { actionsDropdownItems, actionsDropdownItemsAsShare } from "@/constants";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Models } from "node-appwrite";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { renameFile, updateFileUsers } from "@/lib/actions/file.action";
@@ -30,6 +30,8 @@ import { FileDetails, ShareFile } from "./ActionsModalContent";
 import { useSelector } from "zustore";
 import { getUserByEmail } from "@/lib/actions/user.action";
 import { toast } from "sonner";
+import Text from "./ui/Text";
+import { shareUrl } from "@/lib/utils";
 
 const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const path = usePathname();
@@ -40,16 +42,22 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const [action, setAction] = useState<ActionType | null>(null);
   const [name, setName] = useState(file.name.replace(/\.[^/.]+$/, ""));
   const [isLoading, setIsLoading] = useState(false);
-  const [emails, setEmails] = useState<string[]>([]);
-  const [emailValue, setEmailValue] = useState("");
+  const [email, setEmail] = useState("");
+
+  const isSharedWithMe = file?.users.includes(user?.email);
+
+  const dropdownItems = useMemo(
+    () => (isSharedWithMe ? actionsDropdownItemsAsShare : actionsDropdownItems),
+    [file, user],
+  );
 
   const closeAllModals = () => {
     setIsModalOpen(false);
     setIsDropdownOpen(false);
     setAction(null);
     setName(file?.name.replace(/\.[^/.]+$/, ""));
-    setEmails([]);
     setIsLoading(false);
+    setEmail("");
   };
 
   const handleRemoveUser = useCallback(
@@ -73,10 +81,10 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
         emails: updatedUsers,
         path,
       });
-      if (success) setEmails(success?.users || []);
-      // if (success) setEmails(updatedUsers);
-      // if (success) setEmails(file?.users || []);
-      // closeAllModals();
+
+      if (success?.error) {
+        toast.error(success.error.message);
+      }
     },
     [file],
   );
@@ -85,43 +93,61 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
     if (!action) return;
 
     setIsLoading(true);
-    let success = false;
+    let success = null;
 
     const actions = {
-      rename: async () =>
-        await renameFile({
+      rename: async () => {
+        return await renameFile({
           fileId: file.$id,
           name,
           extension: file.extension,
           path,
-        }),
+        });
+      },
       share: async () => {
         if (file?.accountId !== user?.accountId) {
           toast.error("You can't share a file shared with you");
           return;
         }
 
-        if (emails.includes(user?.email)) {
+        if (user?.email === email) {
           toast.error("You can't share the file with yourself");
           return false;
         }
 
-        if (emails.some((email) => file?.users.includes(email))) {
+        if (file?.users.includes(email)) {
           toast.error("One or more emails are already shared with this file");
           return false;
         }
 
-        await updateFileUsers({
+        const res = await updateFileUsers({
           fileId: file.$id,
-          emails: [...file?.users, ...emails],
+          emails: [...file?.users, email],
           path,
         });
-        setEmailValue("");
+
+        if (!res.error) {
+          setEmail("");
+          toast.success("File shared successfully");
+        }
+        return res;
       },
-      delete: () => {},
+      delete: () => {
+        if (file?.users.includes(email)) {
+          toast.error("You can't delete a file shared with you");
+          return;
+        }
+      },
     };
 
     success = await actions[action.value as keyof typeof actions]();
+    console.log("🚀 ~ handleAction ~ success:", success);
+
+    if (success?.error) {
+      toast.error(success.error.message);
+      setIsLoading(false);
+      return;
+    }
 
     if (success) closeAllModals();
     setIsLoading(false);
@@ -133,7 +159,10 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
     const { label, value } = action;
 
     return (
-      <DialogContent className="button w-[90%] max-w-[400px] !rounded-[26px] px-6 py-8">
+      <DialogContent
+        className="button w-[90%] max-w-[400px] !rounded-[26px] px-6 py-8"
+        onClose={closeAllModals}
+      >
         <DialogHeader className="flex flex-col gap-3">
           <DialogTitle className="text-center text-light-100">
             {label}
@@ -142,11 +171,10 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
           {value === "share" && (
             <ShareFile
               file={file}
-              onChangeInput={setEmails}
               onRemove={handleRemoveUser}
               handleAction={handleAction}
-              setEmailValue={setEmailValue}
-              emailValue={emailValue}
+              setEmail={setEmail}
+              email={email}
             />
           )}
 
@@ -158,6 +186,12 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
               placeholder="Enter new name"
               className="no-focus h-[52px] rounded-[30px] !border-0 p-4 text-light-100 shadow-drop-1"
             />
+          )}
+
+          {value === "delete" && (
+            <p className="subtitle-2 text-center text-light-100">
+              Are you sure you want to delete this file?
+            </p>
           )}
 
           {value === "details" && <FileDetails file={file} />}
@@ -196,6 +230,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <DialogClose asChild onClick={() => console.log("closed")} />
       <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
         <DropdownMenuTrigger className="no-focus cursor-default">
           <Image
@@ -206,17 +241,48 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-[250px] rounded-[20px] border-0 py-3 shadow-drop-2">
-          <DropdownMenuLabel className="max-w-[200px] truncate">
-            {file.name}
+          <DropdownMenuLabel>
+            <Text className="max-w-[200px] truncate" tooltip={file.name}>
+              {file.name}
+            </Text>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {actionsDropdownItems.map((actionItem, idx) => {
+          {dropdownItems.map((actionItem, idx) => {
             return (
               <>
                 <DropdownMenuItem
-                  key={actionItem.value}
+                  key={actionItem.value + idx}
                   onClick={() => {
                     setAction(actionItem);
+                    console.log("🚀 ~ actionItem:", actionItem);
+
+                    if (actionItem.value === "share-link") {
+                      navigator.clipboard
+                        .writeText(shareUrl(file?.bucketFileId))
+                        .then((link) => {
+                          console.log("🚀 ~ handleShare ~ link:", link);
+
+                          toast.success("File url copied to clipboard");
+                        });
+                    }
+
+                    if (actionItem.value === "remove-share") {
+                      const removeMyEmail = file?.users.filter(
+                        (fileUser: string) => fileUser !== user?.email,
+                      );
+                      updateFileUsers({
+                        fileId: file.$id,
+                        emails: removeMyEmail,
+                        path,
+                      }).then((res) => {
+                        if (res?.error) {
+                          toast.error(res.error.message);
+                        } else {
+                          toast.success("File unshared successfully");
+                        }
+                      });
+                    }
+
                     if (
                       ["delete", "rename", "share", "details"].includes(
                         actionItem.value,
@@ -228,9 +294,10 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
                   }}
                 >
                   {actionItem.value === "download" ? (
-                    <Link
-                      href={`/api/image-proxy?fileId=${file.bucketFileId}&download=true`}
+                    <a
+                      href={`/api/image-proxy/${file.bucketFileId}?download=true`}
                       download={file.name}
+                      target="_self"
                       className="flex items-center gap-2"
                     >
                       <Image
@@ -240,7 +307,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
                         height={30}
                       />
                       {actionItem.label}
-                    </Link>
+                    </a>
                   ) : (
                     <div className="flex items-center gap-2">
                       <Image

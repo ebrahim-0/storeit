@@ -45,7 +45,10 @@ const Text = ({
           <TooltipContent
             align={toolTipAlign}
             side={side}
-            className={cn("ltr:text-start rtl:text-end", toolTipClass)}
+            className={cn(
+              "max-w-[200px] ltr:text-start rtl:text-end",
+              toolTipClass,
+            )}
           >
             {tooltip}
           </TooltipContent>

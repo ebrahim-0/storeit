@@ -34,18 +34,16 @@ export const FileDetails = ({ file }: { file: Models.Document }) => {
 
 export const ShareFile = ({
   file,
-  onChangeInput,
   onRemove,
   handleAction,
-  setEmailValue,
-  emailValue,
+  setEmail,
+  email,
 }: {
   file: Models.Document;
-  onChangeInput: React.Dispatch<SetStateAction<string[]>>;
   onRemove: (email: string) => Promise<void>;
   handleAction: () => Promise<void>;
-  setEmailValue: React.Dispatch<SetStateAction<string>>;
-  emailValue: string;
+  setEmail: React.Dispatch<SetStateAction<string>>;
+  email: string;
 }) => {
   const [copy, setCopy] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -82,11 +80,8 @@ export const ShareFile = ({
 
         <Input
           type="email"
-          value={emailValue}
-          onChange={(e) => {
-            onChangeInput(e.target.value.trim().split(","));
-            setEmailValue(e.target.value);
-          }}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAction()}
           placeholder="Enter email address"
           className="no-focus body-2 h-[52px] !rounded-[30px] border px-5 py-4 text-light-100 shadow-drop-1 focus:!border"
@@ -197,7 +192,7 @@ const ImageThumbnail = ({ file }: { file: Models.Document }) => {
       <Thumbnail
         type={file.type}
         extension={file.extension}
-        url={`/api/image-proxy?fileId=${file?.bucketFileId}`}
+        url={`/api/image-proxy/${file?.bucketFileId}`}
         className="!size-[52px] !min-w-[52px]"
         imageClassName="!size-7"
       />

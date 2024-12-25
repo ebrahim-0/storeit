@@ -62,6 +62,29 @@ export const actionsDropdownItems = [
   },
 ];
 
+export const actionsDropdownItemsAsShare = [
+  {
+    label: "Details",
+    icon: "/assets/icons/info.svg",
+    value: "details",
+  },
+  {
+    label: "Share (copy file link)",
+    icon: "/assets/icons/share.svg",
+    value: "share-link",
+  },
+  {
+    label: "Download",
+    icon: "/assets/icons/download.svg",
+    value: "download",
+  },
+  {
+    label: "Remove Share",
+    icon: "/assets/icons/delete.svg",
+    value: "remove-share",
+  },
+];
+
 export const sortTypes = [
   {
     label: "Date created (newest)",

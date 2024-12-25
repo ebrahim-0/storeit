@@ -2,13 +2,17 @@ import Text from "@/components/ui/Text";
 import { getFileByBucketFileId } from "@/lib/actions/file.action";
 import { getCurrentUser } from "@/lib/actions/user.action";
 import { cn } from "@/lib/utils";
+import { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "StoreIt | Viewer",
+};
 
 const page = async ({ params }: SearchParamProps) => {
   const fileId = ((await params)?.fileId as string) || "";
   const file = await getFileByBucketFileId(fileId);
-  // console.log("🚀 ~ page ~ file:", file);
   const { error, ...currentUser } = await getCurrentUser();
 
   const isImage = file?.type === "image";
@@ -20,12 +24,12 @@ const page = async ({ params }: SearchParamProps) => {
   ) {
     return (
       <>
-        <div className="mx-auto flex h-full min-h-[calc(100vh-80px)] w-full flex-col items-center justify-center gap-3 py-6 pb-10">
+        <div className="mx-auto flex h-full min-h-[calc(100vh-80px)] w-full flex-col items-center justify-center gap-3 pb-10 pt-6">
           <div className="flex w-full items-center justify-between">
             <h1 className="h1 text-light-100">{file?.name}</h1>
-            <Text toolTipAlign="center" tooltip={file?.name}>
+            <Text toolTipAlign="center" tooltip="Download" side="bottom">
               <a
-                href={`/api/image-proxy?fileId=${fileId}&download=true`}
+                href={`/api/image-proxy/${fileId}?download=true`}
                 target="_self"
                 download={file?.name}
               >
@@ -42,26 +46,21 @@ const page = async ({ params }: SearchParamProps) => {
           <div
             className={cn(
               "relative h-full w-full overflow-hidden",
-              "bg-red-500 m-auto",
-              isImage
-                ? "flex items-center justify-center"
-                : "min-h-[calc(100vh-80px)]",
+              "bg-red-500 m-auto min-h-[calc(100vh-80px)] rounded-3xl bg-light-300 p-5",
+              isImage ? "flex items-center justify-center" : "",
             )}
           >
             {fileId && isImage && (
               <img
-                // width={800}
-                // height={600}
                 alt="Viewer"
-                // className="h-full w-full"
-                src={`/api/image-proxy?fileId=${fileId}`}
+                className="max-h-[calc(100vh-120px)] object-cover"
+                src={`/api/image-proxy/${fileId}`}
               />
             )}
             {fileId && !isImage && (
               <embed
                 className="h-full min-h-[calc(100vh-80px)] w-full border-none"
-                // src={fileUrl}
-                src={`/api/image-proxy?fileId=${fileId}`}
+                src={`/api/image-proxy/${fileId}`}
               />
             )}
           </div>
@@ -74,10 +73,3 @@ const page = async ({ params }: SearchParamProps) => {
 };
 
 export default page;
-
-// const arrayBufferToBlob = (
-//   arrayBuffer,
-//   mimeType = "application/octet-stream",
-// ) => {
-//   return new Blob([arrayBuffer], { type: mimeType });
-// };
