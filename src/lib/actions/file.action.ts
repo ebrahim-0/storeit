@@ -166,7 +166,7 @@ export const getFileByBucketFileId = createServerAction(
 
 export const updateToPublic = createServerAction(
   async (fileId: string, path: string) => {
-    const { databases, storage } = await createAdminClient();
+    const { databases } = await createAdminClient();
 
     const updatedFile = await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -176,19 +176,6 @@ export const updateToPublic = createServerAction(
         isPublic: true,
       },
     );
-
-    const permis = await storage.updateFile(
-      appwriteConfig.bucketId,
-      fileId,
-      ID.unique(),
-      [
-        Permission.read(Role.any()),
-        Permission.update(Role.any()),
-        Permission.delete(Role.any()),
-        Permission.write(Role.any()),
-      ],
-    );
-    console.log("🚀 ~ permis:", permis);
 
     revalidatePath(path);
 

@@ -45,8 +45,8 @@ const page = async ({ params }: SearchParamProps) => {
           </div>
           <div
             className={cn(
-              "relative h-full w-full overflow-hidden",
-              "bg-red-500 m-auto min-h-[calc(100vh-80px)] rounded-3xl bg-light-300 p-5",
+              "relative h-full overflow-hidden",
+              "bg-red-500 m-auto max-h-[calc(100vh-80px)] rounded-3xl bg-light-300 p-5",
               isImage ? "flex items-center justify-center" : "",
             )}
           >
