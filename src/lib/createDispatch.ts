@@ -27,7 +27,6 @@ export const createDispatch = CreateDispatch(({ name, payload, tools }) => {
       });
     }
 
-    console.log("🚀 ~ getLoginUser ~ currentUser:", currentUser);
     dispatch({ user: currentUser });
     if (!error) {
       callback && (await callback());
