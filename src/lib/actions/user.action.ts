@@ -1,6 +1,6 @@
 "use server";
 
-import { Account, Client, ID, OAuthProvider, Query } from "node-appwrite";
+import { ID, OAuthProvider, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import bcrypt from "bcrypt";
@@ -119,7 +119,7 @@ export const loginUser = createServerAction(
   },
 );
 
-export const signUpWithGithub = async () => {
+export const signUpWithGithub = createServerAction(async () => {
   const { account } = await createAdminClient();
 
   const origin = (await headers()).get("origin");
@@ -128,11 +128,10 @@ export const signUpWithGithub = async () => {
     OAuthProvider.Github,
     `${origin}/api/oauth`, // Callback URL
     `${origin}/register`, // Redirect URL after successful login
-    ["repo", "user"],
   );
 
   return redirect(redirectUrl);
-};
+});
 
 export const verifyOtp = createServerAction(
   async ({ accountId, otp }: { accountId: string; otp: string }) => {

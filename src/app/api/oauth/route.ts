@@ -28,10 +28,6 @@ export async function GET(request: Request) {
   const { account: accountSession } = await createSessionClient();
 
   const result = await accountSession.get();
-  const current = await accountSession.getSession("current");
-  console.log("🚀 ~ GET ~ current:", current);
-
-  console.log("🚀 ~ GET ~ result:", result);
 
   const existingUser = await getUserByEmail(result?.email);
 
