@@ -82,7 +82,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex max-h-[800px] w-full max-w-[560px] flex-col justify-center space-y-6 transition-all lg:h-full lg:space-y-8"
+          className="flex max-h-[800px] w-full max-w-[560px] flex-col justify-center space-y-6 transition-all lg:space-y-8"
         >
           <h1 className="h1 text-center text-light-100 md:text-left">
             {type === "login" ? "Login" : "Register"}
@@ -142,7 +142,6 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
               href={type === "login" ? "/register" : "/login"}
               className="ml-1 font-medium text-brand"
             >
-              console.log()
               {type === "login" ? "Register" : "Login"}
             </Link>
           </div>
@@ -150,7 +149,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
       </Form>
 
       <Button
-        className="btn body-1 flex justify-center !bg-light-100"
+        className="btn mt-4 !bg-light-100 hover:!bg-light-100/80"
         type="button"
         onClick={() => {
           signUpWithGithub();

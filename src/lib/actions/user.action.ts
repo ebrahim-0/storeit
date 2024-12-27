@@ -66,7 +66,11 @@ export const createAccount = createServerAction(
       const existingUser = await getUserByEmail(email);
 
       if (existingUser?.accountId) {
-        throw new ServerActionError("User already exists");
+        if (existingUser?.provider === "github") {
+          throw new ServerActionError("This email register with github");
+        } else {
+          throw new ServerActionError("User already exists");
+        }
       }
 
       if (!existingUser) {
@@ -107,6 +111,10 @@ export const loginUser = createServerAction(
       throw new ServerActionError("user doesn't exist");
     }
 
+    if (existingUser?.provider === "github") {
+      throw new ServerActionError("This email login with github");
+    }
+
     const isMatch = await bcrypt.compare(password, existingUser.password);
 
     if (!isMatch) {
@@ -126,9 +134,9 @@ export const signUpWithGithub = async () => {
 
   const redirectUrl = await account.createOAuth2Token(
     OAuthProvider.Github,
-    `${origin}/api/oauth`, // Callback URL
+    `${origin}/oauth`, // Callback URL
     `${origin}/register`, // Redirect URL after successful login
-    ["repo", "user"],
+    ["read:user", "user:email"],
   );
 
   return redirect(redirectUrl);

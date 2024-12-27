@@ -29,6 +29,9 @@ const LoadImage = ({
       <img
         {...props}
         style={{ display: isLoading ? "none" : "block" }}
+        onError={(e) => {
+          console.log("error", e);
+        }}
         onLoad={(e) => {
           setIsLoading(false);
           props?.onLoad && props?.onLoad(e);

@@ -31,7 +31,7 @@ const page = async ({ params }: SearchParamProps) => {
             <h1 className="h1 truncate text-light-100">{file?.name}</h1>
             <Text toolTipAlign="center" tooltip="Download" side="bottom">
               <a
-                href={`/api/files/${fileId}?download=true`}
+                href={`/files/${fileId}?download=true`}
                 target="_self"
                 download={file?.name}
               >
@@ -55,14 +55,14 @@ const page = async ({ params }: SearchParamProps) => {
             {fileId && isImage && (
               <LoadImage
                 alt="Viewer"
-                className="object-cover"
-                src={`/api/files/${fileId}`}
+                className="h-fit object-cover"
+                src={`/files/${fileId}`}
               />
             )}
             {fileId && !isImage && (
               <LoadEmbed
                 className="h-full min-h-[calc(100vh-80px)] w-full border-none"
-                src={`/api/files/${fileId}`}
+                src={`/files/${fileId}`}
               />
             )}
           </div>

@@ -38,7 +38,7 @@ const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
         {user?.fullName ? (
           <Text
             tooltip={user?.fullName}
-            className="subtitle-2 oneline-text capitalize lg:w-[160px] xl:w-[200px]"
+            className="subtitle-2 w-[160px] truncate capitalize xl:w-[200px]"
           >
             {user?.fullName}
           </Text>
@@ -49,7 +49,7 @@ const ProfileBox = ({ toMobile = false }: { toMobile?: boolean }) => {
         {user?.email ? (
           <Text
             tooltip={user?.email}
-            className="caption oneline-text lg:w-[160px] xl:w-[200px]"
+            className="caption w-[160px] truncate xl:w-[200px]"
           >
             {user?.email}
           </Text>

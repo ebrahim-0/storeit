@@ -16,7 +16,6 @@ export async function GET(request: Request) {
   const { account, databases } = await createAdminClient();
 
   const session = await account.createSession(userId, secret);
-  console.log("🚀 ~ GET ~ session:", session);
 
   (await cookies()).set("appwrite-session", session.secret, {
     path: "/",
@@ -28,10 +27,6 @@ export async function GET(request: Request) {
   const { account: accountSession } = await createSessionClient();
 
   const result = await accountSession.get();
-  const current = await accountSession.getSession("current");
-  console.log("🚀 ~ GET ~ current:", current);
-
-  console.log("🚀 ~ GET ~ result:", result);
 
   const existingUser = await getUserByEmail(result?.email);
 
@@ -47,6 +42,7 @@ export async function GET(request: Request) {
         avatar: result?.prefs?.avatar ?? avatarPlaceholderUrl,
         password: result?.password ?? "",
         accountId: result?.$id,
+        provider: "github",
       },
     );
   }
