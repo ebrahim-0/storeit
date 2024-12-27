@@ -144,21 +144,22 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
               href={type === "login" ? "/register" : "/login"}
               className="ml-1 font-medium text-brand"
             >
+              console.log()
               {type === "login" ? "Register" : "Login"}
             </Link>
           </div>
-
-          <Button
-            className="btn body-1 flex cursor-pointer justify-center !bg-light-100"
-            type="button"
-            onClick={() => {
-              signUpWithGithub();
-            }}
-          >
-            login with github
-          </Button>
         </form>
       </Form>
+
+      <Button
+        className="btn body-1 flex justify-center !bg-light-100"
+        type="button"
+        onClick={() => {
+          signUpWithGithub();
+        }}
+      >
+        login with github
+      </Button>
 
       {accountId && openOtp && (
         <OtpModal
