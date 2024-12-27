@@ -148,14 +148,15 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
             </Link>
           </div>
 
-          <div
-            className="body-1 flex cursor-pointer justify-center"
+          <Button
+            className="btn body-1 flex cursor-pointer justify-center !bg-light-100"
+            type="button"
             onClick={() => {
               signUpWithGithub();
             }}
           >
             login with github
-          </div>
+          </Button>
         </form>
       </Form>
 
