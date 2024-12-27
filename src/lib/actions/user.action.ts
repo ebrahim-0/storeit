@@ -119,7 +119,7 @@ export const loginUser = createServerAction(
   },
 );
 
-export const signUpWithGithub = createServerAction(async () => {
+export const signUpWithGithub = async () => {
   const { account } = await createAdminClient();
 
   const origin = (await headers()).get("origin");
@@ -128,10 +128,11 @@ export const signUpWithGithub = createServerAction(async () => {
     OAuthProvider.Github,
     `${origin}/api/oauth`, // Callback URL
     `${origin}/register`, // Redirect URL after successful login
+    ["repo", "user"],
   );
 
   return redirect(redirectUrl);
-});
+};
 
 export const verifyOtp = createServerAction(
   async ({ accountId, otp }: { accountId: string; otp: string }) => {
