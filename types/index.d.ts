@@ -7,6 +7,8 @@ declare interface IUser {
   role: "admin" | "user";
 }
 
+declare type TypeForm = "login" | "register";
+
 declare type FileType = "document" | "image" | "video" | "audio" | "other";
 
 declare interface SearchParamProps {

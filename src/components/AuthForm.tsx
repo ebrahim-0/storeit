@@ -18,8 +18,6 @@ import {
 import OtpModal from "./OtpModal";
 import { toast } from "sonner";
 
-export type TypeForm = "login" | "register";
-
 const authFormSchema = (type: TypeForm) => {
   return z.object({
     email: z.string().min(1, { message: "Email is required" }).email(),
