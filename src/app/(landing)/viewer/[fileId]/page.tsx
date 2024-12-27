@@ -1,3 +1,5 @@
+import LoadEmbed from "@/components/LoadEmbed";
+import LoadImage from "@/components/LoadImage";
 import Text from "@/components/ui/Text";
 import { getFileByBucketFileId } from "@/lib/actions/file.action";
 import { getCurrentUser } from "@/lib/actions/user.action";
@@ -26,10 +28,10 @@ const page = async ({ params }: SearchParamProps) => {
       <>
         <div className="mx-auto flex h-full min-h-[calc(100vh-80px)] w-full flex-col items-center justify-center gap-3 pb-10 pt-6">
           <div className="flex w-full items-center justify-between">
-            <h1 className="h1 text-light-100">{file?.name}</h1>
+            <h1 className="h1 truncate text-light-100">{file?.name}</h1>
             <Text toolTipAlign="center" tooltip="Download" side="bottom">
               <a
-                href={`/api/image-proxy/${fileId}?download=true`}
+                href={`/api/files/${fileId}?download=true`}
                 target="_self"
                 download={file?.name}
               >
@@ -38,29 +40,29 @@ const page = async ({ params }: SearchParamProps) => {
                   alt="Download"
                   width={55}
                   height={55}
-                  className="cursor-pointer"
+                  className="min-h-[55px] min-w-[55px] cursor-pointer"
                 />
               </a>
             </Text>
           </div>
           <div
             className={cn(
-              "relative h-full overflow-hidden",
-              "bg-red-500 m-auto max-h-[calc(100vh-80px)] rounded-3xl bg-light-300 p-5",
+              "relative h-full w-full overflow-hidden",
+              "bg-red-500 m-auto min-h-[calc(100vh-80px)] rounded-3xl bg-light-300 p-5",
               isImage ? "flex items-center justify-center" : "",
             )}
           >
             {fileId && isImage && (
-              <img
+              <LoadImage
                 alt="Viewer"
-                className="max-h-[calc(100vh-120px)] object-cover"
-                src={`/api/image-proxy/${fileId}`}
+                className="object-cover"
+                src={`/api/files/${fileId}`}
               />
             )}
             {fileId && !isImage && (
-              <embed
+              <LoadEmbed
                 className="h-full min-h-[calc(100vh-80px)] w-full border-none"
-                src={`/api/image-proxy/${fileId}`}
+                src={`/api/files/${fileId}`}
               />
             )}
           </div>

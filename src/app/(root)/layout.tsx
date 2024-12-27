@@ -16,8 +16,6 @@ export const metadata: Metadata = {
 
 const layout = async ({ children }: { children: ReactNode }) => {
   const { error, ...currentUser } = (await getCurrentUser()) || {};
-  console.log("🚀 ~ currentUser:", currentUser);
-  console.log("🚀 ~ error:", error);
 
   if (!currentUser?.email || !!error) redirect("/login");
 

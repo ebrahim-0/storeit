@@ -51,16 +51,12 @@ const OtpModal = ({
     defaultValues: {},
   });
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("🚀 ~ handleSubmit ~ values:", values);
-
     setIsLoading(true);
 
     const { error, ...sessionId } = await verifyOtp({
       accountId,
       otp: values.otp,
     });
-
-    console.log("🚀 ~ sessionId", sessionId);
 
     if (error) {
       form.setError("otp", { message: error.message });
@@ -83,10 +79,8 @@ const OtpModal = ({
   const handleResend = async () => {
     setIsResend(true);
     const { error, ...resend } = await sendEmailOtp(email);
-    console.log("🚀 ~ handleResend ~ resend:", resend);
 
     if (error) {
-      console.log("🚀 ~ handleResend ~ error:", error);
       setIsResend(false);
       return;
     }

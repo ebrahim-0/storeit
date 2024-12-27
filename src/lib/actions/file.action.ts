@@ -4,7 +4,7 @@ import { createAdminClient } from "../appwrite";
 import { InputFile } from "node-appwrite/file";
 import { createServerAction, ServerActionError } from "../serverAction";
 import { appwriteConfig } from "../appwrite/config";
-import { ID, Models, Permission, Query, Role } from "node-appwrite";
+import { ID, Models, Query } from "node-appwrite";
 import { constructFileUrl, getFileType, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.action";
@@ -20,8 +20,6 @@ export const uploadFile = createServerAction(
       ID.unique(),
       inputFile,
     );
-
-    console.log("🚀 ~ bucketFile:", bucketFile);
 
     const fileDocument = {
       type: getFileType(inputFile.name).type,
@@ -39,7 +37,8 @@ export const uploadFile = createServerAction(
       .createDocument(
         appwriteConfig.databaseId,
         appwriteConfig.filesCollectionId,
-        ID.unique(),
+        // ID.unique(),// make a random unique id for the document
+        bucketFile.$id, // use bucketFileId as document ID
         fileDocument,
       )
       .catch(async (error: any) => {
@@ -47,7 +46,7 @@ export const uploadFile = createServerAction(
         throw new ServerActionError(error.message);
       });
 
-    revalidatePath(path);
+    revalidatePath(path, "page");
 
     return parseStringify(newFile);
   },
@@ -120,7 +119,7 @@ export const renameFile = createServerAction(
       },
     );
 
-    revalidatePath(path);
+    revalidatePath(path, "page");
 
     return parseStringify(updatedFile);
   },
@@ -139,7 +138,7 @@ export const updateFileUsers = createServerAction(
       },
     );
 
-    revalidatePath(path);
+    revalidatePath(path, "page");
 
     return parseStringify(updatedFile);
   },
@@ -177,7 +176,7 @@ export const updateToPublic = createServerAction(
       },
     );
 
-    revalidatePath(path);
+    revalidatePath(path, "page");
 
     return parseStringify(updatedFile);
   },

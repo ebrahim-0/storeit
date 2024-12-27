@@ -54,14 +54,10 @@ export const ShareFile = ({
 
     if (!file?.isPublic) {
       const update = await updateToPublic(file?.$id, path);
-      console.log("🚀 ~ handleShare ~ update:", update);
       setCopy(!!update);
     }
 
-    const url = await navigator.clipboard.writeText(
-      shareUrl(file?.bucketFileId),
-    );
-    console.log("🚀 ~ handleShare ~ url:", url);
+    await navigator.clipboard.writeText(shareUrl(file?.bucketFileId));
     setCopy(true);
     setIsCopied(false);
 
@@ -192,7 +188,7 @@ const ImageThumbnail = ({ file }: { file: Models.Document }) => {
       <Thumbnail
         type={file.type}
         extension={file.extension}
-        url={`/api/image-proxy/${file?.bucketFileId}`}
+        url={`/api/files/${file?.bucketFileId}`}
         className="!size-[52px] !min-w-[52px]"
         imageClassName="!size-7"
       />

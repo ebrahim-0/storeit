@@ -20,7 +20,6 @@ import {
 import { actionsDropdownItems, actionsDropdownItemsAsShare } from "@/constants";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-
 import { Models } from "node-appwrite";
 import { useCallback, useMemo, useState } from "react";
 import { Input } from "./ui/input";
@@ -141,7 +140,6 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
     };
 
     success = await actions[action.value as keyof typeof actions]();
-    console.log("🚀 ~ handleAction ~ success:", success);
 
     if (success?.error) {
       toast.error(success.error.message);
@@ -251,17 +249,14 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
             return (
               <>
                 <DropdownMenuItem
-                  key={actionItem.value + idx}
+                  key={`${actionItem.value}-${idx}-${file.$id}`}
                   onClick={() => {
                     setAction(actionItem);
-                    console.log("🚀 ~ actionItem:", actionItem);
 
                     if (actionItem.value === "share-link") {
                       navigator.clipboard
                         .writeText(shareUrl(file?.bucketFileId))
-                        .then((link) => {
-                          console.log("🚀 ~ handleShare ~ link:", link);
-
+                        .then(() => {
                           toast.success("File url copied to clipboard");
                         });
                     }
@@ -295,7 +290,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
                 >
                   {actionItem.value === "download" ? (
                     <a
-                      href={`/api/image-proxy/${file.bucketFileId}?download=true`}
+                      href={`/api/files/${file.bucketFileId}?download=true`}
                       download={file.name}
                       target="_self"
                       className="flex items-center gap-2"

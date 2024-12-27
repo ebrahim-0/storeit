@@ -10,7 +10,11 @@ import InputController from "./InputController";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { createAccount, loginUser } from "@/lib/actions/user.action";
+import {
+  createAccount,
+  loginUser,
+  signUpWithGithub,
+} from "@/lib/actions/user.action";
 import OtpModal from "./OtpModal";
 import { toast } from "sonner";
 
@@ -142,6 +146,15 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
             >
               {type === "login" ? "Register" : "Login"}
             </Link>
+          </div>
+
+          <div
+            className="body-1 flex justify-center"
+            onClick={() => {
+              signUpWithGithub();
+            }}
+          >
+            login with github
           </div>
         </form>
       </Form>

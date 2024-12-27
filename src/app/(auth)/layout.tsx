@@ -9,8 +9,6 @@ export const dynamic = "force-dynamic";
 
 const layout = async ({ children }: { children: ReactNode }) => {
   const { error, ...currentUser } = await getCurrentUser();
-  console.log("🚀 ~ layout ~ currentUser:", currentUser);
-  console.log("🚀 ~ layout ~ error:", error);
 
   if (currentUser?.email) redirect("/");
 

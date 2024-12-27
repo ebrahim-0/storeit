@@ -1,13 +1,13 @@
 "use server";
 
-import { ID, Query } from "node-appwrite";
+import { Account, Client, ID, OAuthProvider, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import bcrypt from "bcrypt";
 import { avatarPlaceholderUrl } from "@/constants";
 import { parseStringify } from "../utils";
 import { createServerAction, ServerActionError } from "../serverAction";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const getUserByEmail = createServerAction(async (email: string) => {
@@ -79,7 +79,8 @@ export const createAccount = createServerAction(
         await databases.createDocument(
           appwriteConfig.databaseId,
           appwriteConfig.usersCollectionId,
-          ID.unique(),
+          // ID.unique(), // make a random unique id for the document
+          accountId, // use the account id as a unique id for the document
           {
             fullName,
             email,
@@ -117,6 +118,21 @@ export const loginUser = createServerAction(
     return parseStringify({ accountId: existingUser.accountId });
   },
 );
+
+export const signUpWithGithub = async () => {
+  const { account } = await createAdminClient();
+
+  const origin = (await headers()).get("origin");
+
+  const redirectUrl = await account.createOAuth2Token(
+    OAuthProvider.Github,
+    `${origin}/api/oauth`, // Callback URL
+    `${origin}/register`, // Redirect URL after successful login
+    ["repo", "user"],
+  );
+
+  return redirect(redirectUrl);
+};
 
 export const verifyOtp = createServerAction(
   async ({ accountId, otp }: { accountId: string; otp: string }) => {

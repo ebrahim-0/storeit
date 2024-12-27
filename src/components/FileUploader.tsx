@@ -24,8 +24,6 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
 
         acceptedFiles.forEach((file) => {
           if (existingFileNames.has(file.name)) {
-            console.log(`File "${file.name}" is already uploaded.`);
-
             toast(
               <p>
                 <span className="font-semibold">{`"${file.name}"`}</span> is
@@ -63,10 +61,8 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
 
         return uploadFile({ file, ownerId, accountId, path: pathname }).then(
           (uploadedFile) => {
-            console.log("🚀 ~ uploadPromises ~ uploadedFile:", uploadedFile);
             if (!uploadedFile?.error) {
               setFiles((prev) => prev.filter((f) => f.name !== file.name));
-
               return toast(
                 <p className="flex items-center gap-3">
                   <span>
@@ -91,7 +87,6 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
         );
       });
 
-      console.log("🚀 ~ uploadPromises:", uploadPromises);
       await Promise.all(uploadPromises);
     },
     [ownerId, accountId, pathname, files],

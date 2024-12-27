@@ -1,5 +1,6 @@
 import { cn, getFileIcon } from "@/lib/utils";
-import Image from "next/image";
+import LoadImage from "./LoadImage";
+import { Skeleton } from "./ui/skeleton";
 
 const Thumbnail = ({
   type,
@@ -17,9 +18,11 @@ const Thumbnail = ({
         className,
       )}
     >
-      <Image
+      <LoadImage
+        loaderSize={60}
         src={isImage ? url : getFileIcon(extension, type)}
         alt="thumbnail"
+        customLoader={<Skeleton className="size-[60px] rounded-full" />}
         width={100}
         height={100}
         className={cn(

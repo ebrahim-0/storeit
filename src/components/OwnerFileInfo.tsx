@@ -8,12 +8,12 @@ const OwnerFileInfo = ({ file }: { file: Models.Document }) => {
   const isSharedWithMe = file?.users.includes(user?.email);
 
   return (
-    <p className="caption line-clamp-1 text-light-200">
-      By: {file?.owner?.fullName}{" "}
+    <p className="caption text-light-200">
+      By: {file?.owner?.fullName}
       {isSharedWithMe ? (
-        <span className="text-brand">- Shared with you</span>
+        <span className="text-brand"> - Shared with You</span>
       ) : (
-        <span>- (You)</span>
+        <span> - (You)</span>
       )}
     </p>
   );

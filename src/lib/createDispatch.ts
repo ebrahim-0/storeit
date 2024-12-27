@@ -19,7 +19,6 @@ export const createDispatch = CreateDispatch(({ name, payload, tools }) => {
   const getLoginUser = async () => {
     const callback = payload?.callback;
     const { error, ...currentUser } = (await getCurrentUser()) || {};
-    console.log("🚀 ~ getLoginUser ~ error:", error);
 
     if (error) {
       toast(error?.message, {
@@ -28,6 +27,7 @@ export const createDispatch = CreateDispatch(({ name, payload, tools }) => {
       });
     }
 
+    console.log("🚀 ~ getLoginUser ~ currentUser:", currentUser);
     dispatch({ user: currentUser });
     if (!error) {
       callback && (await callback());
