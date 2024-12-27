@@ -149,7 +149,7 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
           </div>
 
           <div
-            className="body-1 flex cursor-pointer justify-center"
+            className="body-1 flex justify-center"
             onClick={() => {
               signUpWithGithub();
             }}
