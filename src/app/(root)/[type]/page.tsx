@@ -5,10 +5,10 @@ import { fileType } from "@/constants";
 import { getFiles } from "@/lib/actions/file.action";
 import { capitalize } from "@/lib/utils";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Models } from "node-appwrite";
 
 export const dynamicParams = false;
-// export const revalidate = false;
 
 export function generateStaticParams() {
   return fileType.map((type) => ({

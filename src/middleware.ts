@@ -1,11 +1,19 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { isHybrid, isPublic } from "./constants";
+import { createSessionClient } from "./lib/appwrite";
 
 export async function middleware(request: NextRequest) {
   // Fetch the session cookie
-  const isSession = (await cookies()).get("appwrite-session");
-  console.log("🚀 ~ middleware ~ isSession:", isSession);
+  // const isSession = (await cookies()).get("appwrite-session");
+  // console.log("🚀 ~ middleware ~ isSession:", isSession);
+
+  const { account } = await createSessionClient();
+
+  const isUser = await account
+    .get()
+    .then(() => true)
+    .catch(() => false);
 
   // Allow access if the URL contains `?secret=`
   if (request.nextUrl.searchParams.has("secret")) {
@@ -19,7 +27,7 @@ export async function middleware(request: NextRequest) {
   );
 
   // Handle cases where there is no session
-  if (!isSession) {
+  if (!isUser) {
     if (!isPublic.includes(pathname) && !isHybridRoute) {
       const url = request.nextUrl.clone();
       url.pathname = "/login";
@@ -30,7 +38,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Handle cases where there is a session
-  if (isSession) {
+  if (isUser) {
     if (isPublic.includes(pathname)) {
       // Redirect to home page if the requested route is public
       const url = request.nextUrl.clone();
