@@ -188,7 +188,7 @@ const ImageThumbnail = ({ file }: { file: Models.Document }) => {
       <Thumbnail
         type={file.type}
         extension={file.extension}
-        url={`/files/${file?.bucketFileId}`}
+        url={`/api/files/${file?.bucketFileId}`}
         className="!size-[52px] !min-w-[52px]"
         imageClassName="!size-7"
       />

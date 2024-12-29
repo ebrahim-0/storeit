@@ -1,11 +1,8 @@
-import ClientToast from "@/components/ClientToast";
+import { ReactNode } from "react";
+import { Metadata } from "next";
 import Header from "@/components/Header";
 import MobileNavigation from "@/components/MobileNavigation";
 import Sidebar from "@/components/Sidebar";
-import { getCurrentUser } from "@/lib/actions/user.action";
-import { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { ReactNode } from "react";
 
 export const dynamic = "force-dynamic";
 
@@ -15,21 +12,8 @@ export const metadata: Metadata = {
 };
 
 const layout = async ({ children }: { children: ReactNode }) => {
-  const { error, ...currentUser } = (await getCurrentUser()) || {};
-
-  if (!currentUser?.email || !!error) redirect("/login");
-
   return (
     <main className="flex h-screen">
-      {error && (
-        <ClientToast
-          key={error.message}
-          message={<p className="body-2 text-white">{error?.message}</p>}
-          data={{
-            className: "!bg-red !rounded-[10px]",
-          }}
-        />
-      )}
       <Sidebar />
       <section className="flex h-full flex-1 flex-col">
         <MobileNavigation />

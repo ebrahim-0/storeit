@@ -1,6 +1,7 @@
 import { CreateDispatch } from "zustore";
 import { getCurrentUser, logout } from "./actions/user.action";
 import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
 export const createDispatch = CreateDispatch(({ name, payload, tools }) => {
   const { dispatch, addState, state } = tools;
@@ -37,6 +38,7 @@ export const createDispatch = CreateDispatch(({ name, payload, tools }) => {
     await logout();
 
     dispatch({ user: null });
+    redirect("/");
   };
 
   // Switch based on the function name

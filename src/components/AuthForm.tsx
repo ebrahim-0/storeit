@@ -30,6 +30,7 @@ const authFormSchema = (type: TypeForm) => {
 
 const AuthForm = ({ type }: { type: TypeForm }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isGithubLoading, setIsGithubLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [accountId, setAccountId] = useState("");
   const [openOtp, setOpenOtp] = useState(false);
@@ -77,6 +78,18 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
     }
   };
 
+  const handleGithubLogin = async () => {
+    setIsGithubLoading(true);
+    signUpWithGithub()
+      .then((res) => {
+        console.log("🚀 ~ signUpWithGithub ~ res:", res);
+        setIsGithubLoading(false);
+      })
+      .catch(() => {
+        setIsGithubLoading(false);
+      });
+  };
+
   return (
     <>
       <Form {...form}>
@@ -116,17 +129,13 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
             defaultValue=""
           />
 
-          <Button className="btn" type="submit" disabled={isLoading}>
+          <Button
+            className="btn"
+            type="submit"
+            disabled={isLoading}
+            isLoading={isLoading}
+          >
             {type === "login" ? "Login" : "Register"}
-            {isLoading && (
-              <Image
-                src="/assets/icons/loader.svg"
-                width={24}
-                height={24}
-                alt="Loader"
-                className="ml-2 animate-spin"
-              />
-            )}
           </Button>
 
           {errorMessage && <p className="text-red">*{errorMessage}</p>}
@@ -151,9 +160,9 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
       <Button
         className="btn mt-4 !bg-light-100 hover:!bg-light-100/80"
         type="button"
-        onClick={() => {
-          signUpWithGithub();
-        }}
+        onClick={handleGithubLogin}
+        disabled={isGithubLoading}
+        isLoading={isGithubLoading}
       >
         login with github
       </Button>

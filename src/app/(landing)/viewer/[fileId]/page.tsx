@@ -1,3 +1,4 @@
+import ClientToast from "@/components/ClientToast";
 import LoadEmbed from "@/components/LoadEmbed";
 import LoadImage from "@/components/LoadImage";
 import Text from "@/components/ui/Text";
@@ -14,10 +15,18 @@ export const metadata: Metadata = {
 
 const page = async ({ params }: SearchParamProps) => {
   const fileId = ((await params)?.fileId as string) || "";
-  const file = await getFileByBucketFileId(fileId);
+  const { error: fileError, ...file } = await getFileByBucketFileId(fileId);
   const { error, ...currentUser } = await getCurrentUser();
 
   const isImage = file?.type === "image";
+
+  if (fileError) {
+    return (
+      <div className="mx-auto flex h-full min-h-[calc(100vh-80px)] w-full flex-col items-center justify-center gap-3 pb-10 pt-6">
+        {fileError.message}
+      </div>
+    );
+  }
 
   if (
     file?.isPublic ||
@@ -31,7 +40,7 @@ const page = async ({ params }: SearchParamProps) => {
             <h1 className="h1 truncate text-light-100">{file?.name}</h1>
             <Text toolTipAlign="center" tooltip="Download" side="bottom">
               <a
-                href={`/files/${fileId}?download=true`}
+                href={`/api/files/${fileId}?download=true`}
                 target="_self"
                 download={file?.name}
               >
@@ -56,13 +65,13 @@ const page = async ({ params }: SearchParamProps) => {
               <LoadImage
                 alt="Viewer"
                 className="h-fit object-cover"
-                src={`/files/${fileId}`}
+                src={`/api/files/${fileId}`}
               />
             )}
             {fileId && !isImage && (
               <LoadEmbed
                 className="h-full min-h-[calc(100vh-80px)] w-full border-none"
-                src={`/files/${fileId}`}
+                src={`/api/files/${fileId}`}
               />
             )}
           </div>

@@ -134,7 +134,7 @@ export const signUpWithGithub = async () => {
 
   const redirectUrl = await account.createOAuth2Token(
     OAuthProvider.Github,
-    `${origin}/oauth`, // Callback URL
+    `${origin}/api/oauth`, // Callback URL
     `${origin}/register`, // Redirect URL after successful login
     ["read:user", "user:email"],
   );

@@ -1,10 +1,20 @@
 import Card from "@/components/Card";
 import ClientToast from "@/components/ClientToast";
 import Sort from "@/components/Sort";
+import { fileType } from "@/constants";
 import { getFiles } from "@/lib/actions/file.action";
 import { capitalize } from "@/lib/utils";
 import { Metadata } from "next";
 import { Models } from "node-appwrite";
+
+export const dynamicParams = false;
+// export const revalidate = false;
+
+export function generateStaticParams() {
+  return fileType.map((type) => ({
+    type: type,
+  }));
+}
 
 export async function generateMetadata({
   params,

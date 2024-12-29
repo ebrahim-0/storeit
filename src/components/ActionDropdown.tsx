@@ -208,17 +208,9 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
               className="btn !mx-0 h-[52px] flex-1"
               onClick={handleAction}
               disabled={isLoading}
+              isLoading={isLoading}
             >
               <p className="capitalize">{value}</p>
-              {isLoading && (
-                <Image
-                  src="/assets/icons/loader.svg"
-                  alt="loader"
-                  width={24}
-                  height={24}
-                  className="ml-2 animate-spin"
-                />
-              )}
             </Button>
           </DialogFooter>
         )}
@@ -290,7 +282,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
                 >
                   {actionItem.value === "download" ? (
                     <a
-                      href={`/files/${file.bucketFileId}?download=true`}
+                      href={`/api/files/${file.bucketFileId}?download=true`}
                       download={file.name}
                       target="_self"
                       className="flex items-center gap-2"

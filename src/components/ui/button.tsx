@@ -3,6 +3,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const buttonVariants = cva(
   cn(
@@ -47,20 +48,45 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  isLoading?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+const BaseBtn = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, isLoading, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
+      <>
+        <Comp
+          className={cn(buttonVariants({ variant, size, className }))}
+          ref={ref}
+          {...props}
+        />
+      </>
     );
   },
 );
-Button.displayName = "Button";
 
-export { Button, buttonVariants };
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (props, ref) => {
+    return (
+      <>
+        <BaseBtn ref={ref} {...props}>
+          {props.children}
+          {props?.isLoading && (
+            <Image
+              src="/assets/icons/loader.svg"
+              width={24}
+              height={24}
+              alt="Loader"
+              className="ml-2 animate-spin"
+            />
+          )}
+        </BaseBtn>
+      </>
+    );
+  },
+);
+
+BaseBtn.displayName = "Button";
+
+export { BaseBtn, Button, buttonVariants };
