@@ -8,6 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function NotFound() {
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center bg-background text-foreground">
       <div className="space-y-6 text-center">
@@ -22,10 +26,18 @@ export default function NotFound() {
           The page you’re looking for doesn’t exist or has been moved.
         </p>
 
-        {/* Back to Home Button */}
-        <Button className="mt-6">
-          <Link href="/">Go Back Home</Link>
-        </Button>
+        {/* Buttons Container */}
+        <div className="mt-6 flex items-center justify-center gap-4">
+          {/* Back to Home Button */}
+          <Button>
+            <Link href="/">Go Back Home</Link>
+          </Button>
+
+          {/* Refresh Button */}
+          <Button variant="outline" onClick={handleRefresh}>
+            Refresh Page
+          </Button>
+        </div>
       </div>
     </div>
   );
