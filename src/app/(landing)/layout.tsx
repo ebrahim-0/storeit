@@ -5,6 +5,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import UserData from "@/components/UserData";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,7 +46,10 @@ const layout = async ({
         </Sheet>
         <NavLinks />
       </header>
-      <main className="min-h-[calc(100vh-111px)]">{children}</main>
+      <main className="min-h-[calc(100vh-111px)]">
+        <UserData />
+        {children}
+      </main>
     </div>
   );
 };

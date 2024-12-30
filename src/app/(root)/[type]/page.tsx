@@ -5,11 +5,12 @@ import { fileType } from "@/constants";
 import { getFiles } from "@/lib/actions/file.action";
 import { capitalize } from "@/lib/utils";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Models } from "node-appwrite";
 
 export const dynamicParams = false;
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return fileType.map((type) => ({
     type: type,
   }));
@@ -27,6 +28,10 @@ export async function generateMetadata({
 
 const page = async ({ params }: SearchParamProps) => {
   const type = ((await params)?.type as string) || "";
+
+  if (!fileType.includes(type)) {
+    return notFound();
+  }
 
   const { error, ...files } = await getFiles();
 
