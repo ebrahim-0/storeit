@@ -1,4 +1,4 @@
-"sue client";
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
