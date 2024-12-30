@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "http://store-it.live",
+      "destination": "https://www.store-it.live",
+      "permanent": true
+    },
+    {
+      "source": "http://www.store-it.live",
+      "destination": "https://www.store-it.live",
+      "permanent": true
+    }
+  ]
+}
