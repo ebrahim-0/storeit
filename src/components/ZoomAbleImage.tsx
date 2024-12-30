@@ -1,5 +1,4 @@
 import { DetailedHTMLProps, ImgHTMLAttributes } from "react";
-import Image from "next/image";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import LoadImage from "./LoadImage";
 
@@ -24,9 +23,8 @@ export default function ZoomAbleImage({
         closeClassName="!bg-white"
       >
         <div className="relative left-1/2 top-1/2 h-[calc(100vh-80px)] -translate-x-1/2 -translate-y-1/2 overflow-clip">
-          <Image
+          <LoadImage
             src={src}
-            fill
             alt={alt || ""}
             className="mx-auto h-full !w-fit object-contain"
           />

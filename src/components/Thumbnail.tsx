@@ -1,5 +1,4 @@
 import { cn, getFileIcon } from "@/lib/utils";
-import Image from "next/image";
 
 const Thumbnail = ({
   type,
@@ -17,7 +16,7 @@ const Thumbnail = ({
         className,
       )}
     >
-      <Image
+      <img
         src={isImage ? url : getFileIcon(extension, type)}
         alt="thumbnail"
         width={100}
