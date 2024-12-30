@@ -1,13 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Metadata } from "next";
 import Link from "next/link";
-
-export const metadata: Metadata = {
-  title: "StoreIt | 404 Page Not Found",
-  description: "The page you’re looking for doesn’t exist or has been moved.",
-};
 
 export default function NotFound() {
   const handleRefresh = () => {
