@@ -9,7 +9,7 @@ declare interface IUser {
 
 declare interface MediaPlayerProps {
   src: string;
-  type: string;
+  type: "video" | "audio";
 }
 
 declare type TypeForm = "login" | "register";

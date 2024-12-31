@@ -25,6 +25,8 @@ export const uploadFile = createServerAction(
       },
     );
 
+    console.log("🚀 ~ bucketFile:", bucketFile);
+
     const fileDocument = {
       type: getFileType(inputFile.name).type,
       name: inputFile.name,

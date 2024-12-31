@@ -1,6 +1,10 @@
 import { getFileByBucketFileId } from "@/lib/actions/file.action";
 import { getCurrentUser } from "@/lib/actions/user.action";
-import { constructDownloadUrl, constructFileUrl } from "@/lib/utils";
+import {
+  constructDownloadUrl,
+  constructFileUrl,
+  getContentType,
+} from "@/lib/utils";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -42,34 +46,19 @@ export async function GET(
       const response = await fetch(url);
 
       // Determine the Content-Type based on the file extension
-      let contentType = "application/octet-stream"; // Default content type
+      let contentType = getContentType(file?.extension); // Default content type
 
-      switch (file?.extension) {
-        case "mp4":
-          contentType = "video/mp4";
-          break;
-        case "mp3":
-          contentType = "audio/mpeg";
-          break;
-        case "pdf":
-          contentType = "application/pdf";
-          break;
-        case "jpg":
-        case "jpeg":
-          contentType = "image/jpeg";
-          break;
-        case "png":
-          contentType = "image/png";
-          break;
-        case "gif":
-          contentType = "image/gif";
-          break;
-        case "webp":
-          contentType = "image/webp";
-          break;
-        case "svg":
-          contentType = "image/svg+xml";
-          break;
+      // Handle cache validation with ETag
+      const ifNoneMatch = request.headers.get("If-None-Match");
+      const etag = `"${fileId}"`; // Generate ETag from fileId (or use a hash of the file content)
+
+      if (ifNoneMatch === etag) {
+        return new Response(null, {
+          status: 304, // Not Modified
+          headers: {
+            ETag: etag,
+          },
+        });
       }
 
       // Handle range requests for media files (e.g., video/audio streaming)
@@ -93,7 +82,8 @@ export async function GET(
               "Accept-Ranges": "bytes",
               "Content-Length": chunkSize.toString(),
               "Content-Type": contentType,
-              "Cache-Control": "no-store",
+              "Cache-Control": "public, max-age=3600", // Cache for 1 hour for partial content
+              ETag: etag, // Use ETag for cache validation
             };
 
             const partialResponse = await fetch(url, {
@@ -112,7 +102,8 @@ export async function GET(
       return new Response(response.body, {
         headers: {
           "Content-Type": contentType,
-          "Cache-Control": "no-store",
+          "Cache-Control": "public, max-age=3600", // Cache for 1 hour for partial content
+          ETag: etag, // Use ETag for cache validation
         },
       });
     } else {

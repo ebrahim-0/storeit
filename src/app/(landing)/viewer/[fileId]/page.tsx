@@ -1,5 +1,3 @@
-import LoadEmbed from "@/components/LoadEmbed";
-import MediaPlayer from "@/components/MediaPlayer";
 import Text from "@/components/ui/Text";
 import ZoomAbleImage from "@/components/ZoomAbleImage";
 import { getFileByBucketFileId } from "@/lib/actions/file.action";
@@ -8,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import MediaPlayer from "@/components/MediaPlayer";
 
 export const metadata: Metadata = {
   title: "StoreIt | Viewer",
@@ -73,9 +72,11 @@ const page = async ({ params }: SearchParamProps) => {
               />
             )}
 
-            <MediaPlayer src={`/api/files/${fileId}`} type={file?.type} />
+            {fileId && (isAudio || isVideo) && (
+              <MediaPlayer src={`/api/files/${fileId}`} type={file?.type} />
+            )}
             {fileId && !isImage && !isVideo && !isAudio && (
-              <LoadEmbed
+              <embed
                 className="h-[calc(100vh-80px)] w-full border-none"
                 src={`/api/files/${fileId}`}
               />

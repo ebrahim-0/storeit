@@ -18,7 +18,7 @@ const layout = async ({
   children: React.ReactNode;
 }>) => {
   return (
-    <div className="container">
+    <div className="md:container">
       <header className="flex w-full items-center justify-between border-b p-3">
         <Link href="/">
           <Image
@@ -46,10 +46,7 @@ const layout = async ({
         </Sheet>
         <NavLinks />
       </header>
-      <main className="min-h-[calc(100vh-111px)]">
-        <UserData />
-        {children}
-      </main>
+      <main className="min-h-[calc(100vh-111px)]">{children}</main>
     </div>
   );
 };
