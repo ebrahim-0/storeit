@@ -24,7 +24,11 @@ import { Models } from "node-appwrite";
 import { useCallback, useMemo, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { renameFile, updateFileUsers } from "@/lib/actions/file.action";
+import {
+  deleteFile,
+  renameFile,
+  updateFileUsers,
+} from "@/lib/actions/file.action";
 import { FileDetails, ShareFile } from "./ActionsModalContent";
 import { useSelector } from "zustore";
 import { getUserByEmail } from "@/lib/actions/user.action";
@@ -131,10 +135,15 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
         }
         return res;
       },
-      delete: () => {
+      delete: async () => {
         if (file?.users.includes(email)) {
           toast.error("You can't delete a file shared with you");
           return;
+        }
+        const res = await deleteFile(file.bucketFileId, path);
+
+        if (!res.error) {
+          toast.success("File deleted successfully");
         }
       },
     };

@@ -1,4 +1,5 @@
 import LoadEmbed from "@/components/LoadEmbed";
+import MediaPlayer from "@/components/MediaPlayer";
 import Text from "@/components/ui/Text";
 import ZoomAbleImage from "@/components/ZoomAbleImage";
 import { getFileByBucketFileId } from "@/lib/actions/file.action";
@@ -18,6 +19,8 @@ const page = async ({ params }: SearchParamProps) => {
   const { error, ...currentUser } = await getCurrentUser();
 
   const isImage = file?.type === "image";
+  const isVideo = file?.type === "video";
+  const isAudio = file?.type === "audio";
 
   if (fileError) {
     return (
@@ -34,7 +37,7 @@ const page = async ({ params }: SearchParamProps) => {
   ) {
     return (
       <>
-        <div className="mx-auto flex h-[calc(100vh-80px)] w-full flex-col items-center justify-center gap-3 pb-10 pt-6">
+        <div className="mx-auto flex min-h-[calc(100vh-80px)] w-full flex-col items-center justify-center gap-3 pb-10 pt-6">
           <div className="flex w-full items-center justify-between">
             <h1 className="h1 truncate text-light-100">{file?.name}</h1>
             <Text toolTipAlign="center" tooltip="Download" side="bottom">
@@ -56,8 +59,10 @@ const page = async ({ params }: SearchParamProps) => {
           <div
             className={cn(
               "relative h-full w-full overflow-hidden",
-              "bg-red-500 m-auto h-[calc(100vh-80px)] rounded-3xl bg-light-300 p-5",
-              isImage ? "flex items-center justify-center" : "",
+              "bg-red-500 m-auto rounded-3xl bg-light-300 p-5",
+              isImage
+                ? "flex h-[calc(100vh-80px)] items-center justify-center"
+                : "",
             )}
           >
             {fileId && isImage && (
@@ -67,7 +72,9 @@ const page = async ({ params }: SearchParamProps) => {
                 className="h-full !w-fit object-contain"
               />
             )}
-            {fileId && !isImage && (
+
+            <MediaPlayer src={`/api/files/${fileId}`} type={file?.type} />
+            {fileId && !isImage && !isVideo && !isAudio && (
               <LoadEmbed
                 className="h-[calc(100vh-80px)] w-full border-none"
                 src={`/api/files/${fileId}`}

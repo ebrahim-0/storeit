@@ -12,17 +12,17 @@ const NavLinks = ({ classNames }: { classNames?: string }) => {
   const user = useSelector("user");
 
   return (
-    <nav className={cn("gap-3 justify-end hidden md:flex", classNames)}>
+    <nav className={cn("hidden justify-end gap-3 md:flex", classNames)}>
       {navLinks(user?.email).map(({ title, path }, index) => {
         return (
           <Link
             key={index}
             href={path}
             className={cn(
-              "transition-all duration-300 p-2 rounded-md",
+              "rounded-md p-2 transition-all duration-300",
               isActive(pathname, path)
-                ? "text-white bg-brand hover:bg-brand-100"
-                : "text-brand"
+                ? "bg-brand text-white hover:bg-brand-100"
+                : "text-brand",
             )}
           >
             {title}

@@ -7,6 +7,11 @@ declare interface IUser {
   role: "admin" | "user";
 }
 
+declare interface MediaPlayerProps {
+  src: string;
+  type: string;
+}
+
 declare type TypeForm = "login" | "register";
 
 declare type FileType = "document" | "image" | "video" | "audio" | "other";

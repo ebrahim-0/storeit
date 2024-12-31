@@ -3,6 +3,7 @@ export const initialState = {
   user: null,
   info: {
     name: "Ibrahim",
+    age: 22,
   },
   lang: "en",
 };

@@ -19,6 +19,10 @@ export const uploadFile = createServerAction(
       appwriteConfig.bucketId,
       ID.unique(),
       inputFile,
+      [],
+      (progress) => {
+        console.log(progress.progress);
+      },
     );
 
     const fileDocument = {
@@ -179,5 +183,29 @@ export const updateToPublic = createServerAction(
     revalidatePath(path, "page");
 
     return parseStringify(updatedFile);
+  },
+);
+
+export const deleteFile = createServerAction(
+  async (fileId: string, path: string) => {
+    try {
+      const { databases, storage } = await createAdminClient();
+
+      const deletedFile = await databases.deleteDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.filesCollectionId,
+        fileId,
+      );
+
+      if (deletedFile) {
+        await storage.deleteFile(appwriteConfig.bucketId, fileId);
+      }
+
+      revalidatePath(path, "page");
+
+      return parseStringify({ status: "success" });
+    } catch (error: any) {
+      throw new ServerActionError(error.message);
+    }
   },
 );
