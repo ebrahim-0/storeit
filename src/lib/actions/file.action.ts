@@ -8,7 +8,6 @@ import { ID, Models, Permission, Query, Role } from "node-appwrite";
 import { constructFileUrl, getFileType, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.action";
-import { v2 as cloudinary } from "cloudinary";
 
 export const uploadFile = createServerAction(
   async ({ file, ownerId, accountId, path }: UploadFileProps) => {
@@ -20,7 +19,11 @@ export const uploadFile = createServerAction(
       appwriteConfig.bucketId,
       ID.unique(),
       inputFile,
-      [Permission.read(Role.users()), Permission.write(Role.users())],
+      [
+        Permission.read(Role.users()),
+        Permission.write(Role.users()),
+        Permission.delete(Role.users()),
+      ],
       (progress) => {
         console.log(progress.progress);
       },
@@ -213,10 +216,10 @@ export const deleteFile = createServerAction(
   },
 );
 
-export const getFileView = async (fileId: string) => {
+export const getFileDownload = async (fileId: string) => {
   const { storage } = await createAdminClient();
 
-  const file = await storage.getFileView(appwriteConfig.bucketId, fileId);
+  const file = await storage.getFileDownload(appwriteConfig.bucketId, fileId);
 
   return file;
 };
