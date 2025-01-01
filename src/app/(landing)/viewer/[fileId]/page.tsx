@@ -57,7 +57,7 @@ const page = async ({ params }: SearchParamProps) => {
           </div>
           <div
             className={cn(
-              "relative h-full w-full overflow-hidden",
+              "relative h-full w-full",
               "bg-red-500 m-auto rounded-3xl bg-light-300 p-5",
               isImage
                 ? "flex h-[calc(100vh-80px)] items-center justify-center"
@@ -73,7 +73,11 @@ const page = async ({ params }: SearchParamProps) => {
             )}
 
             {fileId && (isAudio || isVideo) && (
-              <MediaPlayer src={`/api/files/${fileId}`} type={file?.type} />
+              <MediaPlayer
+                // src={`/api/${isVideo ? "video-hls" : "files"}/${fileId}`}
+                src={`/api/files/${fileId}`}
+                type={file?.type}
+              />
             )}
             {fileId && !isImage && !isVideo && !isAudio && (
               <embed
