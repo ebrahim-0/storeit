@@ -124,7 +124,7 @@
 import { NextResponse } from "next/server";
 import { getFileByBucketFileId } from "@/lib/actions/file.action";
 import { getCurrentUser } from "@/lib/actions/user.action";
-import { constructFileUrl, getContentType } from "@/lib/utils";
+import { constructFileUrl } from "@/lib/utils";
 
 export async function GET(
   request: Request,
@@ -150,21 +150,82 @@ export async function GET(
       file?.users.includes(currentUser?.email)
     ) {
       const fileUrl = constructFileUrl(fileId); // URL to the remote file
-      const contentType = getContentType(file?.extension);
 
-      // Fetch the file with the Range header from the client request
-      const range = request.headers.get("range") || "";
-      const fetchOptions = range ? { headers: { Range: range } } : {};
+      // Fetch the remote file
+      const response = await fetch(fileUrl);
 
-      const response = await fetch(fileUrl, fetchOptions);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch file: ${response.statusText}`);
+      }
 
-      // For non-range requests or non-media files
-      return new Response(response.body, {
-        headers: {
-          "Content-Type": contentType,
-          "Cache-Control": "public, max-age=3600",
-        },
-      });
+      const fileSize = file.size;
+
+      const range = request.headers.get("range");
+
+      if (range) {
+        // Extract the start and end bytes from the range header
+        const parts = range.replace(/bytes=/, "").split("-");
+        const start = parseInt(parts[0], 10);
+        const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+
+        // Ensure the end byte is within the file size
+        if (start >= fileSize || end >= fileSize) {
+          return new NextResponse("Requested range not satisfiable", {
+            status: 416,
+          });
+        }
+
+        // Create a ReadableStream for the requested chunk
+        const readableStream = new ReadableStream({
+          async start(controller) {
+            const reader = response.body?.getReader();
+            let offset = 0;
+
+            while (true) {
+              const { done, value } = await reader!.read();
+
+              if (done) {
+                controller.close();
+                break;
+              }
+
+              // Only send the chunk if it falls within the requested range
+              if (offset + value.length > start) {
+                const chunkStart = Math.max(start - offset, 0);
+                const chunkEnd = Math.min(end - offset + 1, value.length);
+                const chunk = value.slice(chunkStart, chunkEnd);
+
+                controller.enqueue(chunk);
+              }
+
+              offset += value.length;
+
+              if (offset > end) {
+                controller.close();
+                break;
+              }
+            }
+          },
+        });
+
+        // Set headers for partial content
+        const headers = {
+          "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+          "Accept-Ranges": "bytes",
+          "Content-Length": String(end - start + 1),
+          "Content-Type": "video/mp4",
+        };
+
+        return new NextResponse(readableStream, { status: 206, headers });
+      } else {
+        // If no range header, send the entire file
+        const headers = {
+          "Content-Length": String(fileSize),
+          "Content-Type": "video/mp4",
+        };
+
+        return new NextResponse(response.body, { status: 200, headers });
+      }
     } else {
       return NextResponse.json(
         { error: "You are not authorized to view this file" },
