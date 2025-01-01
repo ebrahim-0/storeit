@@ -34,7 +34,7 @@ import { useSelector } from "zustore";
 import { getUserByEmail } from "@/lib/actions/user.action";
 import { toast } from "sonner";
 import Text from "./ui/Text";
-import { shareUrl } from "@/lib/utils";
+import { constructFileUrl, shareUrl } from "@/lib/utils";
 
 const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const path = usePathname();
@@ -291,7 +291,8 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
                 >
                   {actionItem.value === "download" ? (
                     <a
-                      href={`/api/files/${file.bucketFileId}?download=true`}
+                      // href={`/api/files/${file.bucketFileId}?download=true`}
+                      href={constructFileUrl(file?.bucketFileId)}
                       download={file.name}
                       target="_self"
                       className="flex items-center gap-2"

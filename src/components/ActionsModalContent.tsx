@@ -2,7 +2,12 @@
 
 import { Models } from "node-appwrite";
 import Thumbnail from "./Thumbnail";
-import { convertFileSize, formatDateTime, shareUrl } from "@/lib/utils";
+import {
+  constructFileUrl,
+  convertFileSize,
+  formatDateTime,
+  shareUrl,
+} from "@/lib/utils";
 import FormattedDateTime from "./FormattedDateTime";
 import React, { SetStateAction, useState } from "react";
 import { Input } from "./ui/input";
@@ -188,7 +193,8 @@ const ImageThumbnail = ({ file }: { file: Models.Document }) => {
       <Thumbnail
         type={file.type}
         extension={file.extension}
-        url={`/api/files/${file?.bucketFileId}`}
+        // url={`/api/files/${file?.bucketFileId}`}
+        url={constructFileUrl(file?.bucketFileId)}
         className="!size-[52px] !min-w-[52px]"
         imageClassName="!size-7"
       />
