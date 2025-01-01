@@ -2,7 +2,7 @@
 
 import { ID, OAuthProvider, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
-import { appwriteConfig } from "../appwrite/config";
+import { appwriteConfig } from "../config";
 import bcrypt from "bcrypt";
 import { avatarPlaceholderUrl } from "@/constants";
 import { parseStringify } from "../utils";

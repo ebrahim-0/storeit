@@ -121,131 +121,10 @@
 //   }
 // }
 
-// import { NextResponse } from "next/server";
-// import { getFileByBucketFileId } from "@/lib/actions/file.action";
-// import { getCurrentUser } from "@/lib/actions/user.action";
-// import { constructFileUrl } from "@/lib/utils";
-
-// export async function GET(
-//   request: Request,
-//   { params }: { params: Promise<{ fileId: string }> },
-// ) {
-//   const { fileId } = await params;
-
-//   if (!fileId) {
-//     return NextResponse.json({ error: "File ID is required" }, { status: 400 });
-//   }
-
-//   const file = await getFileByBucketFileId(fileId);
-//   if (!file) {
-//     return NextResponse.json({ error: "File not found" }, { status: 404 });
-//   }
-
-//   const { error, ...currentUser } = await getCurrentUser();
-
-//   try {
-//     if (
-//       file?.isPublic ||
-//       currentUser?.accountId === file?.accountId ||
-//       file?.users.includes(currentUser?.email)
-//     ) {
-//       const fileUrl = constructFileUrl(fileId); // URL to the remote file
-
-//       // Fetch the remote file
-//       const response = await fetch(fileUrl);
-
-//       if (!response.ok) {
-//         throw new Error(`Failed to fetch file: ${response.statusText}`);
-//       }
-
-//       const fileSize = file.size;
-
-//       const range = request.headers.get("range");
-
-//       if (range) {
-//         // Extract the start and end bytes from the range header
-//         const parts = range.replace(/bytes=/, "").split("-");
-//         const start = parseInt(parts[0], 10);
-//         const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
-
-//         // Ensure the end byte is within the file size
-//         if (start >= fileSize || end >= fileSize) {
-//           return new NextResponse("Requested range not satisfiable", {
-//             status: 416,
-//           });
-//         }
-
-//         // Create a ReadableStream for the requested chunk
-//         const readableStream = new ReadableStream({
-//           async start(controller) {
-//             const reader = response.body?.getReader();
-//             let offset = 0;
-
-//             while (true) {
-//               const { done, value } = await reader!.read();
-
-//               if (done) {
-//                 controller.close();
-//                 break;
-//               }
-
-//               // Only send the chunk if it falls within the requested range
-//               if (offset + value.length > start) {
-//                 const chunkStart = Math.max(start - offset, 0);
-//                 const chunkEnd = Math.min(end - offset + 1, value.length);
-//                 const chunk = value.slice(chunkStart, chunkEnd);
-
-//                 controller.enqueue(chunk);
-//               }
-
-//               offset += value.length;
-
-//               if (offset > end) {
-//                 controller.close();
-//                 break;
-//               }
-//             }
-//           },
-//         });
-
-//         // Set headers for partial content
-//         const headers = {
-//           "Content-Range": `bytes ${start}-${end}/${fileSize}`,
-//           "Accept-Ranges": "bytes",
-//           "Content-Length": String(end - start + 1),
-//           "Content-Type": "video/mp4",
-//         };
-
-//         return new NextResponse(readableStream, { status: 206, headers });
-//       } else {
-//         // If no range header, send the entire file
-//         const headers = {
-//           "Content-Length": String(fileSize),
-//           "Content-Type": "video/mp4",
-//         };
-
-//         return new NextResponse(response.body, { status: 200, headers });
-//       }
-//     } else {
-//       return NextResponse.json(
-//         { error: "You are not authorized to view this file" },
-//         { status: 403 },
-//       );
-//     }
-//   } catch (error) {
-//     console.error("Error streaming the file:", error);
-//     return NextResponse.json(
-//       { error: "Internal Server Error" },
-//       { status: 500 },
-//     );
-//   }
-// }
-
 import { NextResponse } from "next/server";
 import { getFileByBucketFileId } from "@/lib/actions/file.action";
 import { getCurrentUser } from "@/lib/actions/user.action";
-import { createAdminClient } from "@/lib/appwrite";
-import { appwriteConfig } from "@/lib/appwrite/config";
+import { constructFileUrl } from "@/lib/utils";
 
 export async function GET(
   request: Request,
@@ -257,10 +136,7 @@ export async function GET(
     return NextResponse.json({ error: "File ID is required" }, { status: 400 });
   }
 
-  const { storage } = await createAdminClient();
-
   const file = await getFileByBucketFileId(fileId);
-
   if (!file) {
     return NextResponse.json({ error: "File not found" }, { status: 404 });
   }
@@ -273,27 +149,83 @@ export async function GET(
       currentUser?.accountId === file?.accountId ||
       file?.users.includes(currentUser?.email)
     ) {
-      const arrayBuffer = await storage.getFileDownload(
-        appwriteConfig.bucketId,
-        fileId,
-      );
+      const fileUrl = constructFileUrl(fileId); // URL to the remote file
 
-      // Convert ArrayBuffer to a ReadableStream
-      const readableStream = new ReadableStream({
-        start(controller) {
-          controller.enqueue(new Uint8Array(arrayBuffer));
-          controller.close();
-        },
-      });
+      // Fetch the remote file
+      const response = await fetch(fileUrl);
 
-      // Set headers for the video response
-      const headers = {
-        "Content-Type": "video/mp4", // Adjust the MIME type based on your file type
-        "Cache-Control": "public, max-age=3600",
-      };
+      if (!response.ok) {
+        throw new Error(`Failed to fetch file: ${response.statusText}`);
+      }
 
-      // Return the ReadableStream as the response
-      return new NextResponse(readableStream, { headers });
+      const fileSize = file.size;
+
+      const range = request.headers.get("range");
+
+      if (range) {
+        // Extract the start and end bytes from the range header
+        const parts = range.replace(/bytes=/, "").split("-");
+        const start = parseInt(parts[0], 10);
+        const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+
+        // Ensure the end byte is within the file size
+        if (start >= fileSize || end >= fileSize) {
+          return new NextResponse("Requested range not satisfiable", {
+            status: 416,
+          });
+        }
+
+        // Create a ReadableStream for the requested chunk
+        const readableStream = new ReadableStream({
+          async start(controller) {
+            const reader = response.body?.getReader();
+            let offset = 0;
+
+            while (true) {
+              const { done, value } = await reader!.read();
+
+              if (done) {
+                controller.close();
+                break;
+              }
+
+              // Only send the chunk if it falls within the requested range
+              if (offset + value.length > start) {
+                const chunkStart = Math.max(start - offset, 0);
+                const chunkEnd = Math.min(end - offset + 1, value.length);
+                const chunk = value.slice(chunkStart, chunkEnd);
+
+                controller.enqueue(chunk);
+              }
+
+              offset += value.length;
+
+              if (offset > end) {
+                controller.close();
+                break;
+              }
+            }
+          },
+        });
+
+        // Set headers for partial content
+        const headers = {
+          "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+          "Accept-Ranges": "bytes",
+          "Content-Length": String(end - start + 1),
+          "Content-Type": "video/mp4",
+        };
+
+        return new NextResponse(readableStream, { status: 206, headers });
+      } else {
+        // If no range header, send the entire file
+        const headers = {
+          "Content-Length": String(fileSize),
+          "Content-Type": "video/mp4",
+        };
+
+        return new NextResponse(response.body, { status: 200, headers });
+      }
     } else {
       return NextResponse.json(
         { error: "You are not authorized to view this file" },

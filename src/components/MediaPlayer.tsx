@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import "plyr/dist/plyr.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 const Plyr = dynamic(() => import("plyr-react"), { ssr: false });
 
 // type === "video"
@@ -23,7 +23,6 @@ const Plyr = dynamic(() => import("plyr-react"), { ssr: false });
 //   },
 
 const MediaPlayer = ({ src, type }: MediaPlayerProps) => {
-  const [url, setUrl] = useState(src);
   return (
     <div>
       <Plyr

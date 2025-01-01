@@ -1,7 +1,7 @@
 import { avatarPlaceholderUrl } from "@/constants";
 import { getUserByEmail } from "@/lib/actions/user.action";
 import { createAdminClient, createSessionClient } from "@/lib/appwrite";
-import { appwriteConfig } from "@/lib/appwrite/config";
+import { appwriteConfig } from "@/lib/config";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
