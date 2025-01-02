@@ -18,7 +18,7 @@ const Sidebar = () => {
         <Icon
           id="logo-full-brand"
           width={100}
-          height={82}
+          height={53}
           className="hidden w-[150px] text-brand lg:block"
         />
 
@@ -71,7 +71,7 @@ const Sidebar = () => {
             height={174}
             className="mx-auto"
           />
-          <div className="absolute top-[92px] -z-10 h-[142px] w-full rounded-[30px] bg-brand/10" />
+          <div className="bg-brand/10 absolute top-[92px] -z-10 h-[142px] w-full rounded-[30px]" />
         </div>
       </div>
 

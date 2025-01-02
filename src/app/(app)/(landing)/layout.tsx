@@ -25,7 +25,7 @@ const layout = async ({
           <Icon
             id="logo-full-brand"
             width={100}
-            height={82}
+            height={53}
             className="w-[150px] text-brand"
           />
         </Link>
