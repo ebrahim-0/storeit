@@ -1,28 +1,12 @@
-import ClientToast from "@/components/ClientToast";
-import { getCurrentUser } from "@/lib/actions/user.action";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 export const dynamic = "force-dynamic";
 
 const layout = async ({ children }: { children: ReactNode }) => {
-  // const { error, ...currentUser } = await getCurrentUser();
-
-  // if (currentUser?.email) redirect("/");
-
   return (
     <div className="flex min-h-screen">
-      {/* {error && (
-        <ClientToast
-          key={error.message}
-          message={<p className="body-2 text-white">{error?.message}</p>}
-          data={{
-            className: "!bg-red !rounded-[10px]",
-          }}
-        />
-      )} */}
       <section className="hidden w-1/2 items-center justify-center bg-brand p-10 lg:flex xl:w-2/5">
         <div className="flex max-h-[800px] max-w-[430px] flex-col justify-center space-y-12">
           <Link href="/">

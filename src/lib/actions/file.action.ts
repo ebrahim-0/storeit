@@ -109,15 +109,25 @@ export const getFiles = createServerAction(
       throw new ServerActionError("User not found");
     }
 
-    const queries = createQueries(currentUser, types, searchText, sort, limit);
+    try {
+      const queries = createQueries(
+        currentUser,
+        types,
+        searchText,
+        sort,
+        limit,
+      );
 
-    const files = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.filesCollectionId,
-      queries,
-    );
+      const files = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.filesCollectionId,
+        queries,
+      );
 
-    return parseStringify(files);
+      return parseStringify(files);
+    } catch (error: any) {
+      throw new ServerActionError(error.message);
+    }
   },
 );
 

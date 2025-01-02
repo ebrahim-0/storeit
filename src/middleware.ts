@@ -1,13 +1,8 @@
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { isHybrid, isPublic } from "./constants";
 import { createSessionClient } from "./lib/appwrite";
 
 export async function middleware(request: NextRequest) {
-  // Fetch the session cookie
-  // const isSession = (await cookies()).get("appwrite-session");
-  // console.log("🚀 ~ middleware ~ isSession:", isSession);
-
   const { account } = await createSessionClient();
 
   const isUser = await account

@@ -36,12 +36,14 @@ const Search = () => {
     setIsLoading(true);
     setError(null);
 
-    const { error, documents } = await getFiles({
+    const { error, ...files } = await getFiles({
       types: [],
       searchText: query,
     });
 
-    setResults(documents || []);
+    console.log("🚀 ~ debouncedSearchFn ~ error:", error);
+
+    setResults(files.documents || []);
     setIsLoading(false);
 
     if (error) {
@@ -67,22 +69,28 @@ const Search = () => {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div className="mb-3 flex h-[52px] w-[480px] items-center gap-3 rounded-full px-4 shadow-drop-3">
+        <div className="mb-3 flex h-[52px] items-center gap-3 rounded-full px-4 shadow-drop-3 lg:w-[480px]">
           <Image
             src="/assets/icons/search.svg"
             alt="Search"
             width={24}
             height={24}
           />
-          <p className={cn("body-2 px-0", !searchQuery && "text-light-200")}>
+          <p
+            className={cn(
+              "body-2 hidden px-0 md:block",
+              !searchQuery && "text-light-200",
+            )}
+          >
             {searchQuery || "Search..."}
           </p>
         </div>
       </PopoverTrigger>
 
       <PopoverContent
+        sideOffset={-52}
         align="start"
-        className="relative h-[600px] w-[480px] overflow-y-scroll rounded-2xl"
+        className="relative h-[600px] w-full overflow-y-scroll rounded-2xl md:w-[480px]"
       >
         <div className="mb-3 flex h-[52px] flex-1 items-center gap-3 rounded-full px-4 shadow-drop-3">
           <Image
@@ -119,7 +127,7 @@ const Search = () => {
                     url={file.url}
                     className="size-12 min-w-12"
                   />
-                  <p className="subtitle-2 w-[200px] truncate text-light-100">
+                  <p className="subtitle-2 line-clamp-1 w-fit truncate text-light-100 md:w-[200px]">
                     {file.name}
                   </p>
                 </div>
