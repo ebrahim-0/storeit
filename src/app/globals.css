@@ -172,6 +172,25 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Custom scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f2f4f8;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--plyr-color-main);
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ea6365;
+  }
 }
 
 input:-webkit-autofill,

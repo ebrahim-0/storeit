@@ -12,6 +12,13 @@ declare interface MediaPlayerProps {
   type: "video" | "audio";
 }
 
+declare interface GetFilesProps {
+  types: FileType[];
+  searchText?: string;
+  sort?: string;
+  limit?: number;
+}
+
 declare type TypeForm = "login" | "register";
 
 declare type FileType = "document" | "image" | "video" | "audio" | "other";

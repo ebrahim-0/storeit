@@ -3,7 +3,7 @@ import ClientToast from "@/components/ClientToast";
 import Sort from "@/components/Sort";
 import { fileType } from "@/constants";
 import { getFiles } from "@/lib/actions/file.action";
-import { capitalize } from "@/lib/utils";
+import { capitalize, getFileTypesParams } from "@/lib/utils";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Models } from "node-appwrite";
@@ -26,14 +26,25 @@ export async function generateMetadata({
   };
 }
 
-const page = async ({ params }: SearchParamProps) => {
+const page = async ({ searchParams, params }: SearchParamProps) => {
   const type = ((await params)?.type as string) || "";
 
   if (!fileType.includes(type)) {
     return notFound();
   }
 
-  const { error, ...files } = await getFiles();
+  const searchText = ((await searchParams)?.query as string) || "";
+  const sort = ((await searchParams)?.sort as string) || "";
+  const limit = ((await searchParams)?.limit as string) || "";
+
+  const types = getFileTypesParams(type) as FileType[];
+
+  const { error, ...files } = await getFiles({
+    types,
+    searchText,
+    sort,
+    limit: parseInt(limit),
+  });
 
   return (
     <>

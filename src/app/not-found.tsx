@@ -2,11 +2,19 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function NotFound() {
   const handleRefresh = () => {
     window.location.reload();
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && "AbortController" in window) {
+      const controller = new AbortController();
+      controller.abort();
+    }
+  }, []);
 
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center bg-background text-foreground">

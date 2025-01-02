@@ -64,9 +64,9 @@ export const uploadFile = createServerAction(
 
 const createQueries = (
   currentUser: Models.Document,
-  types?: string[],
-  searchText?: string,
-  sort?: string,
+  types: string[],
+  searchText: string,
+  sort: string,
   limit?: number,
 ) => {
   const queries = [
@@ -76,43 +76,50 @@ const createQueries = (
     ]),
   ];
 
-  // if (types.length > 0) queries.push(Query.equal("type", types));
-  // if (searchText) queries.push(Query.contains("name", searchText));
-  // if (limit) queries.push(Query.limit(limit));
+  if (types.length > 0) queries.push(Query.equal("type", types));
+  if (searchText) queries.push(Query.contains("name", searchText));
+  if (limit) queries.push(Query.limit(limit));
 
-  // if (sort) {
-  //   const [sortBy, orderBy] = sort.split("-");
+  if (sort) {
+    const [sortBy, orderBy] = sort.split("-");
 
-  //   queries.push(
-  //     orderBy === "asc" ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy),
-  //   );
-  // }
+    queries.push(
+      orderBy === "asc" ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy),
+    );
+  }
 
   return queries;
 };
 
-export const getFiles = createServerAction(async () => {
-  const { databases } = await createAdminClient();
-  const { error, ...currentUser } = await getCurrentUser();
+export const getFiles = createServerAction(
+  async ({
+    types,
+    searchText = "",
+    sort = "$createdAt-desc",
+    limit,
+  }: GetFilesProps) => {
+    const { databases } = await createAdminClient();
+    const { error, ...currentUser } = await getCurrentUser();
 
-  if (error) {
-    throw new ServerActionError(error.message);
-  }
+    if (error) {
+      throw new ServerActionError(error.message);
+    }
 
-  if (!currentUser?.accountId) {
-    throw new ServerActionError("User not found");
-  }
+    if (!currentUser?.accountId) {
+      throw new ServerActionError("User not found");
+    }
 
-  const queries = createQueries(currentUser);
+    const queries = createQueries(currentUser, types, searchText, sort, limit);
 
-  const files = await databases.listDocuments(
-    appwriteConfig.databaseId,
-    appwriteConfig.filesCollectionId,
-    queries,
-  );
+    const files = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.filesCollectionId,
+      queries,
+    );
 
-  return parseStringify(files);
-});
+    return parseStringify(files);
+  },
+);
 
 export const renameFile = createServerAction(
   async ({ fileId, name, extension, path }: RenameFileProps) => {
