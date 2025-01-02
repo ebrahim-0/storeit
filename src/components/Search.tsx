@@ -175,7 +175,7 @@ const Search = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [debouncedSearch] = useDebounce(searchQuery, 300);
+  const [debouncedSearch] = useDebounce(searchQuery, 500);
 
   const debouncedSearchFn = useDebouncedCallback(async (query: string) => {
     if (debouncedSearch.length === 0) {
@@ -254,7 +254,10 @@ const Search = () => {
             fullWidth
             placeholder="Search..."
             className="no-focus body-2 border-0 px-0 shadow-none placeholder:text-light-200"
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              debouncedSearchFn.cancel();
+              setSearchQuery(e.target.value);
+            }}
           />
         </div>
 
