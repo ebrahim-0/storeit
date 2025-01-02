@@ -35,6 +35,7 @@ import { getUserByEmail } from "@/lib/actions/user.action";
 import { toast } from "sonner";
 import Text from "./ui/Text";
 import { constructFileUrl, shareUrl } from "@/lib/utils";
+import Icon from "./Icon";
 
 const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const path = usePathname();
@@ -232,11 +233,12 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
       <DialogClose asChild onClick={() => console.log("closed")} />
       <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
         <DropdownMenuTrigger className="no-focus cursor-default">
-          <Image
-            src="/assets/icons/dots.svg"
-            alt="dots"
-            width={24}
-            height={24}
+          <Icon
+            id="dots"
+            width={28}
+            height={28}
+            viewBox="0 0 34 34"
+            className="cursor-pointer"
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-[250px] rounded-[20px] border-0 py-3 shadow-drop-2">

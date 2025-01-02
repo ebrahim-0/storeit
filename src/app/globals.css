@@ -69,7 +69,25 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-    --plyr-color-main: #fa7275;
+
+    --brand-default: #1d5bdf;
+    --brand-100: #3168df;
+
+    /* --brand-default: #fa7275;
+    --brand-100: #ea6365; */
+    --red: #ff7474;
+    --error: #b80000;
+    --green: #3dd9b3;
+    --blue: #56b8ff;
+    --pink: #eea8fd;
+    --orange: #f9ab72;
+    --light-100: #333f4e;
+    --light-200: #a3b2c7;
+    --light-300: #f2f5f9;
+    --light-400: #f2f4f8;
+    --dark-100: #04050c;
+    --dark-200: #131524;
+    --plyr-color-main: var(--brand-default);
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -96,7 +114,6 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --plyr-color-main: #fa7275;
   }
 }
 
@@ -180,16 +197,16 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #f2f4f8;
+    background: var(--light-400);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--plyr-color-main);
+    background: var(--brand-100);
     border-radius: 5px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #ea6365;
+    background: var(--brand-100);
   }
 }
 

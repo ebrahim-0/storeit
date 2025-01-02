@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ProfileBox from "./ProfileBox";
+import Icon from "./Icon";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -14,20 +15,18 @@ const Sidebar = () => {
   return (
     <aside className="remove-scrollbar hidden h-screen w-[90px] flex-col overflow-auto px-5 py-5 sm:flex lg:w-[280px] xl:w-[325px]">
       <Link href="/">
-        <Image
-          src="/assets/icons/logo-full-brand.svg"
-          alt="Logo"
-          width={160}
-          height={50}
-          className="hidden h-auto lg:block"
+        <Icon
+          id="logo-full-brand"
+          width={100}
+          height={82}
+          className="hidden w-[150px] text-brand lg:block"
         />
 
-        <Image
-          src="/assets/icons/logo-brand.svg"
-          alt="Logo"
-          width={52}
+        <Icon
+          id="logo-brand"
+          width={60}
           height={52}
-          className="h-auto lg:hidden"
+          className="h-auto text-brand lg:hidden"
         />
       </Link>
 

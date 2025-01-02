@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Search from "./Search";
 import FileUploader from "./FileUploader";
 import Text from "@/components/ui/Text";
 import { useDispatch, useSelector } from "zustore";
+import Icon from "./Icon";
 
 const Header = () => {
   const { dispatcher } = useDispatch();
@@ -27,13 +27,7 @@ const Header = () => {
           toolTipAlign="center"
           toolTipClass="bg-brand/10 text-brand"
         >
-          <Image
-            src="/assets/icons/logout.svg"
-            alt="logout"
-            width={24}
-            height={24}
-            className="w-6"
-          />
+          <Icon id="logout" width={24} height={24} className="w-6 text-brand" />
         </Text>
       </div>
     </header>

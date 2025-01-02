@@ -18,6 +18,7 @@ import { updateToPublic } from "@/lib/actions/file.action";
 import { usePathname } from "next/navigation";
 import Text from "./ui/Text";
 import { toast } from "sonner";
+import Icon from "./Icon";
 
 export const FileDetails = ({ file }: { file: Models.Document }) => {
   return (
@@ -90,13 +91,20 @@ export const ShareFile = ({
 
         <div className="pt-4">
           <div className="flex h-[30px] items-center justify-between">
-            {isCopied ? (
-              <Image
-                src="/assets/icons/loader-brand.svg"
-                alt="updating"
+            {!isCopied ? (
+              // <Image
+              //   src="/assets/icons/loader-brand.svg"
+              //   alt="updating"
+              //   width={24}
+              //   height={24}
+              //   className="aspect-square rounded-full"
+              // />
+              <Icon
+                id="loader-brand"
                 width={24}
                 height={24}
-                className="aspect-square rounded-full"
+                viewBox="0 0 38 38"
+                className="animate-spin text-brand"
               />
             ) : copy ? (
               <CircleCheckBig size={18} />
@@ -199,7 +207,19 @@ const ImageThumbnail = ({ file }: { file: Models.Document }) => {
         imageClassName="!size-7"
       />
       <div className="flex flex-col sm:ml-4">
-        <p className="subtitle-2 line-clamp-2 text-light-100">{file.name}</p>
+        {/* <p
+          className="subtitle-2 line-clamp-2 truncate text-light-100"
+          style={{ wordBreak: "break-word" }}
+        >
+          {file.name}
+        </p> */}
+
+        <p
+          style={{ wordBreak: "break-word" }}
+          className="subtitle-2 truncate p-3 text-light-100"
+        >
+          {file.name}
+        </p>
         <p className="caption flex text-light-200">
           {convertFileSize(file.size)} -
           <FormattedDateTime

@@ -14,7 +14,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const [showPassword, setShowPassword] = React.useState(false);
 
     return (
-      <div className={cn("relative", fullWidth && "w-full")}>
+      <div className={cn("relative", fullWidth ? "w-full" : "w-fit")}>
         <input
           type={type === "password" && showPassword ? "text" : type}
           className={cn(

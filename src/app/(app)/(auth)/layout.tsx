@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Icon from "@/components/Icon";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -10,12 +10,12 @@ const layout = async ({ children }: { children: ReactNode }) => {
       <section className="hidden w-1/2 items-center justify-center bg-brand p-10 lg:flex xl:w-2/5">
         <div className="flex max-h-[800px] max-w-[430px] flex-col justify-center space-y-12">
           <Link href="/">
-            <Image
-              src="/assets/icons/logo-full.svg"
-              alt="Logo"
-              width={223}
+            <Icon
+              id="logo-full"
+              width={224}
               height={82}
-              className="h-auto"
+              viewBox="0 0 224 82"
+              className="text-white"
             />
           </Link>
 
@@ -26,9 +26,8 @@ const layout = async ({ children }: { children: ReactNode }) => {
             </p>
           </div>
 
-          <Image
-            src="/assets/icons/Illustration.svg"
-            alt="Illustration"
+          <Icon
+            id="Illustration"
             width={342}
             height={342}
             className="transition-all hover:rotate-2 hover:scale-105"
@@ -38,12 +37,12 @@ const layout = async ({ children }: { children: ReactNode }) => {
 
       <section className="flex flex-1 flex-col items-center bg-white p-4 py-10 lg:justify-center lg:p-10 lg:py-0">
         <Link href="/" className="mb-16 lg:hidden">
-          <Image
-            src="/assets/icons/logo-full-brand.svg"
-            alt="Logo"
+          <Icon
+            id="logo-full"
             width={224}
             height={82}
-            className="h-auto w-[200px] lg:w-[250px]"
+            viewBox="0 0 224 82"
+            className="text-brand"
           />
         </Link>
         {children}

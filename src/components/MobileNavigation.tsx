@@ -15,6 +15,7 @@ import Text from "./ui/Text";
 import { useDispatch, useSelector } from "zustore";
 import FileUploader from "./FileUploader";
 import Search from "./Search";
+import Icon from "./Icon";
 
 const MobileNavigation = () => {
   const pathname = usePathname();
@@ -26,12 +27,19 @@ const MobileNavigation = () => {
   return (
     <header className="container flex w-full items-center justify-between p-3 sm:hidden">
       <Link href="/">
-        <Image
+        {/* <Image
           src="/assets/icons/logo-full-brand.svg"
           alt="Logo"
           width={100}
           height={82}
           className="w-[150px]"
+        /> */}
+
+        <Icon
+          id="logo-full-brand"
+          width={100}
+          height={82}
+          className="w-[150px] text-brand"
         />
       </Link>
 

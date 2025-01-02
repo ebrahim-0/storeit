@@ -1,3 +1,4 @@
+import Icon from "@/components/Icon";
 import NavLinks from "@/components/NavLinks";
 import {
   Sheet,
@@ -21,12 +22,11 @@ const layout = async ({
     <div className="md:container">
       <header className="flex w-full items-center justify-between border-b p-3">
         <Link href="/">
-          <Image
-            src="/assets/icons/logo-full-brand.svg"
-            alt="Logo"
+          <Icon
+            id="logo-full-brand"
             width={100}
             height={82}
-            className="w-[150px]"
+            className="w-[150px] text-brand"
           />
         </Link>
 

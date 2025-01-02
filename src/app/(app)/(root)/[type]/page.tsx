@@ -53,7 +53,7 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
           key={error.message}
           message={<p className="body-2 text-white">{error?.message}</p>}
           data={{
-            className: "!bg-red !rounded-[10px]",
+            className: "!rounded-[10px]",
           }}
         />
       )}

@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import MediaPlayer from "@/components/MediaPlayer";
+import Icon from "@/components/Icon";
 
 export const metadata: Metadata = {
   title: "StoreIt | Viewer",
@@ -46,12 +47,12 @@ const page = async ({ params }: SearchParamProps) => {
                 target="_self"
                 download={file?.name}
               >
-                <Image
-                  src="/assets/icons/download.svg"
-                  alt="Download"
+                <Icon
+                  id="download"
                   width={55}
                   height={55}
-                  className="min-h-[55px] min-w-[55px] cursor-pointer"
+                  viewBox="0 0 30 30"
+                  className="cursor-pointer"
                 />
               </a>
             </Text>
