@@ -239,6 +239,7 @@ const Search = () => {
       </PopoverTrigger>
 
       <PopoverContent
+        sideOffset={20}
         align="start"
         className="relative h-[400px] w-[100vw] overflow-y-scroll rounded-lg md:w-[480px]"
       >
