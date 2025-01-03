@@ -71,6 +71,7 @@ interface ThumbnailProps {
   url?: string;
   imageClassName?: string;
   className?: string;
+  iconSize?: number;
 }
 
 declare interface ActionType {

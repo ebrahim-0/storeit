@@ -7,6 +7,7 @@ const Thumbnail = ({
   url = "",
   imageClassName,
   className,
+  iconSize,
 }: ThumbnailProps) => {
   const isImage = type === "image" && extension !== "svg";
 
@@ -30,14 +31,13 @@ const Thumbnail = ({
           )}
         />
       ) : (
-        <span>
-          <Icon
-            width={44}
-            height={44}
-            viewBox="0 0 44 44"
-            id={getFileIcon(extension, type)}
-          />
-        </span>
+        <Icon
+          id={getFileIcon(extension, type)}
+          width={iconSize || 44}
+          height={iconSize || 44}
+          viewBox="0 0 44 44"
+          className="text-brand"
+        />
       )}
     </figure>
   );

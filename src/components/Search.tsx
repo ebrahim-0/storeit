@@ -121,7 +121,8 @@ const Search = () => {
                     type={file.type}
                     extension={file.extension}
                     url={file.url}
-                    className="size-12 min-w-12"
+                    className="size-12 min-w-12 bg-transparent"
+                    iconSize={32}
                   />
 
                   <p
