@@ -16,16 +16,16 @@ const Sidebar = () => {
       <Link href="/">
         <Icon
           id="logo-full-brand"
-          width={100}
+          width={150}
           height={53}
-          className="hidden w-[150px] text-brand lg:block"
+          className="hidden text-brand lg:block"
         />
 
         <Icon
           id="logo-brand"
           width={60}
           height={52}
-          className="h-auto text-brand lg:hidden"
+          className="text-brand lg:hidden"
         />
       </Link>
 
@@ -46,10 +46,11 @@ const Sidebar = () => {
                   <Icon
                     id={icon}
                     className="block !size-6 cursor-pointer"
-                    color={isActive(pathname, path) ? "white" : "#a3b2c7"}
-                    width={26}
-                    height={26}
-                    viewBox="0 0 26 26"
+                    color={
+                      isActive(pathname, path)
+                        ? "white"
+                        : "hsl(var(--light-200))"
+                    }
                   />
 
                   <p className="hidden lg:block">{title}</p>

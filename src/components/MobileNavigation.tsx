@@ -29,8 +29,9 @@ const MobileNavigation = () => {
       <Link href="/">
         <Icon
           id="logo-full-brand"
+          width={150}
           height={52}
-          className="w-[150px] text-brand"
+          color="hsl(var(--brand-default))"
         />
       </Link>
 
@@ -74,26 +75,16 @@ const MobileNavigation = () => {
                         >
                           <Icon
                             id={icon}
-                            className="block !size-6 cursor-pointer"
+                            className="block cursor-pointer"
                             color={
-                              isActive(pathname, path) ? "white" : "#a3b2c7"
+                              isActive(pathname, path)
+                                ? "white"
+                                : "hsl(var(--light-200))"
                             }
                             width={26}
                             height={26}
-                            viewBox="0 0 26 26"
                           />
 
-                          {/* <Image
-                            src={icon}
-                            alt={title}
-                            width={24}
-                            height={24}
-                            className={cn(
-                              "w-6 opacity-25 invert filter",
-                              isActive(pathname, path) &&
-                                "opacity-100 invert-0",
-                            )}
-                          /> */}
                           <p>{title}</p>
                         </li>
                       </Link>
@@ -112,6 +103,7 @@ const MobileNavigation = () => {
                   className={cn(
                     "flex-center h-[54px] w-full rounded-full bg-brand/10",
                     "p-0 shadow-none transition-all hover:bg-brand/20",
+                    "text-brand-100",
                   )}
                   tooltip="Logout"
                   toolTipAlign="center"
@@ -121,7 +113,8 @@ const MobileNavigation = () => {
                     id="logout"
                     width={24}
                     height={24}
-                    className="w-6 text-brand"
+                    color="hsl(var(--brand-default))"
+                    className="mr-2"
                   />
                   Logout
                 </Text>

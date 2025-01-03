@@ -68,10 +68,10 @@ const Search = () => {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <div
-          className="flex h-[52px] w-full items-center gap-3 rounded-full px-4 shadow-drop-3 md:w-[480px]"
+          className="flex h-[52px] w-full items-center gap-3 rounded-full px-4 shadow-drop-3 min-[850px]:w-[480px]"
           onClick={() => setOpen(true)}
         >
-          <Icon id="search" width={24} height={24} viewBox="0 0 20 20" />
+          <Icon id="search" className="!size-6" viewBox="0 0 20 20" />
 
           <p
             className={cn(
@@ -90,7 +90,7 @@ const Search = () => {
         className="relative h-[540px] w-[100vw] overflow-y-scroll rounded-2xl md:w-[480px]"
       >
         <div className="mb-3 flex h-[52px] items-center gap-3 rounded-full px-4 shadow-drop-3">
-          <Icon id="search" width={24} height={24} viewBox="0 0 20 20" />
+          <Icon id="search" className="!size-6" viewBox="0 0 20 20" />
 
           <Input
             value={searchQuery}
