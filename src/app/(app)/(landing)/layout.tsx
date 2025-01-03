@@ -1,3 +1,4 @@
+import Icon from "@/components/Icon";
 import NavLinks from "@/components/NavLinks";
 import {
   Sheet,
@@ -5,11 +6,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import UserData from "@/components/UserData";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
 export const dynamic = "force-dynamic";
 
 const layout = async ({
@@ -28,6 +27,8 @@ const layout = async ({
             height={82}
             className="w-[150px]"
           />
+
+          {/* <Icon id="logo-full-brand" width={24} height={24} /> */}
         </Link>
 
         <Sheet>
