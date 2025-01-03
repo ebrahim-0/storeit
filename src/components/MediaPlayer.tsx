@@ -2,25 +2,7 @@
 
 import dynamic from "next/dynamic";
 import "plyr/dist/plyr.css";
-import { useRef, useState } from "react";
 const Plyr = dynamic(() => import("plyr-react"), { ssr: false });
-
-// type === "video"
-// ? {
-//     // Simulating different quality options for single file (without actual quality change)
-//     default: 720, // Default option
-//     options: [144, 240, 360, 480, 720, 1080, 1440, 2160], // Simulate options
-//     forced: true,
-//     onChange(quality) {
-//       console.log("🚀 ~ onChange ~ quality:", quality);
-//       setUrl(`${src}?quality=${quality}`);
-//     },
-//   }
-// : {
-//     default: 720,
-//     options: [720],
-//     forced: false,
-//   },
 
 const MediaPlayer = ({ src, type }: MediaPlayerProps) => {
   return (
@@ -29,6 +11,10 @@ const MediaPlayer = ({ src, type }: MediaPlayerProps) => {
         source={{ type, sources: [{ src }] }}
         options={{
           clickToPlay: true,
+          disableContextMenu: false,
+          hideControls: true,
+          captions: { active: true, update: true, language: "auto" },
+
           controls: [
             "play-large",
             "restart",

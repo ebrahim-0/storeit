@@ -1,7 +1,7 @@
 "use client";
 
 import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
-import { MouseEvent, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "./ui/button";
 import Image from "next/image";
@@ -106,11 +106,7 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
 
         <Button
           type="button"
-          className={cn(
-            "flex-center h5 gap-2 lg:justify-start lg:px-[30px]",
-            "h-[45px] w-full rounded-[30px] lg:w-full",
-            "cursor-pointer bg-brand text-white shadow-drop-2",
-          )}
+          className="btn flex-center h5 h-[45px] w-full gap-2 shadow-drop-2 lg:justify-between"
         >
           <Icon
             id="upload"

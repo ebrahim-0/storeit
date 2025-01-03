@@ -68,14 +68,14 @@ const Search = () => {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <div
-          className="flex h-[52px] w-full items-center gap-3 rounded-full px-4 shadow-drop-3 lg:w-[480px]"
+          className="flex h-[52px] w-full items-center gap-3 rounded-full px-4 shadow-drop-3 md:w-[480px]"
           onClick={() => setOpen(true)}
         >
           <Icon id="search" width={24} height={24} viewBox="0 0 20 20" />
 
           <p
             className={cn(
-              "body-2 hidden px-0 sm:block",
+              "body-2 hidden truncate px-0 sm:block",
               !searchQuery && "text-light-200",
             )}
           >

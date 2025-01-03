@@ -94,7 +94,7 @@
     --light-400: 220 30% 96%;
     --dark-100: 233 50% 3%;
     --dark-200: 233 31% 11%;
-    --plyr-color-main: var(--brand-default);
+    --plyr-color-main: hsl(var(--brand-default));
   }
   .dark {
     --background: 0 0% 3.9%;
