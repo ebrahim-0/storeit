@@ -1,4 +1,5 @@
 import { cn, getFileIcon } from "@/lib/utils";
+import Icon from "./Icon";
 
 const Thumbnail = ({
   type,
@@ -16,17 +17,28 @@ const Thumbnail = ({
         className,
       )}
     >
-      <img
-        src={isImage ? url : getFileIcon(extension, type)}
-        alt="thumbnail"
-        width={100}
-        height={100}
-        className={cn(
-          "size-8 object-contain",
-          imageClassName,
-          isImage && "size-full object-cover object-center",
-        )}
-      />
+      {isImage ? (
+        <img
+          src={url}
+          alt="thumbnail"
+          width={100}
+          height={100}
+          className={cn(
+            "size-8 object-contain",
+            imageClassName,
+            isImage && "size-full object-cover object-center",
+          )}
+        />
+      ) : (
+        <span>
+          <Icon
+            width={44}
+            height={44}
+            viewBox="0 0 44 44"
+            id={getFileIcon(extension, type)}
+          />
+        </span>
+      )}
     </figure>
   );
 };

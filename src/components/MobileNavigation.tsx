@@ -27,23 +27,14 @@ const MobileNavigation = () => {
   return (
     <header className="container flex w-full items-center justify-between p-3 sm:hidden">
       <Link href="/">
-        {/* <Image
-          src="/assets/icons/logo-full-brand.svg"
-          alt="Logo"
-          width={100}
-          height={82}
-          className="w-[150px]"
-        /> */}
-
         <Icon
           id="logo-full-brand"
-          width={100}
-          height={82}
+          height={52}
           className="w-[150px] text-brand"
         />
       </Link>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-6">
         <Search />
 
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -81,7 +72,18 @@ const MobileNavigation = () => {
                               : "text-light-100",
                           )}
                         >
-                          <Image
+                          <Icon
+                            id={icon}
+                            className="block !size-6 cursor-pointer"
+                            color={
+                              isActive(pathname, path) ? "white" : "#a3b2c7"
+                            }
+                            width={26}
+                            height={26}
+                            viewBox="0 0 26 26"
+                          />
+
+                          {/* <Image
                             src={icon}
                             alt={title}
                             width={24}
@@ -91,7 +93,7 @@ const MobileNavigation = () => {
                               isActive(pathname, path) &&
                                 "opacity-100 invert-0",
                             )}
-                          />
+                          /> */}
                           <p>{title}</p>
                         </li>
                       </Link>
@@ -115,12 +117,11 @@ const MobileNavigation = () => {
                   toolTipAlign="center"
                   toolTipClass="bg-brand/10 text-brand"
                 >
-                  <Image
-                    src="/assets/icons/logout.svg"
-                    alt="logout"
+                  <Icon
+                    id="logout"
                     width={24}
                     height={24}
-                    className="mr-3 w-6"
+                    className="w-6 text-brand"
                   />
                   Logout
                 </Text>

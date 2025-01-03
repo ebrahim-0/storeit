@@ -10,6 +10,7 @@ import { MAX_FILE_SIZE } from "@/constants";
 import { uploadFile } from "@/lib/actions/file.action";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
+import Icon from "./Icon";
 
 const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
   const pathname = usePathname();
@@ -94,14 +95,9 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-  const handleRemoveFile = useCallback(
-    (e: MouseEvent<HTMLImageElement>, fileName: string) => {
-      e.stopPropagation();
-
-      setFiles((prev) => prev.filter((file) => file.name !== fileName));
-    },
-    [],
-  );
+  const handleRemoveFile = useCallback((fileName: string) => {
+    setFiles((prev) => prev.filter((file) => file.name !== fileName));
+  }, []);
 
   return (
     <>
@@ -116,12 +112,14 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
             "cursor-pointer bg-brand text-white shadow-drop-2",
           )}
         >
-          <Image
-            src="/assets/icons/upload.svg"
+          <Icon
+            id="upload"
+            className="block !size-6 cursor-pointer"
             width={24}
             height={24}
-            alt="upload icon"
+            viewBox="0 0 21 20"
           />
+
           <p>Upload</p>
         </Button>
       </div>
@@ -162,13 +160,14 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
                   alt="loader"
                 />
 
-                {/* <Image
-                  src="/assets/icons/remove.svg"
+                <Icon
+                  id="remove"
                   width={24}
                   height={24}
-                  alt="remove"
-                  onClick={(e) => handleRemoveFile(e, file.name)}
-                /> */}
+                  viewBox="0 0 24 24"
+                  className="aspect-square"
+                  onClick={() => handleRemoveFile(file.name)}
+                />
               </li>
             );
           })}

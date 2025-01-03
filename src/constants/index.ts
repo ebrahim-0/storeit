@@ -9,27 +9,27 @@ export const navLinks = (isLogin: any) => {
 export const sideBarLinks = [
   {
     title: "Home",
-    icon: "/assets/icons/dashboard.svg",
+    icon: "dashboard",
     path: "/home",
   },
   {
     title: "Documents",
-    icon: "/assets/icons/documents.svg",
+    icon: "documents",
     path: "/documents",
   },
   {
     title: "Images",
-    icon: "/assets/icons/images.svg",
+    icon: "images",
     path: "/images",
   },
   {
     title: "Media",
-    icon: "/assets/icons/video.svg",
+    icon: "video",
     path: "/media",
   },
   {
     title: "Others",
-    icon: "/assets/icons/others.svg",
+    icon: "others",
     path: "/others",
   },
 ];
@@ -37,27 +37,27 @@ export const sideBarLinks = [
 export const actionsDropdownItems = [
   {
     label: "Rename",
-    icon: "/assets/icons/edit.svg",
+    icon: "edit",
     value: "rename",
   },
   {
     label: "Details",
-    icon: "/assets/icons/info.svg",
+    icon: "info",
     value: "details",
   },
   {
     label: "Share",
-    icon: "/assets/icons/share.svg",
+    icon: "share",
     value: "share",
   },
   {
     label: "Download",
-    icon: "/assets/icons/download.svg",
+    icon: "download",
     value: "download",
   },
   {
     label: "Delete",
-    icon: "/assets/icons/delete.svg",
+    icon: "delete",
     value: "delete",
   },
 ];
@@ -65,22 +65,22 @@ export const actionsDropdownItems = [
 export const actionsDropdownItemsAsShare = [
   {
     label: "Details",
-    icon: "/assets/icons/info.svg",
+    icon: "info",
     value: "details",
   },
   {
     label: "Share (copy file link)",
-    icon: "/assets/icons/share.svg",
+    icon: "share",
     value: "share-link",
   },
   {
     label: "Download",
-    icon: "/assets/icons/download.svg",
+    icon: "download",
     value: "download",
   },
   {
     label: "Remove Share",
-    icon: "/assets/icons/delete.svg",
+    icon: "delete",
     value: "remove-share",
   },
 ];

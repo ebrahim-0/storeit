@@ -46,7 +46,7 @@ const Text = ({
             align={toolTipAlign}
             side={side}
             className={cn(
-              "max-w-[200px] ltr:text-start rtl:text-end",
+              "max-w-[250px] ltr:text-start rtl:text-end",
               toolTipClass,
             )}
           >

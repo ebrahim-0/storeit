@@ -1,3 +1,5 @@
+import { SVGProps } from "react";
+
 const Icon = ({
   id,
   width,
@@ -6,7 +8,7 @@ const Icon = ({
   viewBox,
   sx = {},
   ...props
-}: IconSvgProps) => {
+}: IconSvgProps & SVGProps<SVGSVGElement>) => {
   return (
     <svg
       width={width}

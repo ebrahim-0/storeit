@@ -157,7 +157,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
       return;
     }
 
-    if (success) closeAllModals();
+    if (success && action?.value !== "share") closeAllModals();
     setIsLoading(false);
   };
 
@@ -299,29 +299,17 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
                       target="_self"
                       className="flex items-center gap-2"
                     >
-                      <Image
-                        src={actionItem.icon}
-                        alt={actionItem.label}
-                        width={30}
-                        height={30}
-                      />
+                      <Icon id={actionItem.icon} width={30} height={30} />
                       {actionItem.label}
                     </a>
                   ) : (
                     <div className="flex items-center gap-2">
-                      <Image
-                        src={actionItem.icon}
-                        alt={actionItem.label}
-                        width={30}
-                        height={30}
-                      />
+                      <Icon id={actionItem.icon} width={30} height={30} />
                       {actionItem.label}
                     </div>
                   )}
                 </DropdownMenuItem>
-                {idx !== actionsDropdownItems.length - 1 && (
-                  <DropdownMenuSeparator />
-                )}
+                {idx !== dropdownItems.length - 1 && <DropdownMenuSeparator />}
               </>
             );
           })}

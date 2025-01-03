@@ -13,7 +13,6 @@ import {
 import { Button } from "./ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "./ui/input-otp";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { sendEmailOtp, verifyOtp } from "@/lib/actions/user.action";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,9 +22,12 @@ import { useRouter } from "next/navigation";
 import { RefreshCcw } from "lucide-react";
 import { useDispatch } from "zustore";
 import { toast } from "sonner";
+import Icon from "./Icon";
 
 const formSchema = z.object({
-  otp: z.string().length(6, { message: "OTP must be 6 characters" }),
+  otp: z
+    .string({ message: "OTP is Required" })
+    .length(6, { message: "OTP must be 6 characters" }),
 });
 
 const OtpModal = ({
@@ -99,9 +101,8 @@ const OtpModal = ({
         <AlertDialogHeader className="relative flex justify-center">
           <AlertDialogTitle className="h2 text-center">
             Enter Your OTP
-            <Image
-              src="/assets/icons/close-dark.svg"
-              alt="Close"
+            <Icon
+              id="close-dark"
               width={24}
               height={24}
               onClick={() => setIsOpen(false)}
@@ -156,12 +157,10 @@ const OtpModal = ({
                 >
                   Submit
                   {isLoading && (
-                    <Image
-                      src="/assets/icons/loader.svg"
-                      width={24}
-                      height={24}
-                      alt="Loader"
-                      className="ml-2 animate-spin"
+                    <Icon
+                      id="loader"
+                      viewBox="0 0 38 38"
+                      className="ml-2 !size-6 animate-spin"
                     />
                   )}
                 </AlertDialogAction>

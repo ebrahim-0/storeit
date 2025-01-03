@@ -144,21 +144,21 @@ export const getFileIcon = (
   switch (extension) {
     // Document
     case "pdf":
-      return "/assets/icons/file-pdf.svg";
+      return "file-pdf";
     case "doc":
-      return "/assets/icons/file-doc.svg";
+      return "file-doc";
     case "docx":
-      return "/assets/icons/file-docx.svg";
+      return "file-docx";
     case "csv":
-      return "/assets/icons/file-csv.svg";
+      return "file-csv";
     case "txt":
-      return "/assets/icons/file-txt.svg";
+      return "file-txt";
     case "xls":
     case "xlsx":
-      return "/assets/icons/file-document.svg";
+      return "file-document";
     // Image
     case "svg":
-      return "/assets/icons/file-image.svg";
+      return "file-image";
     // Video
     case "mkv":
     case "mov":
@@ -169,7 +169,7 @@ export const getFileIcon = (
     case "webm":
     case "m4v":
     case "3gp":
-      return "/assets/icons/file-video.svg";
+      return "file-video";
     // Audio
     case "mp3":
     case "mpeg":
@@ -181,20 +181,20 @@ export const getFileIcon = (
     case "m4a":
     case "aiff":
     case "alac":
-      return "/assets/icons/file-audio.svg";
+      return "file-audio";
 
     default:
       switch (type) {
         case "image":
-          return "/assets/icons/file-image.svg";
+          return "file-image";
         case "document":
-          return "/assets/icons/file-document.svg";
+          return "file-document";
         case "video":
-          return "/assets/icons/file-video.svg";
+          return "file-video";
         case "audio":
-          return "/assets/icons/file-audio.svg";
+          return "file-audio";
         default:
-          return "/assets/icons/file-other.svg";
+          return "file-other";
       }
   }
 };

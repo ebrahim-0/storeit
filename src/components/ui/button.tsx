@@ -1,9 +1,8 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import Icon from "../Icon";
 
 const buttonVariants = cva(
   cn(
@@ -73,12 +72,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <BaseBtn ref={ref} {...props}>
           {props.children}
           {props?.isLoading && (
-            <Image
-              src="/assets/icons/loader.svg"
-              width={24}
-              height={24}
-              alt="Loader"
-              className="ml-2 animate-spin"
+            <Icon
+              id="loader"
+              viewBox="0 0 38 38"
+              className="ml-2 !size-6 animate-spin"
             />
           )}
         </BaseBtn>

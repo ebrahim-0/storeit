@@ -20,8 +20,8 @@ const Header = () => {
           onClick={() => dispatcher("logoutUser")}
           side="bottom"
           className={cn(
-            "flex-center bg-brand/10 size-[54px] rounded-full",
-            "hover:bg-brand/20 p-0 shadow-none transition-all",
+            "flex-center size-[54px] rounded-full bg-brand/10",
+            "p-0 shadow-none transition-all hover:bg-brand/20",
           )}
           tooltip="Logout"
           toolTipAlign="center"

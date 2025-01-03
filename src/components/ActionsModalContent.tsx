@@ -11,7 +11,6 @@ import {
 import FormattedDateTime from "./FormattedDateTime";
 import React, { SetStateAction, useState } from "react";
 import { Input } from "./ui/input";
-import Image from "next/image";
 import { Button } from "./ui/button";
 import { CircleCheckBig } from "lucide-react";
 import { updateToPublic } from "@/lib/actions/file.action";
@@ -19,12 +18,12 @@ import { usePathname } from "next/navigation";
 import Text from "./ui/Text";
 import { toast } from "sonner";
 import Icon from "./Icon";
+import Loader from "./Loader";
 
 export const FileDetails = ({ file }: { file: Models.Document }) => {
   return (
     <>
       <ImageThumbnail file={file} />
-
       <div className="space-y-4 px-2 pt-2">
         <DetailRow label="Format:" value={file?.extension} />
         <DetailRow label="Dimensions:" value={convertFileSize(file?.size)} />
@@ -82,7 +81,9 @@ export const ShareFile = ({
 
         <Input
           type="email"
+          autoComplete="email"
           value={email}
+          fullWidth
           onChange={(e) => setEmail(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAction()}
           placeholder="Enter email address"
@@ -91,31 +92,17 @@ export const ShareFile = ({
 
         <div className="pt-4">
           <div className="flex h-[30px] items-center justify-between">
-            {!isCopied ? (
-              // <Image
-              //   src="/assets/icons/loader-brand.svg"
-              //   alt="updating"
-              //   width={24}
-              //   height={24}
-              //   className="aspect-square rounded-full"
-              // />
-              <Icon
-                id="loader-brand"
-                width={24}
-                height={24}
-                viewBox="0 0 38 38"
-                className="animate-spin text-brand"
-              />
+            {isCopied ? (
+              <Loader size={24} strokeWidth={2} />
             ) : copy ? (
               <CircleCheckBig size={18} />
             ) : (
               <Text toolTipAlign="start" tooltip="Share with public">
-                <Image
-                  src="/assets/icons/share.svg"
-                  alt="Share"
+                <Icon
+                  id="share"
+                  className="cursor-pointer"
                   width={30}
                   height={30}
-                  className="cursor-pointer"
                   onClick={handleShare}
                 />
               </Text>
@@ -126,12 +113,11 @@ export const ShareFile = ({
                 toolTipAlign="end"
                 tooltip="File Shared with public with the link"
               >
-                <Image
-                  src="/assets/icons/globe.svg"
-                  alt="Share"
+                <Icon
+                  id="globe"
+                  className="cursor-pointer"
                   width={18}
                   height={18}
-                  className="cursor-pointer"
                 />
               </Text>
             )}
@@ -179,17 +165,17 @@ const UserShare = ({
         disabled={isRemoving}
         className="rounded-full bg-transparent text-light-100 shadow-none hover:bg-transparent"
       >
-        <Image
-          src={
-            isRemoving
-              ? "/assets/icons/loader-brand.svg"
-              : "/assets/icons/remove.svg"
-          }
-          alt={isRemoving ? "Removing" : "Remove"}
-          width={24}
-          height={24}
-          className="aspect-square rounded-full"
-        />
+        {isRemoving ? (
+          <Loader size={18} strokeWidth={2} />
+        ) : (
+          <Icon
+            id="remove"
+            width={24}
+            height={24}
+            viewBox="0 0 24 24"
+            className="aspect-square"
+          />
+        )}
       </Button>
     </li>
   );
@@ -197,7 +183,7 @@ const UserShare = ({
 
 const ImageThumbnail = ({ file }: { file: Models.Document }) => {
   return (
-    <div className="flex w-full flex-col items-center rounded-xl border-[0.3px] border-light-200/40 bg-light-400/50 p-3 sm:h-[80px] sm:flex-row">
+    <div className="border-light-200/40 bg-light-400/50 flex w-full flex-col items-center rounded-xl border-[0.3px] p-3 sm:h-[80px] sm:flex-row">
       <Thumbnail
         type={file.type}
         extension={file.extension}
@@ -207,19 +193,14 @@ const ImageThumbnail = ({ file }: { file: Models.Document }) => {
         imageClassName="!size-7"
       />
       <div className="flex flex-col sm:ml-4">
-        {/* <p
-          className="subtitle-2 line-clamp-2 truncate text-light-100"
-          style={{ wordBreak: "break-word" }}
+        <Text
+          className="subtitle-2 max-w-[200px] truncate text-light-100"
+          tooltip={file.name}
+          side="bottom"
         >
           {file.name}
-        </p> */}
+        </Text>
 
-        <p
-          style={{ wordBreak: "break-word" }}
-          className="subtitle-2 truncate p-3 text-light-100"
-        >
-          {file.name}
-        </p>
         <p className="caption flex text-light-200">
           {convertFileSize(file.size)} -
           <FormattedDateTime

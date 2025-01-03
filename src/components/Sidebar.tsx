@@ -3,7 +3,6 @@
 import { sideBarLinks } from "@/constants";
 import { isActive } from "@/lib/isActive";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ProfileBox from "./ProfileBox";
@@ -44,16 +43,15 @@ const Sidebar = () => {
                       : "text-light-100",
                   )}
                 >
-                  <Image
-                    src={icon}
-                    alt={title}
-                    width={24}
-                    height={24}
-                    className={cn(
-                      "w-6 opacity-25 invert filter",
-                      isActive(pathname, path) && "opacity-100 invert-0",
-                    )}
+                  <Icon
+                    id={icon}
+                    className="block !size-6 cursor-pointer"
+                    color={isActive(pathname, path) ? "white" : "#a3b2c7"}
+                    width={26}
+                    height={26}
+                    viewBox="0 0 26 26"
                   />
+
                   <p className="hidden lg:block">{title}</p>
                 </li>
               </Link>
@@ -64,14 +62,15 @@ const Sidebar = () => {
 
       <div>
         <div className="relative hidden h-[235px] lg:block">
-          <Image
-            src="/assets/icons/Illustration.svg"
-            alt="Illustration badge"
+          <Icon
+            id="Illustration"
             width={195}
-            height={174}
+            height={195}
+            viewBox="0 0 342 342"
             className="mx-auto"
           />
-          <div className="bg-brand/10 absolute top-[92px] -z-10 h-[142px] w-full rounded-[30px]" />
+
+          <div className="absolute top-[92px] -z-10 h-[142px] w-full rounded-[30px] bg-brand/10" />
         </div>
       </div>
 
