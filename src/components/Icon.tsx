@@ -16,6 +16,7 @@ const Icon = ({
       className={className}
       viewBox={viewBox}
       style={{ ...sx }}
+      role="img"
       {...props}
     >
       <use xlinkHref={`/sprite.svg#${id}`} />
