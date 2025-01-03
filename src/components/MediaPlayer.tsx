@@ -14,7 +14,6 @@ const MediaPlayer = ({ src, type }: MediaPlayerProps) => {
           disableContextMenu: false,
           hideControls: true,
           captions: { active: true, update: true, language: "auto" },
-
           controls: [
             "play-large",
             "restart",
