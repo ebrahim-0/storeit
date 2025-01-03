@@ -17,6 +17,9 @@ import {
 } from "@/lib/actions/user.action";
 import OtpModal from "./OtpModal";
 import { toast } from "sonner";
+import { Github } from "lucide-react";
+import Icon from "./Icon";
+import Text from "./ui/Text";
 
 const authFormSchema = (type: TypeForm) => {
   return z.object({
@@ -158,12 +161,13 @@ const AuthForm = ({ type }: { type: TypeForm }) => {
       </Form>
 
       <Button
-        className="btn mt-4 !bg-light-100 hover:!bg-light-100/80"
+        className="btn mt-4 !bg-dark-100/80 transition-all duration-300 ease-in-out hover:!bg-light-100/80"
         type="button"
         onClick={handleGithubLogin}
         disabled={isGithubLoading}
         isLoading={isGithubLoading}
       >
+        <Icon id="github-white" width={45} height={45} viewBox="0 0 98 98" />
         login with github
       </Button>
 
