@@ -27,6 +27,14 @@ export default function RootLayout({
 }>) {
   return (
     <html dir="ltr" lang="en">
+      <head>
+        <link
+          rel="preload"
+          href="/sprite.svg"
+          as="image"
+          type="image/svg+xml"
+        />
+      </head>
       <body className={`${poppins.variable} font-poppins antialiased`}>
         <Root>{children}</Root>
         <Toaster
