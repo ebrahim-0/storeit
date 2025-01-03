@@ -9,7 +9,7 @@ export default function Home() {
     <div className="flex-center h-[calc(100vh-111px)] flex-col gap-3">
       <h1 className="h1">Welcome, {user?.fullName}</h1>
 
-      <h1 className="h1">StoreIt - A simple file storage service</h1>
+      <h1 className="h1">StoreIt - A simple file storage service for you.</h1>
     </div>
   );
 }
