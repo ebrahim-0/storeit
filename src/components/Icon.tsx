@@ -1,5 +1,10 @@
 import { SVGProps } from "react";
 
+const spriteUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://pre.store-it.live/sprite.svg"
+    : "/sprite.svg";
+
 const Icon = ({
   id,
   width,
@@ -19,7 +24,8 @@ const Icon = ({
       role="img"
       {...props}
     >
-      <use xlinkHref={`/sprite.svg#${id}`} />
+      <use xlinkHref={`${spriteUrl}#${id}`} />
+      {/* <use xlinkHref={`/sprite.svg#${id}`} /> */}
     </svg>
   );
 };
