@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Root from "@/components/Root";
 import { Toaster } from "@/components/ui/sonner";
+import Head from "next/head";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,14 +28,14 @@ export default function RootLayout({
 }>) {
   return (
     <html dir="ltr" lang="en">
-      {/* <head>
+      <Head>
         <link
           rel="preload"
           href="/sprite.svg"
           as="image"
           type="image/svg+xml"
         />
-      </head> */}
+      </Head>
       <body className={`${poppins.variable} font-poppins antialiased`}>
         <Root>{children}</Root>
         <Toaster

@@ -29,7 +29,6 @@ declare interface IconSvgProps {
   height?: number;
   className?: string;
   viewBox?: string;
-  sx?: CSSProperties;
 }
 
 declare interface SearchParamProps {

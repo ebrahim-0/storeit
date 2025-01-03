@@ -111,15 +111,13 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
           <Icon
             id="upload"
             className="block !size-6 cursor-pointer"
-            width={24}
-            height={24}
-            viewBox="0 0 21 20"
+            viewBox="0 0 21 21"
+            color="red"
           />
 
           <p>Upload</p>
         </Button>
       </div>
-
       {files.length > 0 && (
         <ul
           style={{ width: "-webkit-fill-available" }}
@@ -160,8 +158,6 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
                   id="remove"
                   width={24}
                   height={24}
-                  viewBox="0 0 24 24"
-                  className="aspect-square"
                   onClick={() => handleRemoveFile(file.name)}
                 />
               </li>

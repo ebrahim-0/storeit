@@ -22,9 +22,9 @@ const layout = async ({
         <Link href="/">
           <Icon
             id="logo-full-brand"
-            width={100}
+            width={150}
             height={53}
-            className="w-[150px] text-brand"
+            color="hsl(var(--brand-default))"
           />
         </Link>
 
