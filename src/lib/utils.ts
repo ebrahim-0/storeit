@@ -2,6 +2,11 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { appwriteConfig } from "./config";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -109,7 +114,9 @@ export const convertFileSize = (size: number, digits?: number) => {
 export const formatDateTime = (isoString: string | null | undefined) => {
   if (!isoString) return "—";
 
-  return dayjs(isoString).format("h:mm A, D MMM YYYY");
+  return dayjs(isoString).tz("Africa/Cairo").format("h:mm A, D MMM YYYY");
+
+  // return dayjs.tz(isoString, "Africa/Cairo").format("h:mm A, D MMM YYYY");
 };
 
 export const getFileIcon = (
