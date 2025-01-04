@@ -114,9 +114,9 @@ export const convertFileSize = (size: number, digits?: number) => {
 export const formatDateTime = (isoString: string | null | undefined) => {
   if (!isoString) return "—";
 
-  return dayjs(isoString).tz("Africa/Cairo").format("h:mm A, D MMM YYYY");
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  // return dayjs.tz(isoString, "Africa/Cairo").format("h:mm A, D MMM YYYY");
+  return dayjs(isoString).tz(userTimezone).format("h:mm A, D MMM YYYY");
 };
 
 export const getFileIcon = (
