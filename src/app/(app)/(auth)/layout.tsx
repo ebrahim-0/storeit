@@ -1,4 +1,5 @@
 import Icon from "@/components/Icon";
+import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -9,7 +10,7 @@ const layout = async ({ children }: { children: ReactNode }) => {
     <div className="flex min-h-screen">
       <section className="hidden w-1/2 items-center justify-center bg-brand-100 p-10 lg:flex xl:w-2/5">
         <div className="flex max-h-[800px] max-w-[430px] flex-col justify-center space-y-12">
-          <Link href="/">
+          <Link href="/" className="w-fit">
             <Icon id="logo-full" width={224} height={82} color="white" />
           </Link>
 
@@ -20,10 +21,11 @@ const layout = async ({ children }: { children: ReactNode }) => {
             </p>
           </div>
 
-          <Icon
-            id="Illustration"
+          <Image
+            src="assets/standaloneIcons/Illustration.svg"
             width={342}
             height={342}
+            alt="Illustration"
             className="transition-all hover:rotate-2 hover:scale-105"
           />
         </div>

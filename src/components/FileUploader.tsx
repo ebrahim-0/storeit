@@ -112,7 +112,6 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
             id="upload"
             className="block !size-6 cursor-pointer"
             viewBox="0 0 21 21"
-            color="red"
           />
 
           <p>Upload</p>

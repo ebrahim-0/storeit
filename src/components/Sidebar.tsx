@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ProfileBox from "./ProfileBox";
 import Icon from "./Icon";
+import Image from "next/image";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -65,11 +66,11 @@ const Sidebar = () => {
 
       <div>
         <div className="relative hidden h-[235px] lg:block">
-          <Icon
-            id="Illustration"
+          <Image
+            src="assets/standaloneIcons/Illustration.svg"
             width={195}
             height={195}
-            viewBox="0 0 342 342"
+            alt="Illustration"
             className="mx-auto"
           />
 
