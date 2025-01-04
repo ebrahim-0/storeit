@@ -1,5 +1,10 @@
 import { SVGProps } from "react";
 
+const SvgHost =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5190"
+    : process.env.NEXT_PUBLIC_HOST;
+
 const Icon = ({
   id,
   width,
@@ -17,7 +22,7 @@ const Icon = ({
       role="img"
       {...props}
     >
-      <use xlinkHref={`https://pre.store-it.live/sprite.svg#${id}`} />
+      <use xlinkHref={`${SvgHost}/sprite.svg#${id}`} />
     </svg>
   );
 };
