@@ -6,7 +6,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -30,9 +29,12 @@ const layout = async ({
 
         <Sheet>
           <SheetTrigger>
-            <Menu
-              size="35"
-              strokeWidth="3"
+            <Icon
+              id="menu"
+              width={35}
+              height={35}
+              viewBox="0 0 22 22"
+              color="hsl(var(--light-100))"
               className="block cursor-pointer md:hidden"
             />
           </SheetTrigger>

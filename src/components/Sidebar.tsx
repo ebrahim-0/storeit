@@ -50,7 +50,7 @@ const Sidebar = () => {
                     color={
                       isActive(pathname, path)
                         ? "white"
-                        : "hsl(var(--light-200))"
+                        : "hsl(var(--brand-100)/0.3)"
                     }
                     width={26}
                     height={26}

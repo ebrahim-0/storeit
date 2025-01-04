@@ -115,9 +115,8 @@ export const formatDateTime = (isoString: string | null | undefined) => {
   if (!isoString) return "—";
 
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  console.log("🚀 ~ formatDateTime ~ userTimezone:", userTimezone);
 
-  return dayjs(isoString).tz(userTimezone).format("h:mm A, D MMM YYYY");
+  return dayjs(isoString).tz(userTimezone).format("h:mm A, D MMM YYYY Z");
 };
 
 export const getFileIcon = (

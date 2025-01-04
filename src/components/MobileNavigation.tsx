@@ -1,9 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet";
-import { Menu } from "lucide-react";
 import { sideBarLinks } from "@/constants";
 import { isActive } from "@/lib/isActive";
 import { cn } from "@/lib/utils";
@@ -40,9 +38,12 @@ const MobileNavigation = () => {
 
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger>
-            <Menu
-              size="35"
-              strokeWidth="3"
+            <Icon
+              id="menu"
+              width={35}
+              height={35}
+              viewBox="0 0 22 22"
+              color="hsl(var(--light-100))"
               className="block cursor-pointer md:hidden"
             />
           </SheetTrigger>
@@ -79,7 +80,7 @@ const MobileNavigation = () => {
                             color={
                               isActive(pathname, path)
                                 ? "white"
-                                : "hsl(var(--light-200))"
+                                : "hsl(var(--brand-100)/0.3)"
                             }
                             width={26}
                             height={26}

@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getFiles } from "@/lib/actions/file.action";
 import { Models } from "node-appwrite";
-import { useDebounce, useDebouncedCallback } from "use-debounce";
+import { useDebouncedCallback } from "use-debounce";
 import Thumbnail from "./Thumbnail";
 import FormattedDateTime from "./FormattedDateTime";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -14,7 +14,6 @@ import Icon from "./Icon";
 
 const Search = () => {
   const { push } = useRouter();
-  const path = usePathname();
   const searchParams = useSearchParams();
 
   const query = searchParams.get("query") || "";
@@ -25,14 +24,7 @@ const Search = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [debouncedSearch] = useDebounce(searchQuery, 500);
-
   const debouncedSearchFn = useDebouncedCallback(async (query: string) => {
-    if (debouncedSearch.length === 0) {
-      setResults([]);
-      return push(path.replace(searchParams.toString(), ""));
-    }
-
     setIsLoading(true);
     setError(null);
 
@@ -47,11 +39,13 @@ const Search = () => {
     if (error) {
       setError(error.message);
     }
-  }, 0);
+  }, 500);
 
   useEffect(() => {
-    debouncedSearchFn(debouncedSearch);
-  }, [debouncedSearch]);
+    if (searchQuery) {
+      debouncedSearchFn(searchQuery);
+    }
+  }, [searchQuery]);
 
   const handleClickItem = (file: Models.Document) => {
     setResults([]);

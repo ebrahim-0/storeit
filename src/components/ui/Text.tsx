@@ -45,6 +45,7 @@ const Text = ({
           <TooltipContent
             align={toolTipAlign}
             side={side}
+            style={{ wordBreak: "break-word" }}
             className={cn(
               "max-w-[250px] ltr:text-start rtl:text-end",
               toolTipClass,

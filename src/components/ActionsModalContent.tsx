@@ -183,7 +183,7 @@ const UserShare = ({
 
 const ImageThumbnail = ({ file }: { file: Models.Document }) => {
   return (
-    <div className="border-light-200/40 bg-light-400/50 flex w-full flex-col items-center rounded-xl border-[0.3px] p-3 sm:h-[80px] sm:flex-row">
+    <div className="flex w-full flex-col items-center rounded-xl border-[0.3px] border-light-200/40 bg-light-400/50 p-3 sm:h-[80px] sm:flex-row">
       <Thumbnail
         type={file.type}
         extension={file.extension}
@@ -191,6 +191,7 @@ const ImageThumbnail = ({ file }: { file: Models.Document }) => {
         url={constructFileUrl(file?.bucketFileId)}
         className="!size-[52px] !min-w-[52px]"
         imageClassName="!size-7"
+        iconSize={28}
       />
       <div className="flex flex-col sm:ml-4">
         <Text
