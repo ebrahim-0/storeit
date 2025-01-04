@@ -2,27 +2,13 @@ import { SVGProps } from "react";
 
 const SvgHost =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:5190"
-    : process.env.NEXT_PUBLIC_HOST;
+    ? "/sprite.svg"
+    : `${process.env.NEXT_PUBLIC_HOST}/sprite.svg`;
 
-const Icon = ({
-  id,
-  width,
-  height,
-  className,
-  viewBox,
-  ...props
-}: IconSvgProps & SVGProps<SVGSVGElement>) => {
+const Icon = ({ id, ...props }: SVGProps<SVGSVGElement>) => {
   return (
-    <svg
-      width={width}
-      height={height}
-      className={className}
-      viewBox={viewBox}
-      role="img"
-      {...props}
-    >
-      <use xlinkHref={`${SvgHost}/sprite.svg#${id}`} />
+    <svg role="img" {...props}>
+      <use xlinkHref={`${SvgHost}#${id}`} />
     </svg>
   );
 };

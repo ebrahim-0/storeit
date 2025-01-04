@@ -23,14 +23,6 @@ declare type TypeForm = "login" | "register";
 
 declare type FileType = "document" | "image" | "video" | "audio" | "other";
 
-declare interface IconSvgProps {
-  id: string;
-  width?: number;
-  height?: number;
-  className?: string;
-  viewBox?: string;
-}
-
 declare interface SearchParamProps {
   params?: Promise<SegmentParams>;
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
