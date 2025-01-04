@@ -46,6 +46,8 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
     limit: parseInt(limit),
   });
 
+  console.log("🚀 ~ page ~ files:", files);
+
   return (
     <>
       {error && (

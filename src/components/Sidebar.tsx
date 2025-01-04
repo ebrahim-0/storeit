@@ -45,12 +45,14 @@ const Sidebar = () => {
                 >
                   <Icon
                     id={icon}
-                    className="block !size-6 cursor-pointer"
+                    className="block cursor-pointer"
                     color={
                       isActive(pathname, path)
                         ? "white"
                         : "hsl(var(--light-200))"
                     }
+                    width={26}
+                    height={26}
                   />
 
                   <p className="hidden lg:block">{title}</p>
