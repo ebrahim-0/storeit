@@ -17,7 +17,7 @@ const Icon = ({
       role="img"
       {...props}
     >
-      <use xlinkHref={`/sprite.svg#${id}`} />
+      <use xlinkHref={`https://pre.store-it.live/sprite.svg#${id}`} />
     </svg>
   );
 };

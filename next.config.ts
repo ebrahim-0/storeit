@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: "/sprite.svg",
+        destination: "https://pre.store-it.live/sprite.svg",
+      },
+    ];
+  },
+
   experimental: {
     serverActions: {
       bodySizeLimit: "100MB",
