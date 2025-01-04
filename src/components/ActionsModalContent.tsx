@@ -97,7 +97,7 @@ export const ShareFile = ({
             ) : copy ? (
               <CircleCheckBig size={18} />
             ) : (
-              <Text toolTipAlign="start" tooltip="Share with public">
+              <Text align="start" tooltip="Share with public">
                 <Icon
                   id="share"
                   className="cursor-pointer"
@@ -109,10 +109,7 @@ export const ShareFile = ({
             )}
 
             {file?.isPublic && (
-              <Text
-                toolTipAlign="end"
-                tooltip="File Shared with public with the link"
-              >
+              <Text align="end" tooltip="File Shared with public with the link">
                 <Icon
                   id="globe"
                   className="cursor-pointer"

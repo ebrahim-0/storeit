@@ -17,7 +17,7 @@ const Text = ({
   tooltip,
   delay = 100,
   toolTipClass,
-  toolTipAlign = "start",
+  align = "start",
   side = "top",
   ...props
 }: {
@@ -25,7 +25,7 @@ const Text = ({
   tooltip?: string;
   delay?: number;
   toolTipClass?: ClassValue;
-  toolTipAlign?: "center" | "end" | "start";
+  align?: "center" | "end" | "start";
   side?: "top" | "right" | "bottom" | "left";
 } & TooltipTriggerProps &
   RefAttributes<HTMLButtonElement>) => {
@@ -43,7 +43,7 @@ const Text = ({
         </TooltipTrigger>
         {tooltip && (
           <TooltipContent
-            align={toolTipAlign}
+            align={align}
             side={side}
             style={{ wordBreak: "break-word" }}
             className={cn(

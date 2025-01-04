@@ -40,7 +40,7 @@ const page = async ({ params }: SearchParamProps) => {
         <div className="mx-auto flex min-h-[calc(100vh-80px)] w-full flex-col items-center justify-center gap-3 pb-10 pt-6">
           <div className="flex w-full items-center justify-between">
             <h1 className="h1 truncate text-light-100">{file?.name}</h1>
-            <Text toolTipAlign="center" tooltip="Download" side="bottom">
+            <Text align="center" tooltip="Download" side="bottom">
               <a
                 // href={`/api/files/${fileId}?download=true`}
                 href={constructFileUrl(fileId)}
