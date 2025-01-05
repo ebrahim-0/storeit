@@ -67,7 +67,7 @@ const page = async () => {
             {files?.documents?.map((file: Models.Document) => (
               <Link
                 key={file.$id}
-                href={`/file/${file.$id}`}
+                href={`/viewer/${file.$id}`}
                 target="_blank"
                 className="flex items-center gap-3"
               >
