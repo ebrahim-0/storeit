@@ -19,6 +19,25 @@ export const metadata: Metadata = {
     apple: ["/assets/standaloneIcons/logo.svg"],
     shortcut: ["/assets/standaloneIcons/logo.svg"],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "StoreIt",
+    description: "StoreIt is a simple file storage service.",
+    site: "@StoreItApp",
+    images: ["/assets/standaloneIcons/logo.svg"], // Add your image here
+  },
+
+  openGraph: {
+    title: "StoreIt",
+    description: "StoreIt is a simple file storage service.",
+    url: "https://store-it.live",
+    images: [
+      {
+        url: "/assets/standaloneIcons/logo.svg",
+        alt: "StoreIt Banner",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
