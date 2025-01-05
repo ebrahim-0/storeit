@@ -169,6 +169,8 @@ export const getCurrentUser = createServerAction(async () => {
   try {
     const { databases, account } = await createSessionClient();
 
+    const { account: adminAccount } = await createAdminClient();
+
     const result = await account.get();
 
     const user = await databases.listDocuments(
@@ -178,6 +180,16 @@ export const getCurrentUser = createServerAction(async () => {
     );
 
     if (user.total <= 0) return null;
+
+    const newSession = await adminAccount.updateSession("current");
+
+    (await cookies()).set("appwrite-session", newSession.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
+    });
 
     if (user.total > 0) {
       const { password, ...userWithoutPassword } = user.documents[0];
