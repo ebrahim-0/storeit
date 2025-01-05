@@ -4,7 +4,6 @@ import { getFileByBucketFileId } from "@/lib/actions/file.action";
 import { getCurrentUser } from "@/lib/actions/user.action";
 import { cn, constructFileUrl } from "@/lib/utils";
 import { Metadata } from "next";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import MediaPlayer from "@/components/MediaPlayer";
 import Icon from "@/components/Icon";
@@ -69,7 +68,11 @@ const page = async ({ params }: SearchParamProps) => {
             {fileId && isImage && (
               <ZoomAbleImage
                 // src={`/api/files/${fileId}`}
-                src={constructFileUrl(fileId)}
+                src={
+                  file?.extension === "svg"
+                    ? `/api/files/${fileId}`
+                    : constructFileUrl(fileId)
+                }
                 alt={file?.name}
                 className="h-full !w-fit object-contain"
               />
@@ -77,7 +80,6 @@ const page = async ({ params }: SearchParamProps) => {
 
             {fileId && (isAudio || isVideo) && (
               <MediaPlayer
-                // src={`/api/${isVideo ? "video-hls" : "files"}/${fileId}`}
                 // src={`/api/files/${fileId}`}
                 src={constructFileUrl(fileId)}
                 type={file?.type}

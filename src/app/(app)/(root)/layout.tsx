@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import Header from "@/components/Header";
 import MobileNavigation from "@/components/MobileNavigation";
 import Sidebar from "@/components/Sidebar";
+import UploadingFiles from "@/components/UploadingFiles";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +23,7 @@ const layout = async ({ children }: { children: ReactNode }) => {
           {children}
         </div>
       </section>
+      <UploadingFiles />
     </main>
   );
 };

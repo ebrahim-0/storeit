@@ -1,6 +1,6 @@
 "use server";
 
-import { createAdminClient } from "../appwrite";
+import { createAdminClient, createSessionClient } from "../appwrite";
 import { InputFile } from "node-appwrite/file";
 import { createServerAction, ServerActionError } from "../serverAction";
 import { appwriteConfig } from "../config";
@@ -240,3 +240,44 @@ export const getFileDownload = async (fileId: string) => {
 
   return file;
 };
+
+export const getTotalSpaceUsed = createServerAction(async () => {
+  const { databases } = await createSessionClient();
+
+  const { error, ...currentUser } = await getCurrentUser();
+  if (!currentUser) throw new ServerActionError("User is not authenticated.");
+
+  if (error) throw new ServerActionError(error.message);
+
+  const files = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.filesCollectionId,
+    [Query.equal("owner", [currentUser.$id])],
+  );
+
+  const totalSpace = {
+    image: { size: 0, latestDate: "" },
+    document: { size: 0, latestDate: "" },
+    video: { size: 0, latestDate: "" },
+    audio: { size: 0, latestDate: "" },
+    other: { size: 0, latestDate: "" },
+    used: 0,
+    all: 2 * 1024 * 1024 * 1024 /* 2GB available bucket storage */,
+  };
+
+  files.documents.forEach((file: Models.Document) => {
+    const fileType = file.type as FileType;
+
+    totalSpace[fileType].size += file.size;
+    totalSpace.used += file.size;
+
+    if (
+      !totalSpace[fileType].latestDate ||
+      new Date(file.$createdAt) > new Date(totalSpace[fileType].latestDate)
+    ) {
+      totalSpace[fileType].latestDate = file.$createdAt;
+    }
+  });
+
+  return parseStringify(totalSpace);
+});

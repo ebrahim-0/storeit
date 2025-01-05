@@ -16,6 +16,18 @@ export const parseStringify = <T>(value: T): T => {
   return JSON.parse(JSON.stringify(value));
 };
 
+export const calculatePercentage = (sizeInBytes: number) => {
+  const totalSizeInBytes = 2 * 1024 * 1024 * 1024; // 2GB in bytes
+  const percentage = (sizeInBytes / totalSizeInBytes) * 100;
+  return Number(percentage.toFixed(1));
+};
+
+export const calculateAngle = (sizeInBytes: number) => {
+  const totalSizeInBytes = 2 * 1024 * 1024 * 1024; // 2GB in bytes
+  const angle = (sizeInBytes / totalSizeInBytes) * 360;
+  return Number(angle.toFixed(2));
+};
+
 export const getFileType = (fileName: string) => {
   const extension = fileName.split(".").pop()?.toLowerCase();
 

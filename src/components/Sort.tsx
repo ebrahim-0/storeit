@@ -29,7 +29,8 @@ const Sort = () => {
   );
 
   const handleChange = (value: string) => {
-    push(`${pathname}?${createQueryString("sort", value)}`);
+    // push(`${pathname}?${createQueryString("sort", value)}`);
+    push(`${pathname}?sort=${value}`);
   };
 
   return (
