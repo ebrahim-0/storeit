@@ -22,14 +22,14 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "StoreIt",
-    description: "StoreIt is a simple file storage service.",
+    description: "StoreIt is a simple file storage service for everyone.",
     site: "@StoreItApp",
     images: ["/assets/standaloneIcons/logo.svg"], // Add your image here
   },
 
   openGraph: {
     title: "StoreIt",
-    description: "StoreIt is a simple file storage service.",
+    description: "StoreIt is a simple file storage service for everyone.",
     url: "https://store-it.live",
     images: [
       {
