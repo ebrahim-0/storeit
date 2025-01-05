@@ -14,6 +14,11 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "StoreIt",
   description: "StoreIt is a simple file storage service.",
+  icons: {
+    icon: ["/assets/standaloneIcons/logo.svg"],
+    apple: ["/assets/standaloneIcons/logo.svg"],
+    shortcut: ["/assets/standaloneIcons/logo.svg"],
+  },
 };
 
 export default function RootLayout({
