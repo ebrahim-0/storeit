@@ -1,50 +1,51 @@
 "use client";
 
-import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
-import { useCallback, useState } from "react";
+import { cn } from "@/lib/utils";
+import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "./ui/button";
-import Image from "next/image";
-import Thumbnail from "./Thumbnail";
 import { MAX_FILE_SIZE } from "@/constants";
 import { uploadFile } from "@/lib/actions/file.action";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 import Icon from "./Icon";
+import { useDispatch, useSelector } from "zustore";
 
 const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
   const pathname = usePathname();
+  const { dispatch } = useDispatch();
 
-  const [files, setFiles] = useState<File[]>([]);
+  const files = useSelector<File[]>("files", [] as File[]);
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
-      setFiles((prev) => {
-        const existingFileNames = new Set(prev.map((file) => file.name));
-        const newFiles: File[] = [];
-
-        acceptedFiles.forEach((file) => {
-          if (existingFileNames.has(file.name)) {
-            toast(
-              <p>
-                <span className="font-semibold">{`"${file.name}"`}</span> is
-                already uploaded.
-              </p>,
-              {
-                className: "!bg-red !rounded-[10px]",
-                duration: 1500,
-              },
-            );
-          } else {
-            newFiles.push(file);
-          }
-        });
-        return [...prev, ...newFiles];
+      const existingFileNames = new Set(files.map((file) => file.name));
+      const newFiles: File[] = [];
+      acceptedFiles.forEach((file) => {
+        if (existingFileNames.has(file.name)) {
+          toast(
+            <p>
+              <span className="font-semibold">{`"${file.name}"`}</span> is
+              already uploaded.
+            </p>,
+            {
+              className: "!bg-red !rounded-[10px]",
+              duration: 1500,
+            },
+          );
+        } else {
+          newFiles.push(file);
+        }
       });
+
+      const allFiles = [...files, ...newFiles];
+
+      dispatch(allFiles, "files");
 
       const uploadPromises = acceptedFiles.map((file) => {
         if (file.size > MAX_FILE_SIZE) {
-          setFiles((prev) => prev.filter((f) => f.name !== file.name));
+          const filterFiles = files.filter((f) => f.name !== file.name);
+          dispatch(filterFiles, "files");
 
           return toast(
             <p className="flex items-center gap-3">
@@ -63,7 +64,9 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
         return uploadFile({ file, ownerId, accountId, path: pathname }).then(
           (uploadedFile) => {
             if (!uploadedFile?.error) {
-              setFiles((prev) => prev.filter((f) => f.name !== file.name));
+              const filterFiles = files.filter((f) => f.name !== file.name);
+              dispatch(filterFiles, "files");
+
               return toast(
                 <p className="flex items-center gap-3">
                   <span>
@@ -77,7 +80,8 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
                 },
               );
             } else {
-              setFiles((prev) => prev.filter((f) => f.name !== file.name));
+              const filterFiles = files.filter((f) => f.name !== file.name);
+              dispatch(filterFiles, "files");
 
               return toast(uploadedFile?.error?.message, {
                 className: "!bg-red !rounded-[10px]",
@@ -94,10 +98,6 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
   );
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
-  const handleRemoveFile = useCallback((fileName: string) => {
-    setFiles((prev) => prev.filter((file) => file.name !== fileName));
-  }, []);
 
   return (
     <>
@@ -117,53 +117,6 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
           <p>Upload</p>
         </Button>
       </div>
-      {files.length > 0 && (
-        <ul
-          style={{ width: "-webkit-fill-available" }}
-          className={cn(
-            "fixed bottom-3 right-0 z-50 m-5 flex",
-            "!h-fit flex-col gap-3 rounded-[20px] border",
-            "bg-white p-7 shadow-drop-3 sm:bottom-10",
-            "sm:right-10 sm:size-full sm:max-w-[480px]",
-          )}
-        >
-          <h4 className="h4 text-light-100">Uploading</h4>
-
-          {files.map((file, index) => {
-            const { type, extension } = getFileType(file.name);
-
-            return (
-              <li
-                key={`${file.name}-${index}`}
-                className="flex cursor-pointer items-center justify-between gap-3 rounded-xl p-3 shadow-drop-3"
-              >
-                <Thumbnail
-                  type={type}
-                  extension={extension}
-                  url={convertFileToUrl(file)}
-                />
-
-                <div className="subtitle-2 oneline-text mb-2 w-full max-w-[280px] whitespace-nowrap">
-                  {file.name}
-                </div>
-                <Image
-                  src="/assets/icons/file-loader.gif"
-                  width={80}
-                  height={26}
-                  alt="loader"
-                />
-
-                <Icon
-                  id="remove"
-                  width={24}
-                  height={24}
-                  onClick={() => handleRemoveFile(file.name)}
-                />
-              </li>
-            );
-          })}
-        </ul>
-      )}
     </>
   );
 };

@@ -107,7 +107,7 @@ const MobileNavigation = () => {
                     "text-brand-100",
                   )}
                   tooltip="Logout"
-                  toolTipAlign="center"
+                  align="center"
                   toolTipClass="bg-brand/10 text-brand"
                 >
                   <Icon

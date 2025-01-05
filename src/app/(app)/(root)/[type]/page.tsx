@@ -2,6 +2,7 @@ import ClientToast from "@/components/ClientToast";
 import FilesList from "@/components/FilesList";
 import Icon from "@/components/Icon";
 import Sort from "@/components/Sort";
+import SortArrow from "@/components/SortArrow";
 import { fileType } from "@/constants";
 import { getFiles } from "@/lib/actions/file.action";
 import { capitalize, getFileTypesParams } from "@/lib/utils";
@@ -67,8 +68,10 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
             </p>
 
             <div className="mt-5 flex items-center gap-3 sm:mt-0">
-              <p className="body-1 hidden text-light-200 sm:block">Sort By: </p>
-              <Sort />
+              {/* <p className="body-1 hidden text-light-200 sm:block">Sort By: </p>
+              <Sort /> */}
+
+              <SortArrow />
 
               {/* <div className="flex-center size-11 rounded-lg bg-white">
                 <Icon

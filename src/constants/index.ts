@@ -87,12 +87,12 @@ export const actionsDropdownItemsAsShare = [
 
 export const sortTypes = [
   {
-    label: "Date created (newest)",
-    value: "$createdAt-desc",
+    label: "Date created (oldest)",
+    value: "$createdAt-asc",
   },
   {
-    label: "Created Date (oldest)",
-    value: "$createdAt-asc",
+    label: "Date created (newest)",
+    value: "$createdAt-desc",
   },
   {
     label: "Name (A-Z)",
@@ -109,6 +109,27 @@ export const sortTypes = [
   {
     label: "Size (Lowest)",
     value: "size-asc",
+  },
+];
+
+export const sortBy = [
+  {
+    label: "Date created",
+    value: "$createdAt",
+    asc: "oldest",
+    desc: "newest",
+  },
+  {
+    label: "Name",
+    value: "name",
+    asc: "A-Z",
+    desc: "Z-A",
+  },
+  {
+    label: "Size",
+    value: "size",
+    asc: "Lowest",
+    desc: "Highest",
   },
 ];
 

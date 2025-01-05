@@ -16,6 +16,65 @@ export const parseStringify = <T>(value: T): T => {
   return JSON.parse(JSON.stringify(value));
 };
 
+export const calculatePercentage = (sizeInBytes: number) => {
+  const totalSizeInBytes = 2 * 1024 * 1024 * 1024; // 2GB in bytes
+  const percentage = (sizeInBytes / totalSizeInBytes) * 100;
+  return Number(percentage.toFixed(1));
+};
+
+export const calculateAngle = (sizeInBytes: number) => {
+  const totalSizeInBytes = 2 * 1024 * 1024 * 1024; // 2GB in bytes
+  const angle = (sizeInBytes / totalSizeInBytes) * 360;
+  return Number(angle.toFixed(2));
+};
+
+export const getUsageSummary = (totalSpace: any) => {
+  return [
+    {
+      title: "Documents",
+      size: totalSpace.document.size,
+      latestDate: totalSpace.document.latestDate,
+      percentage: calculatePercentage(totalSpace.document.size),
+      icon: "file-document-light",
+      iconBg: "hsl(var(--brand-default))",
+      url: "/documents",
+    },
+    {
+      title: "Images",
+      size: totalSpace.image.size,
+      latestDate: totalSpace.image.latestDate,
+      percentage: calculatePercentage(totalSpace.image.size),
+      icon: "file-image-light",
+      iconBg: "hsl(var(--blue))",
+      url: "/images",
+    },
+    {
+      title: "Media",
+      size: totalSpace.video.size + totalSpace.audio.size,
+      latestDate:
+        totalSpace.video.latestDate > totalSpace.audio.latestDate
+          ? totalSpace.video.latestDate
+          : totalSpace.audio.latestDate,
+      percentage: calculatePercentage(
+        totalSpace.video.size + totalSpace.audio.size,
+      ),
+      icon: "file-video-light",
+      iconBg: "hsl(var(--green))",
+      url: "/media",
+    },
+
+    {
+      title: "Others",
+      size: totalSpace.other.size,
+      latestDate: totalSpace.other.latestDate,
+      percentage: calculatePercentage(totalSpace.other.size),
+      icon: "file-other-light",
+      iconBg: "hsl(var(--pink))",
+      url: "/others",
+    },
+  ];
+};
+
 export const getFileType = (fileName: string) => {
   const extension = fileName.split(".").pop()?.toLowerCase();
 

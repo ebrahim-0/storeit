@@ -5,7 +5,7 @@ import { Input } from "./ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getFiles } from "@/lib/actions/file.action";
 import { Models } from "node-appwrite";
-import { useDebouncedCallback } from "use-debounce";
+import { useDebounce, useDebouncedCallback } from "use-debounce";
 import Thumbnail from "./Thumbnail";
 import FormattedDateTime from "./FormattedDateTime";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -24,6 +24,8 @@ const Search = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [debouncedSearch] = useDebounce(searchQuery, 500);
+
   const debouncedSearchFn = useDebouncedCallback(async (query: string) => {
     setIsLoading(true);
     setError(null);
@@ -39,13 +41,11 @@ const Search = () => {
     if (error) {
       setError(error.message);
     }
-  }, 500);
+  }, 0);
 
   useEffect(() => {
-    if (searchQuery) {
-      debouncedSearchFn(searchQuery);
-    }
-  }, [searchQuery]);
+    debouncedSearchFn(debouncedSearch);
+  }, [debouncedSearch]);
 
   const handleClickItem = (file: Models.Document) => {
     setResults([]);
@@ -61,12 +61,8 @@ const Search = () => {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div
-          className="flex h-[52px] w-full items-center gap-3 rounded-full px-4 shadow-drop-3 min-[850px]:w-[480px]"
-          onClick={() => setOpen(true)}
-        >
+        <div className="flex h-[52px] w-full cursor-default items-center gap-3 rounded-full px-4 shadow-drop-3 min-[850px]:w-[480px]">
           <Icon id="search" className="!size-6" viewBox="0 0 20 20" />
-
           <p
             className={cn(
               "body-2 hidden truncate px-0 sm:block",
@@ -102,7 +98,7 @@ const Search = () => {
           {isLoading ? (
             <p className="body-2 text-center text-light-100">Loading...</p>
           ) : error ? (
-            <div className="text-red-500">{error}</div>
+            <div className="body-2 text-red-500 text-center">{error}</div>
           ) : results.length > 0 ? (
             results.map((file) => (
               <li
@@ -115,7 +111,7 @@ const Search = () => {
                     type={file.type}
                     extension={file.extension}
                     url={file.url}
-                    className="size-12 min-w-12 bg-transparent"
+                    className="size-12 min-w-12"
                     iconSize={32}
                   />
 

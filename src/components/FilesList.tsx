@@ -6,8 +6,10 @@ import { cn } from "@/lib/utils";
 
 const FilesList = ({
   files,
+  oneColumn = false,
 }: {
   files: Models.DocumentList<Models.Document>;
+  oneColumn?: boolean;
 }) => {
   const isGrid = true;
 
@@ -16,8 +18,9 @@ const FilesList = ({
       {files?.total > 0 ? (
         <section
           className={cn(
-            "grid w-full grid-cols-1 gap-[26px] sm:grid-cols-2",
-            isGrid && "lg:grid-cols-3 xl:grid-cols-4",
+            "grid w-full grid-cols-1 gap-[26px]",
+            !oneColumn && "sm:grid-cols-2",
+            isGrid && !oneColumn && "lg:grid-cols-3 xl:grid-cols-4",
           )}
         >
           {files?.documents?.map((file: Models.Document) => (

@@ -24,7 +24,7 @@ const Header = () => {
             "p-0 shadow-none transition-all hover:bg-brand/20",
           )}
           tooltip="Logout"
-          toolTipAlign="center"
+          align="center"
           toolTipClass="bg-brand/10 text-brand"
         >
           <Icon

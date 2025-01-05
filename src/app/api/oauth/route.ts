@@ -19,6 +19,7 @@ export async function GET(request: Request) {
     httpOnly: true,
     sameSite: "strict",
     secure: true,
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
   });
 
   const { account: accountSession } = await createSessionClient();
