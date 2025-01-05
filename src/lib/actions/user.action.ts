@@ -154,6 +154,7 @@ export const verifyOtp = createServerAction(
         sameSite: "strict",
         secure: true,
         httpOnly: true,
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
       });
 
       return parseStringify({ sessionId: session.$id });
