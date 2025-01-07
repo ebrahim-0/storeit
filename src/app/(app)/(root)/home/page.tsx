@@ -19,14 +19,6 @@ const page = async () => {
       getTotalSpaceUsed(),
     ]);
 
-  const fees = useMemo(
-    () =>
-      (+transaction?.totals?.admin_fees.replaceAll(",", "") /
-        +transaction?.totals?.amount_without_fees.replaceAll(",", "")) *
-      100,
-    [transaction?.totals?.admin_fees, transaction?.totals?.amount_without_fees],
-  );
-
   const userSummary = getUsageSummary(totalUsed);
 
   return (
