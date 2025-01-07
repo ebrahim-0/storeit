@@ -40,6 +40,7 @@ const InputController = ({
                 <Input
                   className="no-focus body-2 border-0 px-0 shadow-none placeholder:text-light-200"
                   type={type}
+                  fullWidth
                   placeholder={placeholder}
                   {...field}
                 />

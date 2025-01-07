@@ -12,9 +12,20 @@ import { Models } from "node-appwrite";
 const page = async () => {
   const [{ error: errorFile, ...files }, { error, ...totalUsed }] =
     await Promise.all([
-      getFiles({ types: [], limit: 10 }),
+      getFiles({
+        types: [],
+        limit: 10,
+      }),
       getTotalSpaceUsed(),
     ]);
+
+  const fees = useMemo(
+    () =>
+      (+transaction?.totals?.admin_fees.replaceAll(",", "") /
+        +transaction?.totals?.amount_without_fees.replaceAll(",", "")) *
+      100,
+    [transaction?.totals?.admin_fees, transaction?.totals?.amount_without_fees],
+  );
 
   const userSummary = getUsageSummary(totalUsed);
 
@@ -31,14 +42,14 @@ const page = async () => {
               className="relative mt-6 rounded-[20px] bg-white p-5 transition-all hover:scale-105"
             >
               <div className="space-y-4">
-                <div className="flex justify-between gap-3">
+                <div>
                   <Icon
                     id={summary.icon}
-                    width={226}
+                    width={190}
                     height={108}
                     viewBox="0 0 241 118"
                     color={summary.iconBg}
-                    className="absolute left-[-13px] top-[-33px] z-10 w-[190px] object-contain"
+                    className="absolute left-[-12px] top-[-33px] z-10"
                   />
                   <h4 className="h4 relative z-20 w-full text-right">
                     {convertFileSize(summary.size) || 0}
@@ -48,6 +59,7 @@ const page = async () => {
                 <h5 className="h5 relative z-20 text-center">
                   {summary.title}
                 </h5>
+
                 <Separator className="bg-light-400" />
                 <FormattedDateTime
                   date={summary.latestDate}

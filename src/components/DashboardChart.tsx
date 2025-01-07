@@ -1,11 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { TrendingUp } from "lucide-react";
 import {
   Label,
-  Pie,
-  PieChart,
   PolarGrid,
   PolarRadiusAxis,
   RadialBar,
@@ -16,17 +13,11 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import {
   calculateAngle,
   calculatePercentage,
@@ -44,7 +35,9 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function DashboardChart({ used = 0 }: { used: number }) {
-  const chartData = [{ storage: "used", 10: used, fill: "white" }];
+  const chartData = [
+    { storage: `Used ${calculatePercentage(used)}`, 10: used, fill: "white" },
+  ];
 
   return (
     <Card className="flex flex-col items-center rounded-[20px] bg-brand p-5 py-12 text-white xl:flex-row">
@@ -59,14 +52,16 @@ export function DashboardChart({ used = 0 }: { used: number }) {
             endAngle={Number(calculateAngle(used)) + 90}
             innerRadius={80}
             outerRadius={110}
+            barSize={40}
           >
             <PolarGrid
               gridType="circle"
               radialLines={false}
               stroke="none"
               className="first:fill-white/20 last:fill-brand"
-              polarRadius={[86, 74]}
+              polarRadius={[86, 72]}
             />
+
             <RadialBar dataKey="storage" background cornerRadius={10} />
             <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
               <Label
