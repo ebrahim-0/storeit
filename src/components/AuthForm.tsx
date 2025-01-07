@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import InputController from "./InputController";
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   createAccount,
@@ -17,9 +16,7 @@ import {
 } from "@/lib/actions/user.action";
 import OtpModal from "./OtpModal";
 import { toast } from "sonner";
-import { Github } from "lucide-react";
 import Icon from "./Icon";
-import Text from "./ui/Text";
 
 const authFormSchema = (type: TypeForm) => {
   return z.object({

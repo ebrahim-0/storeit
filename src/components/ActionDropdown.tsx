@@ -18,7 +18,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { actionsDropdownItems, actionsDropdownItemsAsShare } from "@/constants";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Models } from "node-appwrite";
 import { useCallback, useMemo, useState } from "react";

@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "./ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getFiles } from "@/lib/actions/file.action";
 import { Models } from "node-appwrite";
-import { useDebounce, useDebouncedCallback } from "use-debounce";
+import { useDebounce } from "use-debounce";
 import Thumbnail from "./Thumbnail";
 import FormattedDateTime from "./FormattedDateTime";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
 import Icon from "./Icon";
+import { useQuery } from "@tanstack/react-query";
 
 const Search = () => {
   const { push } = useRouter();
@@ -19,39 +20,29 @@ const Search = () => {
   const query = searchParams.get("query") || "";
 
   const [open, setOpen] = useState(false);
-  const [results, setResults] = useState<Models.Document[]>([]);
   const [searchQuery, setSearchQuery] = useState(query);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const [debouncedSearch] = useDebounce(searchQuery, 500);
 
-  const debouncedSearchFn = useDebouncedCallback(async (query: string) => {
-    setIsLoading(true);
-    setError(null);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["search", debouncedSearch],
+    queryFn: async () => {
+      const { error, ...files } = await getFiles({
+        types: [],
+        searchText: debouncedSearch,
+      });
 
-    const { error, ...files } = await getFiles({
-      types: [],
-      searchText: query,
-    });
+      if (error) {
+        throw new Error(error.message);
+      }
 
-    setResults(files.documents || []);
-    setIsLoading(false);
-
-    if (error) {
-      setError(error.message);
-    }
-  }, 0);
-
-  useEffect(() => {
-    debouncedSearchFn(debouncedSearch);
-  }, [debouncedSearch]);
+      return files.documents || [];
+    },
+  });
 
   const handleClickItem = (file: Models.Document) => {
-    setResults([]);
     setOpen(false);
     setSearchQuery(file.name);
-    debouncedSearchFn.cancel();
 
     push(
       `/${file.type === "video" || file.type === "audio" ? "media" : file.type + "s"}?query=${file.name}`,
@@ -87,20 +78,19 @@ const Search = () => {
             fullWidth
             placeholder="Search..."
             className="no-focus body-2 border-0 px-0 shadow-none placeholder:text-light-200"
-            onChange={(e) => {
-              debouncedSearchFn.cancel();
-              setSearchQuery(e.target.value);
-            }}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
         <div className="flex w-full flex-col gap-3 p-4">
           {isLoading ? (
             <p className="body-2 text-center text-light-100">Loading...</p>
-          ) : error ? (
-            <div className="body-2 text-red-500 text-center">{error}</div>
-          ) : results.length > 0 ? (
-            results.map((file) => (
+          ) : error?.message ? (
+            <div className="body-2 text-red-500 text-center">
+              {error?.message}
+            </div>
+          ) : data.length > 0 ? (
+            data.map((file: Models.Document) => (
               <li
                 className="flex items-center justify-between rounded-lg bg-light-400 p-2"
                 key={file.$id}
