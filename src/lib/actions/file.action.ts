@@ -46,8 +46,7 @@ export const uploadFile = createServerAction(
     const newFile = await databases
       .createDocument(
         appwriteConfig.databaseId,
-        appwriteConfig.filesCollectionId,
-        // ID.unique(),// make a random unique id for the document
+        appwriteConfig.filesCollectionId, // ID.unique(),// make a random unique id for the document
         bucketFile.$id, // use bucketFileId as document ID
         fileDocument,
       )

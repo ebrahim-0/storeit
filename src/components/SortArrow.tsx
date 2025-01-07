@@ -18,7 +18,7 @@ const SortArrow = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const currentSort = searchParams.get("sort") || `${sortBy[0].value}-asc`;
+  const currentSort = searchParams.get("sort") || `${sortBy[0].value}-desc`;
 
   const [currentSortType, currentOrder] = useMemo(
     () => currentSort.split("-"),
