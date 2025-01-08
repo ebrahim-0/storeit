@@ -92,30 +92,27 @@ const Search = () => {
           ) : data.length > 0 ? (
             data.map((file: Models.Document) => (
               <li
-                className="flex items-center justify-between rounded-lg bg-light-400 p-2"
+                className="flex cursor-pointer items-center justify-between gap-4 rounded-lg bg-light-400 p-2"
                 key={file.$id}
                 onClick={() => handleClickItem(file)}
               >
-                <div className="flex w-[65%] cursor-pointer items-center gap-4">
-                  <Thumbnail
-                    type={file.type}
-                    extension={file.extension}
-                    url={file.url}
-                    className="size-12 min-w-12"
-                    iconSize={32}
-                  />
-
-                  <p
-                    style={{ wordBreak: "break-word" }}
-                    className="subtitle-2 truncate p-3 text-light-100"
-                  >
-                    {file.name}
-                  </p>
-                </div>
-                <FormattedDateTime
-                  date={file.$createdAt}
-                  className="caption w-[35%] text-light-200"
+                <Thumbnail
+                  extension={file.extension}
+                  type={file.type}
+                  url={file.url}
                 />
+
+                <div className="flex w-full items-center justify-between">
+                  <div className="flex flex-col gap-1">
+                    <p className="subtitle-2 w-full max-w-[calc(100vw-200px)] truncate text-light-100 md:max-w-[300px]">
+                      {file.name}
+                    </p>
+                    <FormattedDateTime
+                      date={file.$createdAt}
+                      className="caption"
+                    />
+                  </div>
+                </div>
               </li>
             ))
           ) : (

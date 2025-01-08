@@ -3,15 +3,19 @@
 import { cn } from "@/lib/utils";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { MAX_FILE_SIZE } from "@/constants";
 import { uploadFile } from "@/lib/actions/file.action";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
-import Icon from "./Icon";
+import Icon from "@/components/Icon";
 import { useDispatch, useSelector } from "zustore";
 
-const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
+export const FileUploader = ({
+  ownerId,
+  accountId,
+  className,
+}: FileUploaderProps) => {
   const pathname = usePathname();
   const { dispatch } = useDispatch();
 

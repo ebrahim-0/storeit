@@ -17,6 +17,7 @@ declare interface GetFilesProps {
   searchText?: string;
   sort?: string;
   limit?: number;
+  offset?: number;
 }
 
 declare type TypeForm = "login" | "register";

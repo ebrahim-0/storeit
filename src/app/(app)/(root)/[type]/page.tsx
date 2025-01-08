@@ -1,10 +1,7 @@
-import ClientToast from "@/components/ClientToast";
-import FilesList from "@/components/FilesList";
 import Icon from "@/components/Icon";
-import Sort from "@/components/Sort";
-import SortArrow from "@/components/SortArrow";
+import { Sort, SortArrow } from "@/components/Sort";
+import { FilesList } from "@/components/UploadFiles";
 import { fileType } from "@/constants";
-import { getFiles } from "@/lib/actions/file.action";
 import { capitalize, getFileTypesParams } from "@/lib/utils";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -36,28 +33,19 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
 
   const searchText = ((await searchParams)?.query as string) || "";
   const sort = ((await searchParams)?.sort as string) || "$createdAt-desc";
-  const limit = ((await searchParams)?.limit as string) || "";
+  const limit = +((await searchParams)?.limit as string) || 10;
 
   const types = getFileTypesParams(type) as FileType[];
 
-  const { error, ...files } = await getFiles({
-    types,
-    searchText,
-    sort,
-    limit: parseInt(limit),
-  });
+  // const { error, ...files } = await getFiles({
+  //   types,
+  //   searchText,
+  //   sort,
+  //   limit: parseInt(limit),
+  // });
 
   return (
     <>
-      {error && (
-        <ClientToast
-          key={error.message}
-          message={<p className="body-2 text-white">{error?.message}</p>}
-          data={{
-            className: "!rounded-[10px]",
-          }}
-        />
-      )}
       <div className="page-container">
         <section className="w-full">
           <h1 className="h1 capitalize">{type}</h1>
@@ -96,7 +84,12 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
             </div>
           </div>
         </section>
-        <FilesList files={files} />
+        <FilesList
+          limit={limit}
+          searchText={searchText}
+          sort={sort}
+          types={types}
+        />
       </div>
     </>
   );

@@ -11,9 +11,9 @@ import ProfileBox from "./ProfileBox";
 import { Separator } from "./ui/separator";
 import Text from "./ui/Text";
 import { useDispatch, useSelector } from "zustore";
-import FileUploader from "./FileUploader";
 import Search from "./Search";
 import Icon from "./Icon";
+import { FileUploader } from "./UploadFiles";
 
 const MobileNavigation = () => {
   const pathname = usePathname();
