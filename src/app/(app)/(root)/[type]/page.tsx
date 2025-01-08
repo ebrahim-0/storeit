@@ -1,7 +1,8 @@
 import Icon from "@/components/Icon";
 import { Sort, SortArrow } from "@/components/Sort";
-import { FilesList } from "@/components/UploadFiles";
+import { FilesList, FilesListInfinite } from "@/components/UploadFiles";
 import { fileType } from "@/constants";
+import { getFiles } from "@/lib/actions/file.action";
 import { capitalize, getFileTypesParams } from "@/lib/utils";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -33,16 +34,17 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
 
   const searchText = ((await searchParams)?.query as string) || "";
   const sort = ((await searchParams)?.sort as string) || "$createdAt-desc";
-  const limit = +((await searchParams)?.limit as string) || 10;
+  // const limit = +((await searchParams)?.limit as string) || 10;
+  const limit = ((await searchParams)?.limit as string) || "";
 
   const types = getFileTypesParams(type) as FileType[];
 
-  // const { error, ...files } = await getFiles({
-  //   types,
-  //   searchText,
-  //   sort,
-  //   limit: parseInt(limit),
-  // });
+  const { error, ...files } = await getFiles({
+    types,
+    searchText,
+    sort,
+    limit: parseInt(limit),
+  });
 
   return (
     <>
@@ -84,12 +86,13 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
             </div>
           </div>
         </section>
-        <FilesList
+        <FilesList files={files} />
+        {/* <FilesListInfinite
           limit={limit}
           searchText={searchText}
           sort={sort}
           types={types}
-        />
+        /> */}
       </div>
     </>
   );
