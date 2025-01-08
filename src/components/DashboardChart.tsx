@@ -52,7 +52,6 @@ export function DashboardChart({ used = 0 }: { used: number }) {
             endAngle={Number(calculateAngle(used)) + 90}
             innerRadius={80}
             outerRadius={110}
-            barSize={40}
           >
             <PolarGrid
               gridType="circle"
