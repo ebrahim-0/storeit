@@ -10,7 +10,13 @@ export default function ZoomAbleImage({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <img src={src} alt={alt || ""} sizes="100vw" className={className} />
+        <img
+          src={src}
+          alt={alt || ""}
+          sizes="100vw"
+          className={className}
+          loading="lazy"
+        />
       </DialogTrigger>
       <DialogContent
         className="h-full max-w-full border-0 bg-black p-0"
@@ -21,6 +27,7 @@ export default function ZoomAbleImage({
             src={src}
             alt={alt || ""}
             className="mx-auto h-full !w-fit object-contain"
+            loading="lazy"
           />
         </div>
       </DialogContent>

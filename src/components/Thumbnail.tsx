@@ -24,6 +24,7 @@ const Thumbnail = ({
           alt="thumbnail"
           width={100}
           height={100}
+          loading="lazy"
           className={cn(
             "size-8 object-contain",
             imageClassName,
