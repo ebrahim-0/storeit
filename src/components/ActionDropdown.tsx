@@ -20,7 +20,7 @@ import {
 import { actionsDropdownItems, actionsDropdownItemsAsShare } from "@/constants";
 import { usePathname } from "next/navigation";
 import { Models } from "node-appwrite";
-import { useCallback, useMemo, useState } from "react";
+import { Fragment, useCallback, useMemo, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import {
@@ -249,9 +249,10 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
           <DropdownMenuSeparator />
           {dropdownItems.map((actionItem, idx) => {
             return (
-              <>
+              <Fragment
+                key={`${actionItem.label}-${Math.random()}-${file.$id}`}
+              >
                 <DropdownMenuItem
-                  key={`${actionItem.value}-${idx}-${file.$id}`}
                   onClick={() => {
                     setAction(actionItem);
 
@@ -309,7 +310,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
                   )}
                 </DropdownMenuItem>
                 {idx !== dropdownItems.length - 1 && <DropdownMenuSeparator />}
-              </>
+              </Fragment>
             );
           })}
         </DropdownMenuContent>

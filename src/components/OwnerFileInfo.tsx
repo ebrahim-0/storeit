@@ -1,12 +1,11 @@
 "use client";
 
 import { Models } from "node-appwrite";
-import { useMemo } from "react";
 import { useSelector } from "zustore";
 
 const OwnerFileInfo = ({ file }: { file: Models.Document }) => {
   const email = useSelector((state) => state?.user?.email);
-  const isSharedWithMe = useMemo(() => file?.users.includes(email), email);
+  const isSharedWithMe = file?.users.includes(email);
 
   return (
     <p className="caption text-light-200">

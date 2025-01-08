@@ -24,7 +24,7 @@ export const FilesList = ({
           )}
         >
           {files?.documents?.map((file: Models.Document) => (
-            <Card key={file.$id} file={file} />
+            <Card key={`${file?.name}-${file.$id}`} file={file} />
           ))}
         </section>
       ) : (

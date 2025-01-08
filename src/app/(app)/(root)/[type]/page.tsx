@@ -2,8 +2,13 @@ import Icon from "@/components/Icon";
 import { Sort, SortArrow } from "@/components/Sort";
 import { FilesList, FilesListInfinite } from "@/components/UploadFiles";
 import { fileType } from "@/constants";
-import { getFiles } from "@/lib/actions/file.action";
-import { capitalize, getFileTypesParams } from "@/lib/utils";
+import { getFiles, getTotalSpaceUsed } from "@/lib/actions/file.action";
+import {
+  capitalize,
+  convertFileSize,
+  getFileTypesParams,
+  getUsageSummary,
+} from "@/lib/utils";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -39,12 +44,18 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
 
   const types = getFileTypesParams(type) as FileType[];
 
-  const { error, ...files } = await getFiles({
-    types,
-    searchText,
-    sort,
-    limit: parseInt(limit),
-  });
+  const [{ error: errorFile, ...files }, { error, ...totalUsed }] =
+    await Promise.all([
+      getFiles({
+        types,
+        searchText,
+        sort,
+        limit,
+      }),
+      getTotalSpaceUsed(),
+    ]);
+
+  const userSummary = getUsageSummary(totalUsed);
 
   return (
     <>
@@ -54,7 +65,13 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
 
           <div className="mt-2 flex flex-col justify-between sm:flex-row sm:items-center">
             <p className="body-1">
-              Total: <span className="h5">12GB</span>
+              Total:{" "}
+              <span className="h5">
+                {convertFileSize(
+                  userSummary.find((summary) => summary.type === type)?.size ||
+                    0,
+                )}
+              </span>
             </p>
 
             <div className="mt-5 flex items-center gap-3 sm:mt-0">

@@ -38,6 +38,7 @@ const Search = () => {
 
       return files.documents || [];
     },
+    enabled: !!debouncedSearch,
   });
 
   const handleClickItem = (file: Models.Document) => {
@@ -89,8 +90,8 @@ const Search = () => {
             <div className="body-2 text-red-500 text-center">
               {error?.message}
             </div>
-          ) : data.length > 0 ? (
-            data.map((file: Models.Document) => (
+          ) : data?.length > 0 ? (
+            data?.map((file: Models.Document) => (
               <li
                 className="flex cursor-pointer items-center justify-between gap-4 rounded-lg bg-light-400 p-2"
                 key={file.$id}
