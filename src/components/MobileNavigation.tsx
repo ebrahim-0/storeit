@@ -40,8 +40,7 @@ const MobileNavigation = () => {
           <SheetTrigger>
             <Icon
               id="menu"
-              width={35}
-              height={35}
+              size={35}
               viewBox="0 0 22 22"
               color="hsl(var(--light-100))"
               className="block cursor-pointer md:hidden"
@@ -82,8 +81,7 @@ const MobileNavigation = () => {
                                 ? "white"
                                 : "hsl(var(--brand-100)/0.3)"
                             }
-                            width={26}
-                            height={26}
+                            size={26}
                           />
 
                           <p>{title}</p>
@@ -112,8 +110,7 @@ const MobileNavigation = () => {
                 >
                   <Icon
                     id="logout"
-                    width={24}
-                    height={24}
+                    size={24}
                     color="hsl(var(--brand-default))"
                     className="mr-2"
                   />

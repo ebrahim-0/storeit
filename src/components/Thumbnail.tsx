@@ -34,8 +34,7 @@ const Thumbnail = ({
       ) : (
         <Icon
           id={getFileIcon(extension, type)}
-          width={iconSize || 44}
-          height={iconSize || 44}
+          size={iconSize || 44}
           color="hsl(var(--brand-default))"
           viewBox="0 0 44 44"
         />

@@ -7,7 +7,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ProfileBox from "./ProfileBox";
 import Icon from "./Icon";
-import Image from "next/image";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -53,8 +52,7 @@ const Sidebar = () => {
                         ? "white"
                         : "hsl(var(--brand-100)/0.3)"
                     }
-                    width={26}
-                    height={26}
+                    size={26}
                   />
 
                   <p className="hidden lg:block">{title}</p>

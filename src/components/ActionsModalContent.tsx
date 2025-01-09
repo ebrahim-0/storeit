@@ -101,8 +101,7 @@ export const ShareFile = ({
                 <Icon
                   id="share"
                   className="cursor-pointer"
-                  width={30}
-                  height={30}
+                  size={30}
                   onClick={handleShare}
                 />
               </Text>
@@ -110,12 +109,7 @@ export const ShareFile = ({
 
             {file?.isPublic && (
               <Text align="end" tooltip="File Shared with public with the link">
-                <Icon
-                  id="globe"
-                  className="cursor-pointer"
-                  width={18}
-                  height={18}
-                />
+                <Icon id="globe" className="cursor-pointer" size={18} />
               </Text>
             )}
           </div>
@@ -167,8 +161,7 @@ const UserShare = ({
         ) : (
           <Icon
             id="remove"
-            width={24}
-            height={24}
+            size={24}
             viewBox="0 0 24 24"
             className="aspect-square"
           />

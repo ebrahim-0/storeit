@@ -48,8 +48,7 @@ const page = async ({ params }: SearchParamProps) => {
               >
                 <Icon
                   id="download"
-                  width={55}
-                  height={55}
+                  size={55}
                   viewBox="0 0 30 30"
                   className="cursor-pointer"
                 />

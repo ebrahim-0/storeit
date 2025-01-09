@@ -103,8 +103,7 @@ const OtpModal = ({
             Enter Your OTP
             <Icon
               id="close-dark"
-              width={24}
-              height={24}
+              size={24}
               onClick={() => setIsOpen(false)}
               className="absolute -right-5 -top-7 cursor-pointer sm:-right-2 sm:-top-4"
             />
