@@ -40,6 +40,7 @@ const layout = async ({ children }: { children: ReactNode }) => {
             src="assets/standaloneIcons/Illustration.svg"
             width={342}
             height={342}
+            loading="eager"
             alt="Illustration"
             className="transition-all hover:rotate-2 hover:scale-105"
             aria-label="Illustration"
