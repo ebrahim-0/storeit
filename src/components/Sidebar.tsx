@@ -67,7 +67,7 @@ const Sidebar = () => {
       <div>
         <div className="relative hidden h-[235px] lg:block">
           <img
-            src="/assets/standaloneIcons/Illustration.png"
+            src="/assets/standaloneIcons/Illustration.webp"
             width={195}
             height={195}
             alt="Illustration"

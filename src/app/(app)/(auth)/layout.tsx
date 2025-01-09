@@ -37,7 +37,7 @@ const layout = async ({ children }: { children: ReactNode }) => {
           </div>
 
           <img
-            src="/assets/standaloneIcons/Illustration.png"
+            src="/assets/standaloneIcons/Illustration.webp"
             width={342}
             height={342}
             loading="eager"
