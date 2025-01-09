@@ -70,6 +70,7 @@ const Sidebar = () => {
             src="/assets/standaloneIcons/Illustration.webp"
             width={195}
             height={195}
+            sizes="(max-width: 768px) 100vw, 50vw"
             alt="Illustration"
             className="mx-auto"
           />

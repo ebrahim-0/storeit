@@ -36,10 +36,11 @@ const layout = async ({ children }: { children: ReactNode }) => {
             </p>
           </div>
 
-          <img
+          <Image
             src="/assets/standaloneIcons/Illustration.webp"
             width={342}
             height={342}
+            sizes="(max-width: 768px) 100vw, 50vw"
             loading="eager"
             alt="Illustration"
             className="transition-all hover:rotate-2 hover:scale-105"
