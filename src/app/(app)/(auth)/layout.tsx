@@ -10,13 +10,28 @@ const layout = async ({ children }: { children: ReactNode }) => {
     <div className="flex min-h-screen">
       <section className="hidden w-1/2 items-center justify-center bg-brand-100 p-10 lg:flex xl:w-2/5">
         <div className="flex max-h-[800px] max-w-[430px] flex-col justify-center space-y-12">
-          <Link href="/" className="w-fit">
+          <Link
+            href="/"
+            className="w-fit"
+            aria-label="Go to homepage"
+            tabIndex={0}
+          >
             <Icon id="logo-full" width={224} height={82} color="white" />
           </Link>
 
           <div className="space-y-5 text-white">
-            <h1 className="h1">Manage your files the best way</h1>
-            <p className="body-1">
+            <h1
+              aria-label="Manage your files the best way"
+              tabIndex={0}
+              className="h1"
+            >
+              Manage your files the best way
+            </h1>
+            <p
+              className="body-1"
+              tabIndex={0}
+              aria-label="This is a place where you can store all your documents"
+            >
               This is a place where you can store all your documents
             </p>
           </div>
@@ -27,6 +42,7 @@ const layout = async ({ children }: { children: ReactNode }) => {
             height={342}
             alt="Illustration"
             className="transition-all hover:rotate-2 hover:scale-105"
+            aria-label="Illustration"
           />
         </div>
       </section>
