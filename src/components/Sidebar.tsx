@@ -66,8 +66,8 @@ const Sidebar = () => {
 
       <div>
         <div className="relative hidden h-[235px] lg:block">
-          <Image
-            src="assets/standaloneIcons/Illustration.svg"
+          <img
+            src="/assets/standaloneIcons/Illustration.png"
             width={195}
             height={195}
             alt="Illustration"

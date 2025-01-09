@@ -36,8 +36,8 @@ const layout = async ({ children }: { children: ReactNode }) => {
             </p>
           </div>
 
-          <Image
-            src="assets/standaloneIcons/Illustration.svg"
+          <img
+            src="/assets/standaloneIcons/Illustration.png"
             width={342}
             height={342}
             loading="eager"
@@ -55,6 +55,8 @@ const layout = async ({ children }: { children: ReactNode }) => {
             width={224}
             height={82}
             color="hsl(var(--brand-default))"
+            aria-label="Go to homepage"
+            tabIndex={0}
           />
         </Link>
         {children}
