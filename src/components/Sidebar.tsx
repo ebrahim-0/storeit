@@ -39,6 +39,7 @@ const Sidebar = () => {
                   className={cn(
                     "flex-center h5 gap-4 lg:!justify-start lg:px-[30px]",
                     "h-[45px] rounded-xl lg:w-full lg:rounded-[30px]",
+                    "transition-all duration-300 ease-in-out hover:shadow-drop-3",
                     isActive(pathname, path)
                       ? "bg-brand text-white shadow-drop-2"
                       : "text-light-100",
