@@ -31,7 +31,8 @@ const layout = async ({
           <SheetTrigger>
             <Icon
               id="menu"
-              size={35}
+              width={35}
+              height={35}
               viewBox="0 0 22 22"
               color="hsl(var(--light-100))"
               className="block cursor-pointer md:hidden"

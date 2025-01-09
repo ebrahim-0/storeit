@@ -93,7 +93,8 @@ export const SortArrow = () => {
             asc ? "rotate-180" : ""
           }`}
           onClick={toggleSortOrder}
-          size={22}
+          width={22}
+          height={22}
           viewBox="0 0 18 18"
         />
       </Text>

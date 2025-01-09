@@ -5,21 +5,9 @@ const SvgHost =
     ? "/sprite.svg"
     : `${process.env.NEXT_PUBLIC_HOST}/sprite.svg`;
 
-const Icon = ({
-  id,
-  size,
-  ...props
-}: { size?: string | number } & SVGProps<SVGSVGElement>) => {
+const Icon = ({ id, ...props }: SVGProps<SVGSVGElement>) => {
   return (
-    <svg
-      role="img"
-      style={{
-        width: size ?? props.width,
-        height: size ?? props.height,
-        ...props.style,
-      }}
-      {...props}
-    >
+    <svg role="img" {...props}>
       <use xlinkHref={`${SvgHost}#${id}`} />
     </svg>
   );

@@ -234,7 +234,8 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
         <DropdownMenuTrigger className="no-focus cursor-default">
           <Icon
             id="dots"
-            size={28}
+            width={28}
+            height={28}
             viewBox="0 0 34 34"
             className="cursor-pointer"
           />
@@ -298,12 +299,12 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
                       target="_self"
                       className="flex items-center gap-2"
                     >
-                      <Icon id={actionItem.icon} size={30} />
+                      <Icon id={actionItem.icon} width={30} height={30} />
                       {actionItem.label}
                     </a>
                   ) : (
                     <div className="flex items-center gap-2">
-                      <Icon id={actionItem.icon} size={30} />
+                      <Icon id={actionItem.icon} width={30} height={30} />
                       {actionItem.label}
                     </div>
                   )}

@@ -27,7 +27,12 @@ const Header = () => {
           align="center"
           toolTipClass="bg-brand/10 text-brand"
         >
-          <Icon id="logout" size={24} color="hsl(var(--brand-default))" />
+          <Icon
+            id="logout"
+            width={24}
+            height={24}
+            color="hsl(var(--brand-default))"
+          />
         </Text>
       </div>
     </header>
