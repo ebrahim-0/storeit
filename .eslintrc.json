@@ -4,7 +4,8 @@
     "next/typescript",
     "standard",
     "plugin:tailwindcss/recommended",
-    "prettier"
+    "prettier",
+    "plugin:@tanstack/query/recommended"
   ],
   "rules": {
     "no-undef": "off"

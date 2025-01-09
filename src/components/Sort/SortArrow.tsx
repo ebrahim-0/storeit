@@ -7,13 +7,13 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import Icon from "./Icon";
+import Icon from "../Icon";
 import { useCallback, useMemo } from "react";
-import Text from "./ui/Text";
+import Text from "../ui/Text";
 
-const SortArrow = () => {
+export const SortArrow = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -101,5 +101,3 @@ const SortArrow = () => {
     </div>
   );
 };
-
-export default SortArrow;

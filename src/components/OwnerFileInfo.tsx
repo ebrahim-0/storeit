@@ -4,8 +4,8 @@ import { Models } from "node-appwrite";
 import { useSelector } from "zustore";
 
 const OwnerFileInfo = ({ file }: { file: Models.Document }) => {
-  const user = useSelector<IUser>("user");
-  const isSharedWithMe = file?.users.includes(user?.email);
+  const email = useSelector((state) => state?.user?.email);
+  const isSharedWithMe = file?.users.includes(email);
 
   return (
     <p className="caption text-light-200">

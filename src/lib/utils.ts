@@ -32,6 +32,7 @@ export const getUsageSummary = (totalSpace: any) => {
   return [
     {
       title: "Documents",
+      type: "documents",
       size: totalSpace.document.size,
       latestDate: totalSpace.document.latestDate,
       percentage: calculatePercentage(totalSpace.document.size),
@@ -41,6 +42,7 @@ export const getUsageSummary = (totalSpace: any) => {
     },
     {
       title: "Images",
+      type: "images",
       size: totalSpace.image.size,
       latestDate: totalSpace.image.latestDate,
       percentage: calculatePercentage(totalSpace.image.size),
@@ -50,6 +52,7 @@ export const getUsageSummary = (totalSpace: any) => {
     },
     {
       title: "Media",
+      type: "media",
       size: totalSpace.video.size + totalSpace.audio.size,
       latestDate:
         totalSpace.video.latestDate > totalSpace.audio.latestDate
@@ -65,6 +68,7 @@ export const getUsageSummary = (totalSpace: any) => {
 
     {
       title: "Others",
+      type: "others",
       size: totalSpace.other.size,
       latestDate: totalSpace.other.latestDate,
       percentage: calculatePercentage(totalSpace.other.size),

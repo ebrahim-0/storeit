@@ -18,8 +18,8 @@ const Card = ({ file }: { file: Models.Document }) => {
         <Thumbnail
           type={file.type}
           extension={file.extension}
-          // url={`/api/files/${file?.bucketFileId}`}
-          url={constructFileUrl(file?.bucketFileId)}
+          url={`/api/files/${file?.bucketFileId}`}
+          // url={constructFileUrl(file?.bucketFileId)}
           className="!size-20"
         />
 

@@ -2,10 +2,10 @@
 
 import { cn } from "@/lib/utils";
 import Search from "./Search";
-import FileUploader from "./FileUploader";
 import Text from "@/components/ui/Text";
 import { useDispatch, useSelector } from "zustore";
 import Icon from "./Icon";
+import { FileUploader } from "./UploadFiles";
 
 const Header = () => {
   const { dispatcher } = useDispatch();

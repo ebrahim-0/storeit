@@ -7,11 +7,11 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
-const Sort = () => {
+export const Sort = () => {
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -54,5 +54,3 @@ const Sort = () => {
     </Select>
   );
 };
-
-export default Sort;

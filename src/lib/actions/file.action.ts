@@ -67,6 +67,7 @@ const createQueries = (
   searchText: string,
   sort: string,
   limit?: number,
+  offset?: number,
 ) => {
   const queries = [
     Query.or([
@@ -78,6 +79,7 @@ const createQueries = (
   if (types.length > 0) queries.push(Query.equal("type", types));
   if (searchText) queries.push(Query.contains("name", searchText));
   if (limit) queries.push(Query.limit(limit));
+  if (offset) queries.push(Query.offset(offset));
 
   if (sort) {
     const [sortBy, orderBy] = sort.split("-");
@@ -96,6 +98,7 @@ export const getFiles = createServerAction(
     searchText = "",
     sort = "$createdAt-desc",
     limit,
+    offset = 0,
   }: GetFilesProps) => {
     const { databases } = await createAdminClient();
     const { error, ...currentUser } = await getCurrentUser();
@@ -115,6 +118,7 @@ export const getFiles = createServerAction(
         searchText,
         sort,
         limit,
+        offset,
       );
 
       const files = await databases.listDocuments(
