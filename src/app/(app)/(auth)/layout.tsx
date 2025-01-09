@@ -37,9 +37,11 @@ const layout = async ({ children }: { children: ReactNode }) => {
           </div>
 
           <Image
-            src="assets/standaloneIcons/Illustration.svg"
+            src="/assets/standaloneIcons/Illustration.webp"
             width={342}
             height={342}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            loading="eager"
             alt="Illustration"
             className="transition-all hover:rotate-2 hover:scale-105"
             aria-label="Illustration"
@@ -54,6 +56,8 @@ const layout = async ({ children }: { children: ReactNode }) => {
             width={224}
             height={82}
             color="hsl(var(--brand-default))"
+            aria-label="Go to homepage"
+            tabIndex={0}
           />
         </Link>
         {children}

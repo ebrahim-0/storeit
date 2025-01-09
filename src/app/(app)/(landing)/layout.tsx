@@ -39,7 +39,7 @@ const layout = async ({
             />
           </SheetTrigger>
           <SheetContent>
-            <SheetTitle className="sr-only"></SheetTitle>
+            <SheetTitle className="sr-only" />
 
             <NavLinks classNames="!flex flex-col py-8" />
           </SheetContent>

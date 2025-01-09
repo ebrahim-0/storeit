@@ -21,9 +21,11 @@ export async function middleware(request: NextRequest) {
     new RegExp(`^${route.replace(/\[.*\]/, ".*")}$`).test(pathname),
   );
 
+  const isPublicRoute = isPublic.includes(pathname);
+
   // Handle cases where there is no session
   if (!isUser) {
-    if (!isPublic.includes(pathname) && !isHybridRoute) {
+    if (!isPublicRoute && !isHybridRoute) {
       const url = request.nextUrl.clone();
       url.pathname = "/login";
       return NextResponse.redirect(url);
@@ -34,14 +36,14 @@ export async function middleware(request: NextRequest) {
 
   // Handle cases where there is a session
   if (isUser) {
-    if (isPublic.includes(pathname)) {
+    if (isPublicRoute) {
       // Redirect to home page if the requested route is public
       const url = request.nextUrl.clone();
       url.pathname = "/";
       return NextResponse.redirect(url);
     }
     // Allow access to hybrid routes even with a session
-    if (isHybrid.includes(pathname)) {
+    if (isHybridRoute) {
       return NextResponse.next();
     }
   }

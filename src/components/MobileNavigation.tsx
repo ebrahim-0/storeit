@@ -48,7 +48,7 @@ const MobileNavigation = () => {
             />
           </SheetTrigger>
           <SheetContent>
-            <SheetTitle className="sr-only"></SheetTitle>
+            <SheetTitle className="sr-only" />
 
             <div className="flex h-full flex-col">
               <ProfileBox toMobile={true} />

@@ -92,7 +92,7 @@ const Search = () => {
             </div>
           ) : data?.length > 0 ? (
             data?.map((file: Models.Document) => (
-              <li
+              <div
                 className="flex cursor-pointer items-center justify-between gap-4 rounded-lg bg-light-400 p-2"
                 key={file.$id}
                 onClick={() => handleClickItem(file)}
@@ -114,7 +114,7 @@ const Search = () => {
                     />
                   </div>
                 </div>
-              </li>
+              </div>
             ))
           ) : (
             <p className="body-2 text-center text-light-100">No files found</p>

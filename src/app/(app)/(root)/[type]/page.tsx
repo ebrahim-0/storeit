@@ -83,8 +83,7 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
               {/* <div className="flex-center size-11 rounded-lg bg-white">
                 <Icon
                   id="menu"
-                  width={22}
-                  height={22}
+                  size={22}
                   viewBox="0 0 22 22"
                   color="hsl(var(--light-100))"
                   className="cursor-pointer"
@@ -93,8 +92,7 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
               <div className="flex-center size-11 rounded-lg bg-brand">
                 <Icon
                   id="grid"
-                  width={22}
-                  height={22}
+                  size={22}
                   viewBox="0 0 22 22"
                   color="white"
                   className="cursor-pointer"

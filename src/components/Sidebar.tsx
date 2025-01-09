@@ -7,7 +7,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ProfileBox from "./ProfileBox";
 import Icon from "./Icon";
-import Image from "next/image";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -39,6 +38,7 @@ const Sidebar = () => {
                   className={cn(
                     "flex-center h5 gap-4 lg:!justify-start lg:px-[30px]",
                     "h-[45px] rounded-xl lg:w-full lg:rounded-[30px]",
+                    "transition-all duration-300 ease-in-out hover:shadow-drop-3",
                     isActive(pathname, path)
                       ? "bg-brand text-white shadow-drop-2"
                       : "text-light-100",
@@ -66,10 +66,11 @@ const Sidebar = () => {
 
       <div>
         <div className="relative hidden h-[235px] lg:block">
-          <Image
-            src="assets/standaloneIcons/Illustration.svg"
+          <img
+            src="/assets/standaloneIcons/Illustration.webp"
             width={195}
             height={195}
+            sizes="(max-width: 768px) 100vw, 50vw"
             alt="Illustration"
             className="mx-auto"
           />

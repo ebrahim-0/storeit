@@ -59,8 +59,7 @@ const UploadingFiles = () => {
                 {/* 
                 <Icon
                   id="remove"
-                  width={24}
-                  height={24}
+                  size={24}
                   onClick={() => handleRemoveFile(file.name)}
                 /> */}
               </li>
