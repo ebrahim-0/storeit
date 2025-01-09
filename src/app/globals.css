@@ -24,7 +24,7 @@
 
   .remove-scrollbar::-webkit-scrollbar-thumb {
     background: transparent;
-    border-radius: 0px;
+    border-radius: 0;
   }
 
   .remove-scrollbar::-webkit-scrollbar-thumb:hover {
@@ -81,7 +81,6 @@
 
     --brand-default: 216 100% 51%;
     --brand-100: 216 100% 40%;
-
     --red: 0 100% 73%;
     --error: 0 100% 36%;
     --green: 165 67% 55%;
@@ -96,6 +95,7 @@
     --dark-200: 233 31% 11%;
     --plyr-color-main: hsl(var(--brand-default));
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -198,6 +198,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
