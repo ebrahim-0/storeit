@@ -1,6 +1,5 @@
-import Icon from "@/components/Icon";
-import { Sort, SortArrow } from "@/components/Sort";
-import { FilesList, FilesListInfinite } from "@/components/UploadFiles";
+import { SortArrow } from "@/components/Sort";
+import { FilesList } from "@/components/UploadFiles";
 import { fileType } from "@/constants";
 import { getFiles, getTotalSpaceUsed } from "@/lib/actions/file.action";
 import {
@@ -39,7 +38,6 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
 
   const searchText = ((await searchParams)?.query as string) || "";
   const sort = ((await searchParams)?.sort as string) || "$createdAt-desc";
-  // const limit = +((await searchParams)?.limit as string) || 10;
   const limit = ((await searchParams)?.limit as string) || "";
 
   const types = getFileTypesParams(type) as FileType[];
@@ -75,39 +73,11 @@ const page = async ({ searchParams, params }: SearchParamProps) => {
             </p>
 
             <div className="mt-5 flex items-center gap-3 sm:mt-0">
-              {/* <p className="body-1 hidden text-light-200 sm:block">Sort By: </p>
-              <Sort /> */}
-
               <SortArrow />
-
-              {/* <div className="flex-center size-11 rounded-lg bg-white">
-                <Icon
-                  id="menu"
-                  size={22}
-                  viewBox="0 0 22 22"
-                  color="hsl(var(--light-100))"
-                  className="cursor-pointer"
-                />
-              </div>
-              <div className="flex-center size-11 rounded-lg bg-brand">
-                <Icon
-                  id="grid"
-                  size={22}
-                  viewBox="0 0 22 22"
-                  color="white"
-                  className="cursor-pointer"
-                />
-              </div> */}
             </div>
           </div>
         </section>
         <FilesList files={files} />
-        {/* <FilesListInfinite
-          limit={limit}
-          searchText={searchText}
-          sort={sort}
-          types={types}
-        /> */}
       </div>
     </>
   );

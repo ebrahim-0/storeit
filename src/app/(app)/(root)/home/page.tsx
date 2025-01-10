@@ -1,4 +1,4 @@
-import ActionDropdown from "@/components/ActionDropdown";
+import { ActionDropdown } from "@/components/ActionDropdown";
 import { DashboardChart } from "@/components/DashboardChart";
 import FormattedDateTime from "@/components/FormattedDateTime";
 import Icon from "@/components/Icon";

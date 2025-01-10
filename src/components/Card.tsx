@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Models } from "node-appwrite";
 import Thumbnail from "./Thumbnail";
-import { constructFileUrl, convertFileSize } from "@/lib/utils";
+import { convertFileSize } from "@/lib/utils";
 import FormattedDateTime from "./FormattedDateTime";
-import ActionDropdown from "./ActionDropdown";
+import { ActionDropdown } from "./ActionDropdown";
 import OwnerFileInfo from "./OwnerFileInfo";
 import Text from "./ui/Text";
 

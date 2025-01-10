@@ -25,7 +25,6 @@ const InputController = ({
       name={name}
       render={({ field }) => {
         const { error } = useFormField();
-
         return (
           <FormItem>
             <div

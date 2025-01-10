@@ -104,7 +104,7 @@ export function DashboardChart({ used = 0 }: { used: number }) {
       <CardHeader className="flex-1 items-start px-3 py-0 sm:px-5 lg:p-3 xl:pr-5">
         <CardTitle className="h3">Available Storage</CardTitle>
         <CardDescription className="subtitle-1 text-white/70">
-          {used ? convertFileSize(used) : "2GB"} / 2GB
+          {convertFileSize(used)} / 2GB
         </CardDescription>
       </CardHeader>
     </Card>

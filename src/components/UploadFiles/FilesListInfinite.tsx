@@ -13,16 +13,12 @@ export const FilesListInfinite = ({
   searchText,
   sort,
   limit,
-  oneColumn = false,
 }: {
   types: FileType[];
   searchText: string;
   sort: string;
   limit: number;
-  oneColumn?: boolean;
 }) => {
-  const isGrid = true;
-
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
       queryKey: ["files", types, searchText, sort, limit],
@@ -72,8 +68,7 @@ export const FilesListInfinite = ({
         <section
           className={cn(
             "grid w-full grid-cols-1 gap-[26px]",
-            !oneColumn && "sm:grid-cols-2",
-            isGrid && !oneColumn && "lg:grid-cols-3 xl:grid-cols-4",
+            "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
           )}
         >
           {files?.documents?.map((file: Models.Document) => (

@@ -29,6 +29,19 @@ declare interface SearchParamProps {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
+declare interface FormattedDateTimeProps {
+  date: string;
+  className?: string;
+}
+
+declare interface RenderDialogContentProps {
+  action: ActionType | null;
+  file: Models.Document;
+  setAction: (action: any) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
+  setIsDropdownOpen: (isOpen: boolean) => void;
+}
+
 declare interface UploadFileProps {
   file: File;
   ownerId: string;
