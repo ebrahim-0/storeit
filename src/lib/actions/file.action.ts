@@ -284,3 +284,18 @@ export const getTotalSpaceUsed = createServerAction(async () => {
 
   return parseStringify(totalSpace);
 });
+
+export const pushNotification = createServerAction(async () => {
+  const { messaging } = await createAdminClient();
+
+  const notification = await messaging.createPush(
+    ID.unique(),
+    "Init_ Day 0", // title
+    "Appwrite Messaging is here!", // body
+    ["init-day-0"], // topic IDs
+    ["*"], // devices
+    ["*"], // users
+  );
+
+  return parseStringify(notification);
+});

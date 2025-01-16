@@ -7,7 +7,9 @@ export default function Home() {
 
   return (
     <div className="flex-center h-[calc(100vh-111px)] flex-col gap-3 text-center">
-      <h1 className="h3 sm:h2 md:h1">Welcome, {fullName}</h1>
+      <h1 className="h3 sm:h2 md:h1">
+        Welcome {fullName && `, ${fullName}`} to StoreIt
+      </h1>
       <h1 className="h3 sm:h2 md:h1">
         StoreIt - A simple file storage service
       </h1>
