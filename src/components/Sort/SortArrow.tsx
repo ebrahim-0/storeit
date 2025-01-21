@@ -10,10 +10,15 @@ import {
 } from "../ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Icon from "../Icon";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Text from "../ui/Text";
+import { useDispatch, useSelector } from "zustore";
+import { sortFilesBy } from "@/lib/utils";
 
 export const SortArrow = () => {
+  const { dispatch } = useDispatch();
+  const files = useSelector("files");
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -25,7 +30,9 @@ export const SortArrow = () => {
     [currentSort],
   );
 
-  const asc = currentOrder === "asc";
+  const [asc, setAsc] = useState(currentOrder === "asc");
+
+  // const asc = currentOrder === "asc";
 
   const updateQueryString = useCallback(
     (key: string, value: string) => {
@@ -41,6 +48,10 @@ export const SortArrow = () => {
       "sort",
       `${value}-${asc ? "asc" : "desc"}`,
     );
+
+    const sortedFiles = sortFilesBy(files, `${value}-${asc ? "asc" : "desc"}`);
+
+    dispatch(sortedFiles, "sortFiles");
     router.push(`${pathname}?${queryString}`);
   };
 
@@ -49,6 +60,15 @@ export const SortArrow = () => {
       "sort",
       `${currentSortType}-${asc ? "desc" : "asc"}`,
     );
+
+    setAsc((prev) => !prev);
+
+    const sortedFiles = sortFilesBy(
+      files,
+      `${currentSortType}-${asc ? "desc" : "asc"}`,
+    );
+
+    dispatch(sortedFiles, "sortFiles");
     router.push(`${pathname}?${queryString}`);
   };
 
