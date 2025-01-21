@@ -86,6 +86,11 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        progress: {
+          "0%": { transform: "translateX(0) scaleX(0)" },
+          "40%": { transform: "translateX(0) scaleX(0.4)" },
+          "100%": { transform: "translateX(100%) scaleX(0.5)" },
+        },
         "caret-blink": {
           "0%,70%,100%": { opacity: "1" },
           "20%,50%": { opacity: "0" },
@@ -93,6 +98,7 @@ export default {
       },
       animation: {
         "caret-blink": "caret-blink 1.25s ease-out infinite",
+        progress: "progress 1s infinite linear",
       },
     },
   },

@@ -12,9 +12,10 @@ export const FilesList = ({
   files: Models.DocumentList<Models.Document>;
 }) => {
   const sortFiles = useSelector("sortFiles");
-  const { dispatch } = useDispatch();
+  const { dispatch, addState } = useDispatch();
 
   useEffect(() => {
+    addState({ mainLoading: false });
     dispatch(files, "files");
   }, [files]);
 

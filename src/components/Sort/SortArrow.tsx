@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "zustore";
 import { sortFilesBy } from "@/lib/utils";
 
 export const SortArrow = () => {
-  const { dispatch } = useDispatch();
+  const { dispatch, addState } = useDispatch();
   const files = useSelector("files");
 
   const router = useRouter();
@@ -31,6 +31,7 @@ export const SortArrow = () => {
   );
 
   const [asc, setAsc] = useState(currentOrder === "asc");
+  const [sort, setSort] = useState(currentSortType);
 
   // const asc = currentOrder === "asc";
 
@@ -44,6 +45,7 @@ export const SortArrow = () => {
   );
 
   const handleSortChange = (value: string) => {
+    setSort(value);
     const queryString = updateQueryString(
       "sort",
       `${value}-${asc ? "asc" : "desc"}`,
@@ -51,14 +53,15 @@ export const SortArrow = () => {
 
     const sortedFiles = sortFilesBy(files, `${value}-${asc ? "asc" : "desc"}`);
 
+    addState({ mainLoading: true });
     dispatch(sortedFiles, "sortFiles");
-    router.push(`${pathname}?${queryString}`);
+    router.replace(`${pathname}?${queryString}`);
   };
 
   const toggleSortOrder = () => {
     const queryString = updateQueryString(
       "sort",
-      `${currentSortType}-${asc ? "desc" : "asc"}`,
+      `${sort}-${asc ? "desc" : "asc"}`,
     );
 
     setAsc((prev) => !prev);
@@ -68,8 +71,10 @@ export const SortArrow = () => {
       `${currentSortType}-${asc ? "desc" : "asc"}`,
     );
 
+    addState({ mainLoading: true });
     dispatch(sortedFiles, "sortFiles");
-    router.push(`${pathname}?${queryString}`);
+
+    router.replace(`${pathname}?${queryString}`);
   };
 
   return (
@@ -109,7 +114,7 @@ export const SortArrow = () => {
       >
         <Icon
           id="arrow"
-          className={`transform cursor-pointer text-dark-200 ${
+          className={`transform cursor-pointer text-dark-200 transition-transform duration-300 ${
             asc ? "rotate-180" : ""
           }`}
           onClick={toggleSortOrder}

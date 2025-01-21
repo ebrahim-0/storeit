@@ -283,10 +283,7 @@ export const sortFilesBy = (
   files: Models.DocumentList<Models.Document>,
   sort: string,
 ) => {
-  console.log("🚀 ~ files:", files);
   const [sortBy, order] = sort.split("-");
-  console.log("🚀 ~ order:", order);
-  console.log("🚀 ~ sortBy:", sortBy);
 
   const sortedFiles = files?.documents.sort((a, b) => {
     if (sortBy === "$createdAt") {
