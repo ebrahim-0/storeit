@@ -32,10 +32,17 @@ export const ActionDropdown = ({ file }: { file: Models.Document }) => {
 
   const isSharedWithMe = file?.users.includes(user?.email);
 
-  const dropdownItems = useMemo(
-    () => (isSharedWithMe ? actionsDropdownItemsAsShare : actionsDropdownItems),
-    [file, user],
-  );
+  let dropdownItems = useMemo(() => {
+    const isPublic = file?.isPublic;
+
+    if (!isPublic && isSharedWithMe) {
+      return actionsDropdownItemsAsShare.filter(
+        (item) => item.value !== "share-link",
+      );
+    }
+
+    return isSharedWithMe ? actionsDropdownItemsAsShare : actionsDropdownItems;
+  }, [file, user]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>

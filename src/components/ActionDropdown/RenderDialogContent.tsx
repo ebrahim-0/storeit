@@ -89,6 +89,11 @@ export const RenderDialogContent = ({
         });
       },
       share: async () => {
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          toast.error("Please enter a valid email");
+          return;
+        }
+
         if (file?.accountId !== user?.accountId) {
           toast.error("You can't share a file shared with you");
           return;
@@ -171,6 +176,7 @@ export const RenderDialogContent = ({
             onChange={(e) => setName(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAction()}
             placeholder="Enter new name"
+            fullWidth={true}
             className="no-focus h-[52px] rounded-[30px] !border-0 p-4 text-light-100 shadow-drop-1"
           />
         )}
