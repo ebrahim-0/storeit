@@ -29,7 +29,7 @@ const Sidebar = () => {
         />
       </Link>
 
-      <nav className="h5 mt-6 flex-1 gap-1 text-brand">
+      <nav className="h5 mt-16 flex-1 gap-1 text-brand">
         <ul className="flex flex-1 flex-col gap-6">
           {sideBarLinks.map(({ title, path, icon }, index) => {
             return (
@@ -63,21 +63,6 @@ const Sidebar = () => {
           })}
         </ul>
       </nav>
-
-      <div>
-        <div className="relative hidden h-[235px] lg:block">
-          <img
-            src="/assets/standaloneIcons/Illustration.webp"
-            width={195}
-            height={195}
-            sizes="(max-width: 768px) 100vw, 50vw"
-            alt="Illustration"
-            className="mx-auto"
-          />
-
-          <div className="absolute top-[92px] -z-10 h-[142px] w-full rounded-[30px] bg-brand/10" />
-        </div>
-      </div>
 
       <ProfileBox />
     </aside>
