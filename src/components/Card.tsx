@@ -3,7 +3,7 @@ import { Models } from "node-appwrite";
 import Thumbnail from "./Thumbnail";
 import { constructFileUrl, convertFileSize } from "@/lib/utils";
 import FormattedDateTime from "./FormattedDateTime";
-import ActionDropdown from "./ActionDropdown";
+import { ActionDropdown } from "./ActionDropdown";
 import OwnerFileInfo from "./OwnerFileInfo";
 import Text from "./ui/Text";
 
@@ -18,8 +18,8 @@ const Card = ({ file }: { file: Models.Document }) => {
         <Thumbnail
           type={file.type}
           extension={file.extension}
-          url={`/api/files/${file?.bucketFileId}`}
-          // url={constructFileUrl(file?.bucketFileId)}
+          // url={`/api/files/${file?.bucketFileId}`}
+          url={constructFileUrl(file?.bucketFileId)}
           className="!size-20"
         />
 

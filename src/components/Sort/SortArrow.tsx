@@ -10,10 +10,15 @@ import {
 } from "../ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Icon from "../Icon";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Text from "../ui/Text";
+import { useDispatch, useSelector } from "zustore";
+import { sortFilesBy } from "@/lib/utils";
 
 export const SortArrow = () => {
+  const { dispatch, addState } = useDispatch();
+  const files = useSelector("files");
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -25,7 +30,10 @@ export const SortArrow = () => {
     [currentSort],
   );
 
-  const asc = currentOrder === "asc";
+  const [asc, setAsc] = useState(currentOrder === "asc");
+  const [sort, setSort] = useState(currentSortType);
+
+  // const asc = currentOrder === "asc";
 
   const updateQueryString = useCallback(
     (key: string, value: string) => {
@@ -37,19 +45,36 @@ export const SortArrow = () => {
   );
 
   const handleSortChange = (value: string) => {
+    setSort(value);
     const queryString = updateQueryString(
       "sort",
       `${value}-${asc ? "asc" : "desc"}`,
     );
-    router.push(`${pathname}?${queryString}`);
+
+    const sortedFiles = sortFilesBy(files, `${value}-${asc ? "asc" : "desc"}`);
+
+    addState({ mainLoading: true });
+    dispatch(sortedFiles, "sortFiles");
+    router.replace(`${pathname}?${queryString}`);
   };
 
   const toggleSortOrder = () => {
     const queryString = updateQueryString(
       "sort",
+      `${sort}-${asc ? "desc" : "asc"}`,
+    );
+
+    setAsc((prev) => !prev);
+
+    const sortedFiles = sortFilesBy(
+      files,
       `${currentSortType}-${asc ? "desc" : "asc"}`,
     );
-    router.push(`${pathname}?${queryString}`);
+
+    addState({ mainLoading: true });
+    dispatch(sortedFiles, "sortFiles");
+
+    router.replace(`${pathname}?${queryString}`);
   };
 
   return (
@@ -89,7 +114,7 @@ export const SortArrow = () => {
       >
         <Icon
           id="arrow"
-          className={`transform cursor-pointer text-dark-200 ${
+          className={`transform cursor-pointer text-dark-200 transition-transform duration-300 ${
             asc ? "rotate-180" : ""
           }`}
           onClick={toggleSortOrder}

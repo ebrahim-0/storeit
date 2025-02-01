@@ -45,23 +45,20 @@ export async function GET(
 
       const response = await fetch(url);
 
-      // Determine the Content-Type based on the file extension
-      let contentType = getContentType(file?.extension); // Default content type
+      let contentType = getContentType(file?.extension);
 
-      // Handle cache validation with ETag
       const ifNoneMatch = request.headers.get("If-None-Match");
-      const etag = `"${fileId}"`; // Generate ETag from fileId (or use a hash of the file content)
+      const etag = `"${fileId}"`;
 
       if (ifNoneMatch === etag) {
         return new Response(null, {
-          status: 304, // Not Modified
+          status: 304,
           headers: {
             ETag: etag,
           },
         });
       }
 
-      // Handle range requests for media files (e.g., video/audio streaming)
       const range = request.headers.get("range");
       if (
         range &&
@@ -98,12 +95,11 @@ export async function GET(
         }
       }
 
-      // For non-range requests or non-media files
       return new Response(response.body, {
         headers: {
           "Content-Type": contentType,
-          "Cache-Control": "public, max-age=3600", // Cache for 1 hour for partial content
-          ETag: etag, // Use ETag for cache validation
+          "Cache-Control": "public, max-age=3600",
+          ETag: etag,
         },
       });
     } else {

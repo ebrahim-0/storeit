@@ -4,6 +4,7 @@ import { appwriteConfig } from "./config";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { Models } from "node-appwrite";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -276,4 +277,29 @@ export const shareUrl = (bucketFileId: string) => {
 
 export const capitalize = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+export const sortFilesBy = (
+  files: Models.DocumentList<Models.Document>,
+  sort: string,
+) => {
+  const [sortBy, order] = sort.split("-");
+
+  const sortedFiles = files?.documents.sort((a, b) => {
+    if (sortBy === "$createdAt") {
+      return order === "asc"
+        ? new Date(a.$createdAt).getTime() - new Date(b.$createdAt).getTime()
+        : new Date(b.$createdAt).getTime() - new Date(a.$createdAt).getTime();
+    } else if (sortBy === "size") {
+      return order === "asc" ? a.size - b.size : b.size - a.size;
+    } else if (sortBy === "name") {
+      return order === "asc"
+        ? a.name.localeCompare(b.name)
+        : b.name.localeCompare(a.name);
+    } else {
+      return order === "asc" ? a[sortBy] - b[sortBy] : b[sortBy] - a[sortBy];
+    }
+  });
+
+  return { ...files, documents: sortedFiles };
 };

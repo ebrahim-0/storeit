@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: "StoreIt",
     description: "StoreIt is a simple file storage service for everyone.",
     site: "@StoreItApp",
-    images: ["/assets/standaloneIcons/logo.svg"], // Add your image here
+    images: ["/assets/standaloneIcons/logo.svg"],
   },
 
   openGraph: {
@@ -60,7 +60,7 @@ export default function RootLayout({
         <Toaster
           position="top-right"
           toastOptions={{
-            className: "!body-2 !text-white !border-0",
+            className: "!body-2     !border-0 !text-white",
           }}
         />
       </body>

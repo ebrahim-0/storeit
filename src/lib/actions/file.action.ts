@@ -15,6 +15,16 @@ export const uploadFile = createServerAction(
 
     const inputFile = InputFile.fromBuffer(file, file.name);
 
+    const isExisted = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.filesCollectionId,
+      [Query.equal("name", [file.name])],
+    );
+
+    if (isExisted.documents.length > 0) {
+      throw new ServerActionError("File already exists");
+    }
+
     const bucketFile = await storage.createFile(
       appwriteConfig.bucketId,
       ID.unique(),
@@ -235,14 +245,6 @@ export const deleteFile = createServerAction(
     }
   },
 );
-
-export const getFileDownload = async (fileId: string) => {
-  const { storage } = await createAdminClient();
-
-  const file = await storage.getFileDownload(appwriteConfig.bucketId, fileId);
-
-  return file;
-};
 
 export const getTotalSpaceUsed = createServerAction(async () => {
   const { databases } = await createSessionClient();

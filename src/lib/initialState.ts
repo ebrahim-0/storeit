@@ -5,4 +5,5 @@ export const initialState = {
     age: 22,
   },
   lang: "en",
+  mainLoading: false,
 };

@@ -14,16 +14,26 @@ import { useDispatch, useSelector } from "zustore";
 import Search from "./Search";
 import Icon from "./Icon";
 import { FileUploader } from "./UploadFiles";
+import { Progress } from "./ui/progress";
 
 const MobileNavigation = () => {
+  const [user, isLoading] = useSelector<[IUser, Boolean]>([
+    "user",
+    "mainLoading",
+  ]);
   const pathname = usePathname();
   const { dispatcher } = useDispatch();
-  const user = useSelector<IUser>("user");
 
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className="container flex w-full items-center justify-between p-3 sm:hidden">
+      {isLoading && (
+        <Progress
+          className="fixed left-0 top-0 h-1 w-full !rounded-none"
+          indeterminate
+        />
+      )}
       <Link href="/">
         <Icon
           id="logo-full-brand"

@@ -1,24 +1,24 @@
 "use client";
 
+import React, { SetStateAction, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Models } from "node-appwrite";
-import Thumbnail from "./Thumbnail";
+import { CircleCheckBig } from "lucide-react";
+import { toast } from "sonner";
 import {
   constructFileUrl,
   convertFileSize,
   formatDateTime,
   shareUrl,
 } from "@/lib/utils";
-import FormattedDateTime from "./FormattedDateTime";
-import React, { SetStateAction, useState } from "react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { CircleCheckBig } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Text from "@/components/ui/Text";
+import Thumbnail from "@/components/Thumbnail";
+import FormattedDateTime from "@/components/FormattedDateTime";
+import Icon from "@/components/Icon";
+import Loader from "@/components/Loader";
 import { updateToPublic } from "@/lib/actions/file.action";
-import { usePathname } from "next/navigation";
-import Text from "./ui/Text";
-import { toast } from "sonner";
-import Icon from "./Icon";
-import Loader from "./Loader";
 
 export const FileDetails = ({ file }: { file: Models.Document }) => {
   return (
@@ -139,7 +139,7 @@ export const ShareFile = ({
   );
 };
 
-const UserShare = ({
+export const UserShare = ({
   email,
   onRemove,
 }: {
@@ -178,7 +178,7 @@ const UserShare = ({
   );
 };
 
-const ImageThumbnail = ({ file }: { file: Models.Document }) => {
+export const ImageThumbnail = ({ file }: { file: Models.Document }) => {
   return (
     <div className="flex w-full flex-col items-center rounded-xl border-[0.3px] border-light-200/40 bg-light-400/50 p-3 sm:h-[80px] sm:flex-row">
       <Thumbnail
@@ -211,7 +211,13 @@ const ImageThumbnail = ({ file }: { file: Models.Document }) => {
   );
 };
 
-const DetailRow = ({ label, value }: { label: string; value: string }) => {
+export const DetailRow = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) => {
   return (
     <div className="flex flex-wrap gap-3">
       <p className="body-2 w-[35%] text-left text-light-200">{label}</p>

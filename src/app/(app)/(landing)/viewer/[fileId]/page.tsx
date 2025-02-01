@@ -2,7 +2,7 @@ import Text from "@/components/ui/Text";
 import ZoomAbleImage from "@/components/ZoomAbleImage";
 import { getFileByBucketFileId } from "@/lib/actions/file.action";
 import { getCurrentUser } from "@/lib/actions/user.action";
-import { cn, constructFileUrl } from "@/lib/utils";
+import { cn, constructDownloadUrl, constructFileUrl } from "@/lib/utils";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import MediaPlayer from "@/components/MediaPlayer";
@@ -42,7 +42,7 @@ const page = async ({ params }: SearchParamProps) => {
             <Text align="center" tooltip="Download" side="bottom">
               <a
                 // href={`/api/files/${fileId}?download=true`}
-                href={constructFileUrl(fileId)}
+                href={constructDownloadUrl(fileId)}
                 target="_self"
                 download={file?.name}
               >
