@@ -35,9 +35,9 @@ export const createDispatch = CreateDispatch(({ name, payload, tools }) => {
   };
 
   const logoutUser = async () => {
+    dispatch({ logoutLoading: true });
     await logout();
-
-    dispatch({ user: null });
+    dispatch({ user: null, logoutLoading: false });
     redirect("/");
   };
 
