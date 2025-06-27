@@ -10,10 +10,9 @@ import { Progress } from "./ui/progress";
 
 const Header = () => {
   const { dispatcher } = useDispatch();
-  const [user, isLoading] = useSelector<[IUser, Boolean]>([
-    "user",
-    "mainLoading",
-  ]);
+  const [user, isLoading, logoutLoading] = useSelector<
+    [IUser, Boolean, Boolean]
+  >(["user", "mainLoading", "logoutLoading"]);
 
   return (
     <header className="hidden items-center justify-between gap-5 p-4 sm:flex xl:gap-10">
@@ -37,12 +36,18 @@ const Header = () => {
           align="center"
           toolTipClass="bg-brand/10 text-brand"
         >
-          <Icon
-            id="logout"
-            width={24}
-            height={24}
-            color="hsl(var(--brand-default))"
-          />
+          {logoutLoading ? (
+            <div className="flex h-full items-center justify-center">
+              <div className="size-6 animate-spin rounded-full border-2 border-t-2 border-brand/50 border-t-brand-100" />
+            </div>
+          ) : (
+            <Icon
+              id="logout"
+              width={24}
+              height={24}
+              color="hsl(var(--brand-default))"
+            />
+          )}
         </Text>
       </div>
     </header>
